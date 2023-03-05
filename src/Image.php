@@ -12,12 +12,26 @@ class Image
         'Authorization: Bearer ',
     ];
 
+
+    /**
+     * @param string $apiKey
+     */
     function __construct(string $apiKey)
     {
         $this->curl = new Curl;
         $this->headers[1] = $this->headers[1] . $apiKey;
     }
 
+    
+    /**
+     * @param string $prompt
+     * @param int $n
+     * @param ImageSize $size
+     * @param ResponseFormat $response_format
+     * @param string $user
+     * 
+     * @return string
+     */
     function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): string
     {
         if (mb_strlen($prompt) > self::MAX_PROMPT_CHARS) {

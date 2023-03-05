@@ -9,16 +9,24 @@ class Curl
     protected array $headers = [];
     protected array $payload = [];
 
+    /**
+     */
     public function __construct()
     {
         $this->ch = curl_init();
     }
 
+    /**
+     * @return [type]
+     */
     public function __destruct()
     {
         $this->close();
     }
 
+    /**
+     * @return void
+     */
     protected function prepare(): void
     {
 
@@ -37,6 +45,9 @@ class Curl
         // curl_setopt($this->ch, CURLOPT_STDERR, $fp);
     }
 
+    /**
+     * @return string
+     */
     public function exec(): string
     {
         $this->prepare();
@@ -61,6 +72,9 @@ class Curl
         return $response;
     }
 
+    /**
+     * @return void
+     */
     public function close(): void
     {
         if (!is_null($this->ch)) {
