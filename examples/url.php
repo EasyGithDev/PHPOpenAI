@@ -3,7 +3,7 @@
 use EasyGithDev\PHPOpenAI\Image;
 use EasyGithDev\PHPOpenAI\ImageSize;
 
-require __DIR__ . '/../src/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 function saveImg($url)
 {
@@ -16,7 +16,10 @@ function displayUrl($url)
     return '<img src="' . $url . '" />';
 }
 
-$apiKey = "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";
+$apiKey = "XXXXXXX YOUR KEY";
+
+require __DIR__ . '/key.php';
+
 $prompt = "A woman with long black hair with her cat by the cliff, Japanese poster graphics";
 
 $response = (new Image($apiKey))->create(

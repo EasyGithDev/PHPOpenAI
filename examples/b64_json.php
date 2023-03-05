@@ -4,14 +4,17 @@ use EasyGithDev\PHPOpenAI\Image;
 use EasyGithDev\PHPOpenAI\ImageSize;
 use EasyGithDev\PHPOpenAI\ResponseFormat;
 
-require __DIR__ . '/../src/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 function displayImg($data)
 {
     return '<img src="data:image/png;base64, ' . $data . '" alt="DALL-E 2" />';
 }
 
-$apiKey = "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";
+$apiKey = "XXXXXXX YOUR KEY";
+
+require __DIR__ . '/key.php';
+
 $prompt = "An old poster with a woman and a cat, in the style of Charley Harper";
 
 $response = (new Image($apiKey))->create(
