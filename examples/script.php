@@ -6,16 +6,22 @@ function saveImg($url)
     file_put_contents('dall-e.png', $content);
 }
 
-$OPENAI_API_KEY = "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";
+$apiKey = "XXXXXXX YOUR KEY";
+if (file_exists(__DIR__ . '/key.php')) {
+    require __DIR__ . '/key.php';
+}
+
 $url = "https://api.openai.com/v1/images/generations";
+
 $payload = [
     "prompt" => "An old poster with a woman and a cat, in the style of Charley Harper",
     "n" => 1,
     "size" => "1024x1024",
 ];
+
 $headers = [
     'Content-Type: application/json',
-    "Authorization: Bearer $OPENAI_API_KEY",
+    "Authorization: Bearer $apiKey",
 ];
 
 $ch = curl_init();
