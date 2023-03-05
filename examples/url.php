@@ -16,7 +16,7 @@ function displayUrl($url)
     return '<img src="' . $url . '" />';
 }
 
-$apiKey = "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";
+$apiKey = "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";
 $prompt = "A woman with long black hair with her cat by the cliff, Japanese poster graphics";
 
 $response = (new Image($apiKey))->create(

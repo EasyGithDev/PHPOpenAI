@@ -11,7 +11,7 @@ function displayImg($data)
     return '<img src="data:image/png;base64, ' . $data . '" alt="DALL-E 2" />';
 }
 
-$apiKey = "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";
+$apiKey = "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";
 $prompt = "An old poster with a woman and a cat, in the style of Charley Harper";
 
 $response = (new Image($apiKey))->create(
