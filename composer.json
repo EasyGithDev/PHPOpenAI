@@ -1,0 +1,24 @@
+{
+    "name": "easygithdev/phpopenai",
+    "description": "Wrapper to access OpenAI API",
+    "keywords": [
+        "php",
+        "openAI",
+        "curl"
+    ],
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "Florent Brusciano",
+            "email": "easygithdev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "EasyGithDev\\PHPOpenAI\\": "src/"
+        }
+    }
+}
