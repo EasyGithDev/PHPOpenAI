@@ -12,8 +12,9 @@ function displayImg($data)
 }
 
 $apiKey = "XXXXXXX YOUR KEY";
-
-require __DIR__ . '/key.php';
+if (file_exists(__DIR__ . '/key.php')) {
+    require __DIR__ . '/key.php';
+}
 
 $prompt = "An old poster with a woman and a cat, in the style of Charley Harper";
 

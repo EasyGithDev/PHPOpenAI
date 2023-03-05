@@ -17,8 +17,9 @@ function displayUrl($url)
 }
 
 $apiKey = "XXXXXXX YOUR KEY";
-
-require __DIR__ . '/key.php';
+if (file_exists(__DIR__ . '/key.php')) {
+    require __DIR__ . '/key.php';
+}
 
 $prompt = "A woman with long black hair with her cat by the cliff, Japanese poster graphics";
 
