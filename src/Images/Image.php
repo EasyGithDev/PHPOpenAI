@@ -1,5 +1,7 @@
 <?php
-namespace EasyGithDev\PHPOpenAI;
+namespace EasyGithDev\PHPOpenAI\Images;
+
+use EasyGithDev\PHPOpenAI\Curl;
 
 class Image
 {

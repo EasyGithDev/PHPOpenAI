@@ -1,7 +1,7 @@
 <?php
 
-use EasyGithDev\PHPOpenAI\Image;
-use EasyGithDev\PHPOpenAI\ImageSize;
+use EasyGithDev\PHPOpenAI\Images\Image;
+use EasyGithDev\PHPOpenAI\Images\ImageSize;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -21,11 +21,12 @@ if (file_exists(__DIR__ . '/key.php')) {
     require __DIR__ . '/key.php';
 }
 
-$prompt = "A woman with long black hair with her cat by the cliff, Japanese poster graphics";
+$prompt = "a rabbit inside a beautiful garden, 32 bit isometric";
 
 $response = (new Image($apiKey))->create(
     $prompt,
-    size: ImageSize::is512
+    n:4,
+    size: ImageSize::is256
 );
 
 $json_response = json_decode($response, true);

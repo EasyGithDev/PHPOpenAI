@@ -1,8 +1,8 @@
 <?php
 
-use EasyGithDev\PHPOpenAI\Image;
-use EasyGithDev\PHPOpenAI\ImageSize;
-use EasyGithDev\PHPOpenAI\ResponseFormat;
+use EasyGithDev\PHPOpenAI\Images\Image;
+use EasyGithDev\PHPOpenAI\Images\ImageSize;
+use EasyGithDev\PHPOpenAI\Images\ResponseFormat;
 
 require __DIR__ . '/../vendor/autoload.php';
 

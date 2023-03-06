@@ -1,5 +1,6 @@
 <?php
-namespace EasyGithDev\PHPOpenAI;
+namespace EasyGithDev\PHPOpenAI\Images;
+
 
 enum ResponseFormat: string
 {
