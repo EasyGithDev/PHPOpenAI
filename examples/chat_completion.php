@@ -1,8 +1,9 @@
 <?php
 
-use EasyGithDev\PHPOpenAI\Chat\ChatCompletion;
 use EasyGithDev\PHPOpenAI\Chat\Message;
 use EasyGithDev\PHPOpenAI\Chat\Model;
+use EasyGithDev\PHPOpenAI\Configuration;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -11,7 +12,11 @@ if (file_exists(__DIR__ . '/key.php')) {
     require __DIR__ . '/key.php';
 }
 
-$response = (new ChatCompletion($apiKey))->create(
+$configuration = new Configuration($apiKey);
+$openAIApi = new OpenAIApi($configuration);
+$chatCompletion = $openAIApi->ChatCompletion();
+
+$response = $chatCompletion->create(
     Model::gpt_3_5_turbo_0301,
     [
         new Message('user', 'Hello!'),

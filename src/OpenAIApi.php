@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Chat\ChatCompletion;
 use EasyGithDev\PHPOpenAI\Completions\Completion;
 use EasyGithDev\PHPOpenAI\Images\Image;
 use EasyGithDev\PHPOpenAI\Models\Model;
@@ -22,6 +23,11 @@ class OpenAIApi
     public function Completion(): Completion
     {
         return new Completion(self::API_URL, $this->configuration->toArray());
+    }
+
+    public function ChatCompletion(): ChatCompletion
+    {
+        return new ChatCompletion(self::API_URL, $this->configuration->toArray());
     }
 
     public function Image(): Image
