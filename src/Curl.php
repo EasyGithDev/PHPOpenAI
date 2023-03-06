@@ -30,13 +30,13 @@ class Curl
     protected function prepare(): void
     {
 
-        $payload = json_encode($this->payload);
-
-        // var_dump($payload);die;
-
         curl_setopt($this->ch, CURLOPT_URL, $this->url);
-        curl_setopt($this->ch, CURLOPT_POST, true);
-        curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payload);
+
+        if (!empty($this->payload)) {
+            $payload = json_encode($this->payload);
+            curl_setopt($this->ch, CURLOPT_POST, true);
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payload);
+        }
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 
