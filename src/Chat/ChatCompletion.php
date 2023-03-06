@@ -114,19 +114,33 @@ A unique identifier representing your end-user, which can help OpenAI to monitor
         float $temperature = 1.0,
         float $top_p = 1.0,
         int $n = 1,
+        bool $stream = false,
         string|array|null $stop = null,
-        int $max_tokens = 4096,
+        int $max_tokens = 128,
         int $presence_penalty = 0,
         int $frequency_penalty = 0,
         $logit_bias = null,
         string $user = ''
     ): string {
-        // if (mb_strlen($prompt) > self::MAX_PROMPT_CHARS) {
-        //     throw new \Exception("Max prompt is 1000 chars");
-        // }
+
+        if ($temperature < 0 or $temperature > 2) {
+            throw new \Exception("Temperature to use, between 0 and 2");
+        }
+
+        if ($top_p < 0 or $top_p > 2) {
+            throw new \Exception("Nucleus sampling to use, between 0 and 2");
+        }
 
         if ($n < 1 or $n > 10) {
             throw new \Exception('$n is between 1 and 10');
+        }
+
+        if ($presence_penalty < -2 or $presence_penalty > 2) {
+            throw new \Exception("Presence_penalty is a number between -2.0 and 2.0");
+        }
+
+        if ($frequency_penalty < -2 or $frequency_penalty > 2) {
+            throw new \Exception("Frequency_penalty is a number between -2.0 and 2.0");
         }
 
         $msg = [];
@@ -144,6 +158,13 @@ A unique identifier representing your end-user, which can help OpenAI to monitor
                 [
                     "model" => $model->value,
                     "messages" => $msg,
+                    "temperature" => $temperature,
+                    "top_p" => $top_p,
+                    "n" => $n,
+                    "stream" => $stream,
+                    "max_tokens" => $max_tokens,
+                    "presence_penalty" => $presence_penalty,
+                    "frequency_penalty" => $frequency_penalty
                 ]
             )
             ->exec();
