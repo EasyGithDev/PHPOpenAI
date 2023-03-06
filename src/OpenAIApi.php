@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI;
 
 use EasyGithDev\PHPOpenAI\Completions\Completion;
+use EasyGithDev\PHPOpenAI\Images\Image;
 use EasyGithDev\PHPOpenAI\Models\Model;
 
 class OpenAIApi

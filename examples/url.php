@@ -1,7 +1,8 @@
 <?php
 
-use EasyGithDev\PHPOpenAI\Images\Image;
+use EasyGithDev\PHPOpenAI\Configuration;
 use EasyGithDev\PHPOpenAI\Images\ImageSize;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -21,12 +22,14 @@ if (file_exists(__DIR__ . '/key.php')) {
     require __DIR__ . '/key.php';
 }
 
-$prompt = "a rabbit inside a beautiful garden, 32 bit isometric";
+$configuration = new Configuration($apiKey);
+$openAIApi = new OpenAIApi($configuration);
+$image = $openAIApi->Image();
 
-$response = (new Image($apiKey))->create(
-    $prompt,
+$response = $image->create(
+    "a rabbit inside a beautiful garden, 32 bit isometric",
     n:4,
-    size: ImageSize::is256
+    size: ImageSize::is256,
 );
 
 $json_response = json_decode($response, true);

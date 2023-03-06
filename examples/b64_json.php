@@ -1,8 +1,10 @@
 <?php
 
+use EasyGithDev\PHPOpenAI\Configuration;
 use EasyGithDev\PHPOpenAI\Images\Image;
 use EasyGithDev\PHPOpenAI\Images\ImageSize;
 use EasyGithDev\PHPOpenAI\Images\ResponseFormat;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -16,14 +18,17 @@ if (file_exists(__DIR__ . '/key.php')) {
     require __DIR__ . '/key.php';
 }
 
-$prompt = "An old poster with a woman and a cat, in the style of Charley Harper";
+$configuration = new Configuration($apiKey);
+$openAIApi = new OpenAIApi($configuration);
+$image = $openAIApi->Image();
 
-$response = (new Image($apiKey))->create(
-    $prompt,
+$response = $image->create(
+    "An old poster with a woman and a cat, in the style of Charley Harper",
     n: 2,
     size: ImageSize::is256,
     response_format: ResponseFormat::B64_JSON
 );
+
 $json_response = json_decode($response, true);
 ?>
 

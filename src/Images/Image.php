@@ -1,30 +1,30 @@
 <?php
+
 namespace EasyGithDev\PHPOpenAI\Images;
 
 use EasyGithDev\PHPOpenAI\Curl;
 
 class Image
 {
-    const API_URL = 'https://api.openai.com/v1/images/generations';
     const MAX_PROMPT_CHARS = 1000;
+    const END_POINT = '/images/generations';
 
     protected Curl $curl;
-    protected array $headers = [
-        'Content-Type: application/json',
-        'Authorization: Bearer ',
-    ];
-
+    protected string $apiUrl;
+    protected array $headers = [];
 
     /**
-     * @param string $apiKey
+     * @param string $apiUrl
+     * @param array $headers
      */
-    function __construct(string $apiKey)
+    function __construct(string $apiUrl, array $headers)
     {
         $this->curl = new Curl;
-        $this->headers[1] = $this->headers[1] . $apiKey;
+        $this->apiUrl = $apiUrl;
+        $this->headers = $headers;
     }
 
-    
+
     /**
      * @param string $prompt
      * @param int $n
@@ -45,7 +45,7 @@ class Image
         }
 
         $response =  $this->curl
-            ->setUrl(self::API_URL)
+            ->setUrl($this->apiUrl . self::END_POINT)
             ->setHeaders(
                 $this->headers
             )
