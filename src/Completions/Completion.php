@@ -62,6 +62,10 @@ class Completion
             throw new \Exception('$n is between 1 and 10');
         }
 
+        if ($logprobs > 5) {
+            throw new \Exception('Maximum for logprobs is 5');
+        }
+
         if ($presence_penalty < -2 or $presence_penalty > 2) {
             throw new \Exception("Presence_penalty is a number between -2.0 and 2.0");
         }
@@ -79,11 +83,15 @@ class Completion
                 [
                     "model" => $model,
                     "prompt" => $prompt,
+                    "suffix" => $suffix,
+                    "max_tokens" => $max_tokens,
                     "temperature" => $temperature,
                     "top_p" => $top_p,
                     "n" => $n,
                     "stream" => $stream,
-                    "max_tokens" => $max_tokens,
+                    "logprobs" => $logprobs,
+                    "echo" => $echo,
+                    "stop" => $stop,
                     "presence_penalty" => $presence_penalty,
                     "frequency_penalty" => $frequency_penalty
                 ]
