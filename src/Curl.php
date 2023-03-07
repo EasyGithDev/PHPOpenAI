@@ -7,7 +7,7 @@ class Curl
     protected ?\CurlHandle $ch = null;
     protected string $url = '';
     protected array $headers = [];
-    protected array $payload = [];
+    protected string $payload;
 
     /**
      */
@@ -29,13 +29,11 @@ class Curl
      */
     protected function prepare(): void
     {
-
         curl_setopt($this->ch, CURLOPT_URL, $this->url);
 
         if (!empty($this->payload)) {
-            $payload = json_encode($this->payload);
             curl_setopt($this->ch, CURLOPT_POST, true);
-            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
         }
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
@@ -111,7 +109,7 @@ class Curl
      *
      * @return  self
      */
-    public function setPayload(array $payload): self
+    public function setPayload(string $payload): self
     {
         $this->payload = $payload;
 

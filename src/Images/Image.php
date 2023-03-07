@@ -44,18 +44,24 @@ class Image
             throw new \Exception('$n is between 1 and 10');
         }
 
+        $payload = [
+            "prompt" => "$prompt",
+            "n" => $n,
+            "size" => $size,
+            "response_format" => $response_format,
+        ];
+
+        if (!empty($user)) {
+            $payload["user"] = $user;
+        }
+
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT)
             ->setHeaders(
                 $this->headers
             )
             ->setPayload(
-                [
-                    "prompt" => "$prompt",
-                    "n" => $n,
-                    "size" => $size,
-                    "response_format" => $response_format,
-                ]
+                json_encode($payload)
             )
             ->exec();
 

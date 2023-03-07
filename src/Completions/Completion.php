@@ -74,27 +74,33 @@ class Completion
             throw new \Exception("Frequency_penalty is a number between -2.0 and 2.0");
         }
 
+        $payload =  [
+            "model" => $model,
+            "prompt" => $prompt,
+            "suffix" => $suffix,
+            "max_tokens" => $max_tokens,
+            "temperature" => $temperature,
+            "top_p" => $top_p,
+            "n" => $n,
+            "stream" => $stream,
+            "logprobs" => $logprobs,
+            "echo" => $echo,
+            "stop" => $stop,
+            "presence_penalty" => $presence_penalty,
+            "frequency_penalty" => $frequency_penalty
+        ];
+
+        if (!empty($user)) {
+            $payload["user"] = $user;
+        }
+
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT)
             ->setHeaders(
                 $this->headers
             )
             ->setPayload(
-                [
-                    "model" => $model,
-                    "prompt" => $prompt,
-                    "suffix" => $suffix,
-                    "max_tokens" => $max_tokens,
-                    "temperature" => $temperature,
-                    "top_p" => $top_p,
-                    "n" => $n,
-                    "stream" => $stream,
-                    "logprobs" => $logprobs,
-                    "echo" => $echo,
-                    "stop" => $stop,
-                    "presence_penalty" => $presence_penalty,
-                    "frequency_penalty" => $frequency_penalty
-                ]
+                json_encode($payload)
             )
             ->exec();
 

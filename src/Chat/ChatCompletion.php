@@ -146,6 +146,22 @@ A unique identifier representing your end-user, which can help OpenAI to monitor
             $msg[] =  $message->toArray();
         }
 
+        $payload =       [
+            "model" => $model->value,
+            "messages" => $msg,
+            "temperature" => $temperature,
+            "top_p" => $top_p,
+            "n" => $n,
+            "stream" => $stream,
+            "max_tokens" => $max_tokens,
+            "presence_penalty" => $presence_penalty,
+            "frequency_penalty" => $frequency_penalty
+        ];
+
+        if (!empty($user)) {
+            $payload["user"] = $user;
+        }
+
         // var_dump($msg);die;
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT)
@@ -153,17 +169,7 @@ A unique identifier representing your end-user, which can help OpenAI to monitor
                 $this->headers
             )
             ->setPayload(
-                [
-                    "model" => $model->value,
-                    "messages" => $msg,
-                    "temperature" => $temperature,
-                    "top_p" => $top_p,
-                    "n" => $n,
-                    "stream" => $stream,
-                    "max_tokens" => $max_tokens,
-                    "presence_penalty" => $presence_penalty,
-                    "frequency_penalty" => $frequency_penalty
-                ]
+                json_encode($payload)
             )
             ->exec();
 
