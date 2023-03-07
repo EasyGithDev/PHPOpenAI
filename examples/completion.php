@@ -17,6 +17,7 @@ $completion = $openAIApi->Completion();
 $response = $completion->create(
     "text-davinci-003",
     "Say this is a test",
+    
 );
 
 $json_response = json_decode($response, true);

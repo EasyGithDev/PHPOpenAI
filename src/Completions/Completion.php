@@ -37,7 +37,7 @@ class Completion
         string|array|null $stop = null,
         int $presence_penalty = 0,
         int $frequency_penalty = 0,
-        bool $best_of = false,
+        ?int $best_of = 1,
         $logit_bias = null,
         string $user = ''
     ): string {
@@ -87,8 +87,13 @@ class Completion
             "echo" => $echo,
             "stop" => $stop,
             "presence_penalty" => $presence_penalty,
-            "frequency_penalty" => $frequency_penalty
+            "frequency_penalty" => $frequency_penalty,
+            // "logit_bias" => $logit_bias,
         ];
+
+        if(!is_null($best_of)) {
+            $payload["best_of"] = $best_of;
+        }
 
         if (!empty($user)) {
             $payload["user"] = $user;
