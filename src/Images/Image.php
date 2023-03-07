@@ -7,7 +7,7 @@ use EasyGithDev\PHPOpenAI\Curl;
 class Image
 {
     const MAX_PROMPT_CHARS = 1000;
-    const END_POINT = '/images/generations';
+    const END_POINT = '/images';
 
     protected Curl $curl;
     protected string $apiUrl;
@@ -23,7 +23,6 @@ class Image
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
-
 
     /**
      * @param string $prompt
@@ -56,13 +55,42 @@ class Image
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT)
+            ->setUrl($this->apiUrl . self::END_POINT . '/generations')
             ->setHeaders(
                 $this->headers
             )
             ->setPayload(
                 json_encode($payload)
             )
+            ->exec();
+
+        $this->curl->close();
+
+        return $response;
+    }
+
+    function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): string
+    {
+        unset($this->headers[0]);
+
+        $cFile = curl_file_create($image);
+        $payload = [
+            "image" => $cFile,
+            "n" => $n,
+            "size" => $size->value,
+            "response_format" => $response_format->value,
+        ];
+
+        if (!empty($user)) {
+            $payload["user"] = $user;
+        }
+
+        $response =  $this->curl
+            ->setUrl($this->apiUrl . self::END_POINT . '/variations')
+            ->setHeaders(
+                $this->headers
+            )
+            ->setPayload($payload)
             ->exec();
 
         $this->curl->close();

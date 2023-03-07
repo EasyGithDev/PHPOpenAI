@@ -7,7 +7,7 @@ class Curl
     protected ?\CurlHandle $ch = null;
     protected string $url = '';
     protected array $headers = [];
-    protected string $payload;
+    protected string|array $payload;
 
     /**
      */
@@ -38,6 +38,7 @@ class Curl
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 
+        
         // $fp = fopen(dirname(__FILE__) . '/errorlog.txt', 'w');
         // curl_setopt($this->ch, CURLOPT_VERBOSE, 1);
         // curl_setopt($this->ch, CURLOPT_STDERR, $fp);
@@ -109,7 +110,7 @@ class Curl
      *
      * @return  self
      */
-    public function setPayload(string $payload): self
+    public function setPayload(string|array $payload): self
     {
         $this->payload = $payload;
 
