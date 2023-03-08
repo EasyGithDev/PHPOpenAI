@@ -1,6 +1,7 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
+use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 use EasyGithDev\PHPOpenAI\Speech2text\ResponseFormat;
 
@@ -17,7 +18,7 @@ $audio = $openAIApi->Transcription();
 
 $response = $audio->transcription(
     __DIR__ . '/../assets/Dear Future Husband.mp3',
-    'whisper-1',
+    Model::WHISPER_1,
     responseFormat: ResponseFormat::SRT
 );
 

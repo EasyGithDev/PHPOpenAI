@@ -1,0 +1,76 @@
+<?php
+
+namespace EasyGithDev\PHPOpenAI;
+
+enum Model: string
+{
+    case BABBAGE = "babbage";
+    case DAVINCI = "davinci";
+    case GPT_3_5_TURBO_0301 = "gpt-3.5-turbo-0301";
+    case TEXT_DAVINCI_003 = "text-davinci-003";
+    case BABBAGE_CODE_SEARCH_CODE = "babbage-code-search-code";
+    case TEXT_SIMILARITY_BABBAGE_001 = "text-similarity-babbage-001";
+    case TEXT_DAVINCI_001 = "text-davinci-001";
+    case ADA = "ada";
+    case CURIE_INSTRUCT_BETA = "curie-instruct-beta";
+    case BABBAGE_CODE_SEARCH_TEXT = "babbage-code-search-text";
+    case BABBAGE_SIMILARITY = "babbage-similarity";
+    case CODE_SEARCH_BABBAGE_TEXT_001 = "code-search-babbage-text-001";
+    case TEXT_EMBEDDING_ADA_002 = "text-embedding-ada-002";
+    case CODE_CUSHMAN_001 = "code-cushman-001";
+    case WHISPER_1 = "whisper-1";
+    case GPT_3_5_TURBO = "gpt-3.5-turbo";
+    case CODE_SEARCH_BABBAGE_CODE_001 = "code-search-babbage-code-001";
+    case AUDIO_TRANSCRIBE_DEPRECATED = "audio-transcribe-deprecated";
+    case TEXT_ADA_001 = "text-ada-001";
+    case TEXT_SIMILARITY_ADA_001 = "text-similarity-ada-001";
+    case TEXT_DAVINCI_INSERT_002 = "text-davinci-insert-002";
+    case ADA_CODE_SEARCH_CODE = "ada-code-search-code";
+    case ADA_SIMILARITY = "ada-similarity";
+    case CODE_SEARCH_ADA_TEXT_001 = "code-search-ada-text-001";
+    case TEXT_SEARCH_ADA_QUERY_001 = "text-search-ada-query-001";
+    case TEXT_CURIE_001 = "text-curie-001";
+    case TEXT_DAVINCI_EDIT_001 = "text-davinci-edit-001";
+    case DAVINCI_SEARCH_DOCUMENT = "davinci-search-document";
+    case ADA_CODE_SEARCH_TEXT = "ada-code-search-text";
+    case TEXT_SEARCH_ADA_DOC_001 = "text-search-ada-doc-001";
+    case CODE_DAVINCI_EDIT_001 = "code-davinci-edit-001";
+    case DAVINCI_INSTRUCT_BETA = "davinci-instruct-beta";
+    case TEXT_SIMILARITY_CURIE_001 = "text-similarity-curie-001";
+    case CODE_SEARCH_ADA_CODE_001 = "code-search-ada-code-001";
+    case ADA_SEARCH_QUERY = "ada-search-query";
+    case TEXT_SEARCH_DAVINCI_QUERY_001 = "text-search-davinci-query-001";
+    case CURIE_SEARCH_QUERY = "curie-search-query";
+    case DAVINCI_SEARCH_QUERY = "davinci-search-query";
+    case TEXT_DAVINCI_INSERT_001 = "text-davinci-insert-001";
+    case BABBAGE_SEARCH_DOCUMENT = "babbage-search-document";
+    case ADA_SEARCH_DOCUMENT = "ada-search-document";
+    case TEXT_SEARCH_CURIE_QUERY_001 = "text-search-curie-query-001";
+    case TEXT_SEARCH_BABBAGE_DOC_001 = "text-search-babbage-doc-001";
+    case TEXT_DAVINCI_002 = "text-davinci-002";
+    case CURIE_SEARCH_DOCUMENT = "curie-search-document";
+    case TEXT_SEARCH_CURIE_DOC_001 = "text-search-curie-doc-001";
+    case BABBAGE_SEARCH_QUERY = "babbage-search-query";
+    case TEXT_BABBAGE_001 = "text-babbage-001";
+    case TEXT_SEARCH_DAVINCI_DOC_001 = "text-search-davinci-doc-001";
+    case CODE_DAVINCI_002 = "code-davinci-002";
+    case TEXT_SEARCH_BABBAGE_QUERY_001 = "text-search-babbage-query-001";
+    case CURIE_SIMILARITY = "curie-similarity";
+    case CURIE = "curie";
+    case TEXT_SIMILARITY_DAVINCI_001 = "text-similarity-davinci-001";
+    case DAVINCI_SIMILARITY = "davinci-similarity";
+    case CUSHMAN_2020_05_03 = "cushman:2020-05-03";
+    case ADA_2020_05_03 = "ada:2020-05-03";
+    case BABBAGE_2020_05_03 = "babbage:2020-05-03";
+    case CURIE_2020_05_03 = "curie:2020-05-03";
+    case DAVINCI_2020_05_03 = "davinci:2020-05-03";
+    case IF_DAVINCI_V2 = "if-davinci-v2";
+    case IF_CURIE_V2 = "if-curie-v2";
+    case IF_DAVINCI_3_0_0 = "if-davinci:3.0.0";
+    case DAVINCI_IF_3_0_0 = "davinci-if:3.0.0";
+    case DAVINCI_INSTRUCT_BETA_2_0_0 = "davinci-instruct-beta:2.0.0";
+    // case TEXT_ADA_001 = "text-ada:001";
+    // case TEXT_DAVINCI_001 = "text-davinci:001";
+    // case TEXT_CURIE_001 = "text-curie:001";
+    // case TEXT_BABBAGE_001 = "text-babbage:001";
+}

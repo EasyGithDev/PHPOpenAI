@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Chat;
 
 use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Model;
 
 class ChatCompletion
 {

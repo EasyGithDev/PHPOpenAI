@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Speech2text;
 
 use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Model;
 use Exception;
 
 class Audio
@@ -56,7 +57,7 @@ class Audio
     The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency.
 */
 
-    function transcription(string $audioFile, string $model, string $prompt = '', ResponseFormat $responseFormat = ResponseFormat::JSON, float $temperature = 0, string $language = ''): string
+    function transcription(string $audioFile, Model $model, string $prompt = '', ResponseFormat $responseFormat = ResponseFormat::JSON, float $temperature = 0, string $language = ''): string
     {
         if (!file_exists($audioFile)) {
             throw new Exception("Unable to locate file: $audioFile");
@@ -68,7 +69,7 @@ class Audio
 
         $payload = [
             "file" => curl_file_create($audioFile),
-            "model" => $model,
+            "model" => $model->value,
             "prompt" => $prompt,
             "response_format" => $responseFormat->value,
             "temperature" => $temperature,

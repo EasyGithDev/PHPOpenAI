@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Completions;
 
 use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Model;
 
 class Completion
 {
@@ -24,7 +25,7 @@ class Completion
     }
 
     function create(
-        string $model,
+        Model $model,
         string $prompt,
         ?string $suffix = null,
         int $max_tokens = 16,
@@ -75,7 +76,7 @@ class Completion
         }
 
         $payload =  [
-            "model" => $model,
+            "model" => $model->value,
             "prompt" => $prompt,
             "suffix" => $suffix,
             "max_tokens" => $max_tokens,

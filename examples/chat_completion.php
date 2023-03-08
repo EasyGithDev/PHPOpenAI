@@ -1,8 +1,8 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Chat\Message;
-use EasyGithDev\PHPOpenAI\Chat\Model;
 use EasyGithDev\PHPOpenAI\Configuration;
+use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -17,7 +17,7 @@ $openAIApi = new OpenAIApi($configuration);
 $chatCompletion = $openAIApi->ChatCompletion();
 
 $response = $chatCompletion->create(
-    Model::gpt_3_5_turbo_0301,
+    Model::GPT_3_5_TURBO,
     [
         new Message('user', 'Hello!'),
     ]

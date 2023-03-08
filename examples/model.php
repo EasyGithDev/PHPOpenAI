@@ -5,6 +5,12 @@ use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+function normalize($str)
+{
+    $str =  str_replace(['-', '.', ':'], ['_', '_', '_'], $str);
+    return mb_strtoupper($str);
+}
+
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(__DIR__ . '/key.php')) {
     require __DIR__ . '/key.php';
@@ -14,6 +20,8 @@ $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
 $model = $openAIApi->Model();
 $response = $model->list();
+
+$json_response = json_decode($response);
 
 ?>
 
@@ -34,6 +42,13 @@ $response = $model->list();
             <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
         </label>
     </div>
+
+
+    <?php foreach ($json_response->data as $model) : ?>
+        <div>
+            <?= 'case ' . normalize($model->id) . '="' .  $model->id . '";' ?>
+        </div>
+    <?php endforeach; ?>
 
 </body>
 
