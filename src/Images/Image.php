@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Images;
 
 use EasyGithDev\PHPOpenAI\Curl;
+use Exception;
 
 class Image
 {
@@ -71,11 +72,12 @@ class Image
 
     function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): string
     {
-        unset($this->headers[0]);
+        if (!file_exists($image)) {
+            throw new Exception("Unable to locate file: $image");
+        }
 
-        $cFile = curl_file_create($image);
         $payload = [
-            "image" => $cFile,
+            "image" => curl_file_create($image),
             "n" => $n,
             "size" => $size->value,
             "response_format" => $response_format->value,

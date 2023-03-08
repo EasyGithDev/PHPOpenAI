@@ -17,20 +17,29 @@ class OpenAIApi
 
     public function Model(): Model
     {
+        $this->configuration->setApplicationJson();
         return new Model(self::API_URL, $this->configuration->toArray());
     }
 
     public function Completion(): Completion
     {
+        $this->configuration->setApplicationJson();
         return new Completion(self::API_URL, $this->configuration->toArray());
     }
 
     public function ChatCompletion(): ChatCompletion
     {
+        $this->configuration->setApplicationJson();
         return new ChatCompletion(self::API_URL, $this->configuration->toArray());
     }
 
     public function Image(): Image
+    {
+        $this->configuration->setApplicationJson();
+        return new Image(self::API_URL, $this->configuration->toArray());
+    }
+
+    public function ImageVariation(): Image
     {
         return new Image(self::API_URL, $this->configuration->toArray());
     }

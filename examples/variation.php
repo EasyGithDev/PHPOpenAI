@@ -18,7 +18,7 @@ if (file_exists(__DIR__ . '/key.php')) {
 
 $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
-$image = $openAIApi->Image();
+$image = $openAIApi->ImageVariation();
 
 $response = $image->createVariation(
     __DIR__ . '/../img/image_variation_original.png',

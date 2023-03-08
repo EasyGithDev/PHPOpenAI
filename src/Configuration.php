@@ -4,28 +4,55 @@ namespace EasyGithDev\PHPOpenAI;
 
 class Configuration
 {
+    // protected array $headers = [
+    //     'Content-Type: application/json',
+    //     'Authorization: Bearer ',
+    //     'OpenAI-Organization: ',
+    // ];
+
     protected array $headers = [
-        'Content-Type: application/json',
-        'Authorization: Bearer ',
-        'OpenAI-Organization: ',
+        'Content-Type' => '',
+        'Authorization' => '',
+        'OpenAI-Organization' => '',
     ];
 
     public function __construct(
-        protected string $apiKey,
-        protected string $organization = ''
+        string $apiKey,
+        string $organization = '',
+        string $contentType = ''
     ) {
 
-        $this->headers[1] = $this->headers[1] . $this->apiKey;
+        $this->headers['Authorization'] = "Bearer $apiKey";
 
-        if (empty($organization)) {
-            unset($this->headers[2]);
-        } else {
-            $this->headers[2] = $this->headers[2] . $this->organization;
+        if (!empty($organization)) {
+            $this->headers['OpenAI-Organization'] = $organization;
         }
+
+        if (!empty($contentType)) {
+            $this->headers['Content-Type'] = $contentType;
+        }
+    }
+
+    public function setContentType(string $contentType): self
+    {
+        $this->headers['Content-Type'] = $contentType;
+        return $this;
+    }
+
+    public function setApplicationJson(): self
+    {
+        return $this->setContentType('application/json');
     }
 
     public function toArray(): array
     {
-        return $this->headers;
+        $headers = [];
+        foreach ($this->headers as $k => $v) {
+            if (empty($v)) {
+                continue;
+            }
+            $headers[] = "$k: $v";
+        }
+        return $headers;
     }
 }
