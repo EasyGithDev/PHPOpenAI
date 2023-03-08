@@ -38,4 +38,23 @@ class Model
 
         return $response;
     }
+
+    /**
+     * @param string $model
+     * 
+     * @return string
+     */
+    function retrieve(string $model): string
+    {
+        $response =  $this->curl
+            ->setUrl($this->apiUrl . self::END_POINT . "/$model")
+            ->setHeaders(
+                $this->headers
+            )
+            ->exec();
+
+        $this->curl->close();
+
+        return $response;
+    }
 }
