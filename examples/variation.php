@@ -21,7 +21,7 @@ $openAIApi = new OpenAIApi($configuration);
 $image = $openAIApi->ImageVariation();
 
 $response = $image->createVariation(
-    __DIR__ . '/../img/image_variation_original.png',
+    __DIR__ . '/../assets/image_variation_original.png',
     n:2,
     size:ImageSize::is256
 );

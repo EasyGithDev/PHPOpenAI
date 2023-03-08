@@ -16,7 +16,7 @@ $audio = $openAIApi->Transcription();
 
 $response = $audio->transcription(
     'whisper-1',
-    __DIR__ . '/../img/Dear Future Husband.mp3',
+    __DIR__ . '/../assets/Dear Future Husband.mp3',
 
 );
 
