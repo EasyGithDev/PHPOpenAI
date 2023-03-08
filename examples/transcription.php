@@ -2,6 +2,7 @@
 
 use EasyGithDev\PHPOpenAI\Configuration;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
+use EasyGithDev\PHPOpenAI\Speech2text\ResponseFormat;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -15,12 +16,10 @@ $openAIApi = new OpenAIApi($configuration);
 $audio = $openAIApi->Transcription();
 
 $response = $audio->transcription(
-    'whisper-1',
     __DIR__ . '/../assets/Dear Future Husband.mp3',
-
+    'whisper-1',
+    responseFormat: ResponseFormat::SRT
 );
-
-$json_response = json_decode($response, true);
 
 ?>
 
@@ -41,8 +40,6 @@ $json_response = json_decode($response, true);
             <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
         </label>
     </div>
-
-    <div> <?= $json_response['text'] ?> </div>
 
 </body>
 
