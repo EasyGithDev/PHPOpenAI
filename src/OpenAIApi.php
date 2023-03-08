@@ -6,6 +6,7 @@ use EasyGithDev\PHPOpenAI\Chat\ChatCompletion;
 use EasyGithDev\PHPOpenAI\Completions\Completion;
 use EasyGithDev\PHPOpenAI\Images\Image;
 use EasyGithDev\PHPOpenAI\Models\Model;
+use EasyGithDev\PHPOpenAI\Speech2text\Audio;
 
 class OpenAIApi
 {
@@ -42,5 +43,10 @@ class OpenAIApi
     public function ImageVariation(): Image
     {
         return new Image(self::API_URL, $this->configuration->toArray());
+    }
+
+    public function Transcription(): Audio
+    {
+        return new Audio(self::API_URL, $this->configuration->toArray());
     }
 }
