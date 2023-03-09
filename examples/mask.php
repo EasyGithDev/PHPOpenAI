@@ -24,7 +24,7 @@ $response = $image->createEdit(
     image: __DIR__ . '/../assets/image_edit_original.png',
     mask: __DIR__ . '/../assets/image_edit_mask.png',
     prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
-    size: ImageSize::is256
+    size: ImageSize::is1024
 );
 
 $json_response = json_decode($response, true);
