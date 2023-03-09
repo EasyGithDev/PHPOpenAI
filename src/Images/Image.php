@@ -70,6 +70,15 @@ class Image
         return $response;
     }
 
+    /**
+     * @param string $image
+     * @param int $n
+     * @param ImageSize $size
+     * @param ResponseFormat $response_format
+     * @param string $user
+     * 
+     * @return string
+     */
     function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): string
     {
         if (!file_exists($image)) {
@@ -89,6 +98,60 @@ class Image
 
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT . '/variations')
+            ->setHeaders(
+                $this->headers
+            )
+            ->setPayload($payload)
+            ->exec();
+
+        $this->curl->close();
+
+        return $response;
+    }
+
+    /**
+     * @param string $image
+     * @param string $mask
+     * @param string $prompt
+     * @param int $n
+     * @param ImageSize $size
+     * @param ResponseFormat $response_format
+     * @param string $user
+     * 
+     * @return string
+     */
+    function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): string
+    {
+        if (!file_exists($image)) {
+            throw new Exception("Unable to locate file: $image");
+        }
+
+        if (!empty($mask) && !file_exists($mask)) {
+            throw new Exception("Unable to locate mask: $mask");
+        }
+
+        if (mb_strlen($prompt) > 1000) {
+            throw new \Exception("Prompt max char is : 1000");
+        }
+
+        $payload = [
+            "image" => curl_file_create($image),
+            "prompt" => $prompt,
+            "n" => $n,
+            "size" => $size->value,
+            "response_format" => $response_format->value,
+        ];
+
+        if (!empty($mask)) {
+            $payload["mask"] = curl_file_create($mask);
+        }
+
+        if (!empty($user)) {
+            $payload["user"] = $user;
+        }
+
+        $response =  $this->curl
+            ->setUrl($this->apiUrl . self::END_POINT . '/edits')
             ->setHeaders(
                 $this->headers
             )
