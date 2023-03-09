@@ -134,6 +134,10 @@ class Image
             throw new \Exception("Prompt max char is : 1000");
         }
 
+        if ($n < 1 or $n > 10) {
+            throw new \Exception('$n is between 1 and 10');
+        }
+
         $payload = [
             "image" => curl_file_create($image),
             "prompt" => $prompt,
