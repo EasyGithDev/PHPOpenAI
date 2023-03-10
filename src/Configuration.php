@@ -4,11 +4,7 @@ namespace EasyGithDev\PHPOpenAI;
 
 class Configuration
 {
-    // protected array $headers = [
-    //     'Content-Type: application/json',
-    //     'Authorization: Bearer ',
-    //     'OpenAI-Organization: ',
-    // ];
+    static $_configDir = __DIR__ . '/../config';
 
     protected array $headers = [
         'Content-Type' => '',

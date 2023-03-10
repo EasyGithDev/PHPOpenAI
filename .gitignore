@@ -1,4 +1,4 @@
 /vendor/
-/examples/key.php
+/config/key.php
 /assets/*.png
 /assets/*.mp3
