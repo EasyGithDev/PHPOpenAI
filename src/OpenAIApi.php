@@ -5,6 +5,7 @@ namespace EasyGithDev\PHPOpenAI;
 use EasyGithDev\PHPOpenAI\Chat\ChatCompletion;
 use EasyGithDev\PHPOpenAI\Completions\Completion;
 use EasyGithDev\PHPOpenAI\Edits\Edit;
+use EasyGithDev\PHPOpenAI\Files\File;
 use EasyGithDev\PHPOpenAI\Images\Image;
 use EasyGithDev\PHPOpenAI\Models\Model;
 use EasyGithDev\PHPOpenAI\Moderations\Moderation;
@@ -67,5 +68,13 @@ class OpenAIApi
     {
         $this->configuration->setApplicationJson();
         return new Moderation(self::API_URL, $this->configuration->toArray());
+    }
+
+    public function File(bool $useJson = true): File
+    {
+        if ($useJson) {
+            $this->configuration->setApplicationJson();
+        }
+        return new File(self::API_URL, $this->configuration->toArray());
     }
 }
