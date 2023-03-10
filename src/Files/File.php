@@ -79,6 +79,7 @@ class File
             ->setHeaders(
                 $this->headers
             )
+            ->delete()
             ->exec();
 
         $this->curl->close();
@@ -91,7 +92,6 @@ class File
         string $file_id,
     ) {
 
-
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT . '/' . $file_id)
             ->setHeaders(
@@ -103,7 +103,6 @@ class File
 
         return $response;
     }
-
 
     function download(
         string $file_id,

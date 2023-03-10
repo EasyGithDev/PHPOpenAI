@@ -35,6 +35,7 @@ class Curl
             curl_setopt($this->ch, CURLOPT_POST, true);
             curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
         }
+
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
     }
@@ -44,7 +45,14 @@ class Curl
         $fp = fopen($filename, 'w');
         curl_setopt($this->ch, CURLOPT_VERBOSE, 1);
         curl_setopt($this->ch, CURLOPT_STDERR, $fp);
-        
+
+        return $this;
+    }
+
+    public function delete(): self
+    {
+        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+
         return $this;
     }
 
