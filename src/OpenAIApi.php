@@ -7,6 +7,7 @@ use EasyGithDev\PHPOpenAI\Completions\Completion;
 use EasyGithDev\PHPOpenAI\Edits\Edit;
 use EasyGithDev\PHPOpenAI\Images\Image;
 use EasyGithDev\PHPOpenAI\Models\Model;
+use EasyGithDev\PHPOpenAI\Moderations\Moderation;
 use EasyGithDev\PHPOpenAI\Speech2text\Audio;
 
 class OpenAIApi
@@ -60,5 +61,11 @@ class OpenAIApi
     public function Transcription(): Audio
     {
         return new Audio(self::API_URL, $this->configuration->toArray());
+    }
+
+    public function Moderation(): Moderation
+    {
+        $this->configuration->setApplicationJson();
+        return new Moderation(self::API_URL, $this->configuration->toArray());
     }
 }
