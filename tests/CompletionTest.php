@@ -4,7 +4,7 @@ namespace EasyGithDev\PHPOpenAI;
 
 use PHPUnit\Framework\TestCase;
 
-final class ModelTest extends TestCase
+final class CompletionTest extends TestCase
 {
     protected $apiKey;
     protected $model;
@@ -16,24 +16,21 @@ final class ModelTest extends TestCase
         }
         $configuration = new Configuration($this->apiKey);
         $openAIApi = new OpenAIApi($configuration);
-        $this->model = $openAIApi->Model();
+        $this->model = $openAIApi->Completion();
 
         parent::__construct();
     }
 
-    public function testList()
+    public function testCreate()
     {
-        $response = $this->model->list();
+        $response = $this->model->create(
+            Model::TEXT_DAVINCI_003,
+            "Say this is a test",    
+        );
         $json_response = json_decode($response);
-        $id = $json_response->data[0]->id;
-        $this->assertEquals('babbage', $id);
+        $text = $json_response->choices[0]->text;
+        $this->assertEquals('This is indeed a test.', trim($text));
     }
 
-    public function testRetrieve()
-    {
-        $response = $this->model->retrieve('text-davinci-003');
-        $json_response = json_decode($response);
-        $id = $json_response->id;
-        $this->assertEquals('text-davinci-003', $id);
-    }
+   
 }

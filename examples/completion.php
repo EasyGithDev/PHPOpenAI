@@ -8,8 +8,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 
 $apiKey = "XXXXXXX YOUR KEY";
-if (file_exists(__DIR__ . '/key.php')) {
-    require __DIR__ . '/key.php';
+if (file_exists(Configuration::$_configDir . '/key.php')) {
+    $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
 $configuration = new Configuration($apiKey);

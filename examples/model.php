@@ -13,7 +13,7 @@ function normalize($str)
 
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
-    require Configuration::$_configDir . '/key.php';
+    $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
 $configuration = new Configuration($apiKey);
