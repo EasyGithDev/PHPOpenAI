@@ -37,11 +37,15 @@ class Curl
         }
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+    }
 
+    public function verboseEnabled(string $filename): self
+    {
+        $fp = fopen($filename, 'w');
+        curl_setopt($this->ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($this->ch, CURLOPT_STDERR, $fp);
         
-        // $fp = fopen(dirname(__FILE__) . '/errorlog.txt', 'w');
-        // curl_setopt($this->ch, CURLOPT_VERBOSE, 1);
-        // curl_setopt($this->ch, CURLOPT_STDERR, $fp);
+        return $this;
     }
 
     /**
@@ -51,16 +55,11 @@ class Curl
     {
         $this->prepare();
 
-        // curl_setopt($this->ch, CURLINFO_HEADER_OUT, true); // enable tracking
-
         $response = curl_exec($this->ch);
 
         if (curl_errno($this->ch)) {
             throw new \Exception('Curl error : ' . curl_error($this->ch));
         }
-
-        // $headerSent = curl_getinfo($this->ch, CURLINFO_HEADER_OUT); // request headers
-        // echo '<pre>', var_dump($headerSent), '</pre>';
 
         $http_code = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
 
