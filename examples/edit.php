@@ -1,15 +1,11 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Images\ImageSize;
+use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-function displayUrl($url)
-{
-    return '<img src="' . $url . '" />';
-}
 
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(__DIR__ . '/key.php')) {
@@ -18,13 +14,10 @@ if (file_exists(__DIR__ . '/key.php')) {
 
 $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
-$image = $openAIApi->ImageEdit();
-
-$response = $image->createEdit(
-    image: __DIR__ . '/../assets/image_edit_original.png', 
-    mask: __DIR__ . '/../assets/image_edit_mask.png',
-    prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
-    size: ImageSize::is512,
+$edit = $openAIApi->Edit();
+$response = $edit->create(
+    input: "What day of the wek is it?",
+    instruction: "Fix the spelling mistakes",
 );
 
 $json_response = json_decode($response, true);
@@ -48,10 +41,6 @@ $json_response = json_decode($response, true);
             <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
         </label>
     </div>
-
-    <?php foreach ($json_response['data'] as $image) : ?>
-        <div> <?= displayUrl($image['url']) ?> </div>
-    <?php endforeach; ?>
 
 </body>
 
