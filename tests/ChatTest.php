@@ -28,7 +28,7 @@ final class ChatTest extends TestCase
         $response =  $this->model->create(
             Model::GPT_3_5_TURBO,
             [
-                new Message('user', 'Hello!'),
+                new Message(Message::ROLE_USER, 'Hello!'),
             ]
         );
         $json_response = json_decode($response);
