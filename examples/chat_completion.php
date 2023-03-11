@@ -19,7 +19,10 @@ $chatCompletion = $openAIApi->ChatCompletion();
 $response = $chatCompletion->create(
     Model::GPT_3_5_TURBO,
     [
-        new Message('user', 'Hello!'),
+        new Message(Message::ROLE_SYSTEM, "You are a helpful assistant."),
+        new Message(Message::ROLE_USER, "Who won the world series in 2020?"),
+        new Message(Message::ROLE_ASSISTANT, "The Los Angeles Dodgers won the World Series in 2020."),
+        new Message(Message::ROLE_USER, "Where was it played?"),
     ]
 );
 
