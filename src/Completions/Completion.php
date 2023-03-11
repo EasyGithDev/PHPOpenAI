@@ -36,8 +36,8 @@ class Completion
         ?int $logprobs = null,
         bool $echo  = false,
         string|array|null $stop = null,
-        int $presence_penalty = 0,
-        int $frequency_penalty = 0,
+        float $presence_penalty = 0.0,
+        float $frequency_penalty = 0.0,
         ?int $best_of = 1,
         $logit_bias = null,
         string $user = ''
@@ -51,12 +51,12 @@ class Completion
             throw new \Exception("Prompt can not be empty");
         }
 
-        if ($temperature < 0 or $temperature > 2) {
-            throw new \Exception("Temperature to use, between 0 and 2");
+        if ($temperature < 0 or $temperature > 1) {
+            throw new \Exception("Temperature to use, between 0 and 1");
         }
 
-        if ($top_p < 0 or $top_p > 2) {
-            throw new \Exception("Nucleus sampling to use, between 0 and 2");
+        if ($top_p < 0 or $top_p > 1) {
+            throw new \Exception("Nucleus sampling to use, between 0 and 1");
         }
 
         if ($n < 1 or $n > 10) {
@@ -67,12 +67,12 @@ class Completion
             throw new \Exception('Maximum for logprobs is 5');
         }
 
-        if ($presence_penalty < -2 or $presence_penalty > 2) {
-            throw new \Exception("Presence_penalty is a number between -2.0 and 2.0");
+        if ($presence_penalty < 0 or $presence_penalty > 2) {
+            throw new \Exception("Presence_penalty is a number between 0 and 2.0");
         }
 
-        if ($frequency_penalty < -2 or $frequency_penalty > 2) {
-            throw new \Exception("Frequency_penalty is a number between -2.0 and 2.0");
+        if ($frequency_penalty < 0 or $frequency_penalty > 2) {
+            throw new \Exception("Frequency_penalty is a number between 0 and 2.0");
         }
 
         $payload =  [
@@ -86,11 +86,14 @@ class Completion
             "stream" => $stream,
             "logprobs" => $logprobs,
             "echo" => $echo,
-            "stop" => $stop,
             "presence_penalty" => $presence_penalty,
             "frequency_penalty" => $frequency_penalty,
             // "logit_bias" => $logit_bias,
         ];
+
+        if(!is_null($stop)) {
+            $payload["stop"] = is_array( $stop ) ? $stop : [$stop];
+        }
 
         if(!is_null($best_of)) {
             $payload["best_of"] = $best_of;
