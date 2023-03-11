@@ -2,12 +2,23 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use Exception;
+
 class Curl
 {
+
+    const CURL_GET = 'GET';
+    const CURL_POST = 'POST';
+    const CURL_PUT = 'PUT';
+    const CURL_DELETE = 'DELETE';
+    const CURL_PATCH = 'PATCH';
+
     protected ?\CurlHandle $ch = null;
     protected string $url = '';
     protected array $headers = [];
     protected string|array $payload;
+    protected string $method = self::CURL_GET;
+    protected bool $returnTransfer = true;
 
     /**
      */
@@ -29,15 +40,31 @@ class Curl
      */
     protected function prepare(): void
     {
+        if (empty($this->url)) {
+            throw new Exception('Url is required');
+        }
+        
         curl_setopt($this->ch, CURLOPT_URL, $this->url);
 
-        if (!empty($this->payload)) {
-            curl_setopt($this->ch, CURLOPT_POST, true);
-            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
+        switch ($this->method) {
+            case self::CURL_POST:
+                curl_setopt($this->ch, CURLOPT_POST, true);
+                curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
+                break;
+            case self::CURL_DELETE:
+            case self::CURL_PUT:
+            case self::CURL_PATCH:
+                curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $this->method);
+                break;
         }
 
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
-        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+        if (count($this->headers)) {
+            curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
+        }
+
+        if ($this->returnTransfer) {
+            curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, $this->returnTransfer);
+        }
     }
 
     public function verboseEnabled(string $filename): self
@@ -49,12 +76,12 @@ class Curl
         return $this;
     }
 
-    public function delete(): self
+    public function setMethod(string $method): self
     {
-        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-
+        $this->method = $method;
         return $this;
     }
+
 
     /**
      * @return string
@@ -120,6 +147,19 @@ class Curl
     public function setPayload(string|array $payload): self
     {
         $this->payload = $payload;
+        $this->setMethod(self::CURL_POST);
+
+        return $this;
+    }
+
+    /**
+     * Set the value of returnTransfer
+     *
+     * @return  self
+     */
+    public function setReturnTransfer(bool $returnTransfer): self
+    {
+        $this->returnTransfer = $returnTransfer;
 
         return $this;
     }
