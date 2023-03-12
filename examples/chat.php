@@ -1,6 +1,6 @@
 <?php
 
-use EasyGithDev\PHPOpenAI\Chat\Message;
+use EasyGithDev\PHPOpenAI\Chats\Message;
 use EasyGithDev\PHPOpenAI\Configuration;
 use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
@@ -14,7 +14,7 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 
 $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
-$chatCompletion = $openAIApi->ChatCompletion();
+$chatCompletion = $openAIApi->Chat();
 
 $response = $chatCompletion->create(
     Model::GPT_3_5_TURBO,
