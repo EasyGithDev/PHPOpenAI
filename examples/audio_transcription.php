@@ -16,7 +16,7 @@ $openAIApi = new OpenAIApi($configuration);
 $audio = $openAIApi->Transcription();
 
 $response = $audio->transcription(
-    __DIR__ . '/../assets/Dear Future Husband.mp3',
+    __DIR__ . '/../assets/openai.mp3',
     Model::WHISPER_1,
     responseFormat: ResponseFormat::SRT
 );
