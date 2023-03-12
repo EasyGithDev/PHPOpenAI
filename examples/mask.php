@@ -22,7 +22,7 @@ $image = $openAIApi->ImageEdit();
 
 $response = $image->createEdit(
     image: __DIR__ . '/../assets/image_edit_original.png', 
-    mask: __DIR__ . '/../assets/image_edit_mask.png',
+    mask: __DIR__ . '/../assets/image_edit_mask2.png',
     prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
     size: ImageSize::is512,
 );
