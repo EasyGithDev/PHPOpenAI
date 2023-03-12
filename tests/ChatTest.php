@@ -2,7 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
-use EasyGithDev\PHPOpenAI\Chat\Message;
+use EasyGithDev\PHPOpenAI\Chats\Message;
 use PHPUnit\Framework\TestCase;
 
 final class ChatTest extends TestCase
@@ -17,7 +17,7 @@ final class ChatTest extends TestCase
         }
         $configuration = new Configuration($this->apiKey);
         $openAIApi = new OpenAIApi($configuration);
-        $this->model = $openAIApi->ChatCompletion();
+        $this->model = $openAIApi->Chat();
 
         parent::__construct();
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Speech2text;
+namespace EasyGithDev\PHPOpenAI\Audios;
 
 enum ResponseFormat: string
 {

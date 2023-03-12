@@ -1,11 +1,11 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Chat;
+namespace EasyGithDev\PHPOpenAI\Chats;
 
 use EasyGithDev\PHPOpenAI\Curl;
 use EasyGithDev\PHPOpenAI\Model;
 
-class ChatCompletion
+class Chat
 {
     const MAX_PROMPT_CHARS = 1000;
     const END_POINT = '/chat/completions';

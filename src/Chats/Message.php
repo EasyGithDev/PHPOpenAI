@@ -1,6 +1,6 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Chat;
+namespace EasyGithDev\PHPOpenAI\Chats;
 
 class Message
 {

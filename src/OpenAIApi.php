@@ -2,14 +2,14 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
-use EasyGithDev\PHPOpenAI\Chat\ChatCompletion;
 use EasyGithDev\PHPOpenAI\Completions\Completion;
 use EasyGithDev\PHPOpenAI\Edits\Edit;
 use EasyGithDev\PHPOpenAI\Files\File;
 use EasyGithDev\PHPOpenAI\Images\Image;
 use EasyGithDev\PHPOpenAI\Models\Model;
 use EasyGithDev\PHPOpenAI\Moderations\Moderation;
-use EasyGithDev\PHPOpenAI\Speech2text\Audio;
+use EasyGithDev\PHPOpenAI\Audios\Audio;
+use EasyGithDev\PHPOpenAI\Chats\Chat;
 
 class OpenAIApi
 {
@@ -37,10 +37,10 @@ class OpenAIApi
         return new Edit(self::API_URL, $this->configuration->toArray());
     }
 
-    public function ChatCompletion(): ChatCompletion
+    public function Chat(): Chat
     {
         $this->configuration->setApplicationJson();
-        return new ChatCompletion(self::API_URL, $this->configuration->toArray());
+        return new Chat(self::API_URL, $this->configuration->toArray());
     }
 
     public function Image(): Image
