@@ -29,7 +29,6 @@ class File
      */
     function list(): string
     {
-
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT)
             ->setHeaders(
@@ -64,6 +63,7 @@ class File
             ->setPayload(
                 json_encode($payload)
             )
+            // ->verboseEnabled(__DIR__.'debug.txt')
             ->exec();
 
         $this->curl->close();
@@ -79,7 +79,7 @@ class File
             ->setHeaders(
                 $this->headers
             )
-            ->delete()
+            ->setMethod(Curl::CURL_DELETE)
             ->exec();
 
         $this->curl->close();
