@@ -2,7 +2,7 @@
 
 Welcome to the GitHub project page for "PHPOpenAI", a project that enables the use of the OpinAI API in PHP.
 
-The project is written in PHP and can be used to easily integrate the OpinAI API into your existing PHP project. The OpenAI API provides natural language processing tools for sentiment analysis, text classification, and named entity recognition.
+The project is written in PHP and can be used to easily integrate the OpinAI API into your existing PHP project. The OpenAI API provides natural language processing tools for text classification, image generation and named entity recognition.
 
 ### Installation via Git
 
@@ -27,6 +27,7 @@ To use the OpinAI API, you need to sign up on their website and obtain an API ke
 Here's an example code that shows you how to use the OpinAI API in PHP:
 
 ```php
+<?php
 require_once __DIR__ . '/vendor/autoload.php';
 
 use EasyGithDev\PHPOpenAI\Configuration;
