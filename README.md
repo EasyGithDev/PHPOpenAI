@@ -1,8 +1,8 @@
 # PHPOpenAI
 
-Welcome to the GitHub project page for "PHPOpenAI", a project that enables the use of the OpinAI API in PHP.
+Welcome to the GitHub project page for "PHPOpenAI", a project that enables the use of the OpenAI API in PHP.
 
-The project is written in PHP and can be used to easily integrate the OpinAI API into your existing PHP project. The OpenAI API provides natural language processing tools for text classification, image generation and named entity recognition.
+The project is written in PHP and can be used to easily integrate the OpenAI API into your existing PHP project. The OpenAI API provides natural language processing tools for text classification, image generation and named entity recognition.
 
 ### Installation via Git
 
@@ -22,9 +22,9 @@ composer install
 
 ### Writing a First Example
 
-To use the OpinAI API, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
+To use the OpenAI API, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
 
-Here's an example code that shows you how to use the OpinAI API in PHP:
+Here's an example code that shows you how to use the OpenAI API in PHP:
 
 ```php
 <?php
