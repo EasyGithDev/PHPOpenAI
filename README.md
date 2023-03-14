@@ -52,6 +52,19 @@ var_dump($response);
 
 This code instantiates a new `OpenAIApi` object with an API key, and then creates a new `Completion` object to perform text completion with the GPT-3 AI language model provided by OpenAI.
 
+You can create a file containing the api key. It will be necessary to place the file in the folder named config.
+
+```php
+<?php
+return "YOUR KEY";
+```
+
+This code instantiates a new `OpenAIApi` object with an API key, and then creates a new `Completion` object to perform text completion with the GPT-3 AI language model provided by OpenAI.
+
+You can create a file containing the api key. It will be necessary to place the file in the folder named config.
+
+
+
 The `create()` method is called on the `Completion` object to generate a new text completion. It takes two parameters:
 
 - the first parameter is the ID of the GPT-3 model to use for completion. In this case, it uses the TEXT_DAVINCI_003 model.
