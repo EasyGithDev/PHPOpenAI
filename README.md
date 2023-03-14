@@ -64,13 +64,27 @@ This code instantiates a new `OpenAIApi` object with an API key, and then create
 You can create a file containing the api key. It will be necessary to place the file in the folder named config.
 
 
-
 The `create()` method is called on the `Completion` object to generate a new text completion. It takes two parameters:
 
 - the first parameter is the ID of the GPT-3 model to use for completion. In this case, it uses the TEXT_DAVINCI_003 model.
 - the second parameter is the prompt or input text for which the completion will be generated. In this case, the prompt is "Say this is a test".
 
 The result of the completion is returned in the `$response` variable. The result can then be used for further processing, such as displaying the completed text or feeding it into another part of the program for additional processing.
+
+Obviously you can use a short syntax.
+
+```php
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
+
+$response = (new OpenAIApi("YOUR KEY"))->Completion()->create(
+    Model::TEXT_DAVINCI_003,
+    "Say this is a test",
+);
+```
 
 ### Summary
 

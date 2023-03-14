@@ -15,8 +15,15 @@ class OpenAIApi
 {
     const API_URL = 'https://api.openai.com/v1';
 
-    public function __construct(protected Configuration $configuration)
+    protected ?Configuration $configuration = null;
+
+    public function __construct(Configuration|string $var)
     {
+        if (is_string($var)) {
+            $this->configuration = Configuration::defaultConfiguration($var);
+        } else {
+            $this->configuration = $var;
+        }
     }
 
     public function Model(): Model

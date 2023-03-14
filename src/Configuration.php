@@ -51,4 +51,9 @@ class Configuration
         }
         return $headers;
     }
+
+    public static function defaultConfiguration(string $apiKey): Configuration
+    {
+        return new Configuration($apiKey);
+    }
 }
