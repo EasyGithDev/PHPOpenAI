@@ -61,7 +61,7 @@ class File
                 $this->headers
             )
             ->setPayload(
-                json_encode($payload)
+                $payload
             )
             // ->verboseEnabled(__DIR__.'debug.txt')
             ->exec();

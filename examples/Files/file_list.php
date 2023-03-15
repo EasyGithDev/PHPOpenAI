@@ -1,11 +1,9 @@
 <?php
 
-use EasyGithDev\PHPOpenAI\Chats\Message;
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {

@@ -40,6 +40,17 @@ class Configuration
         return $this->setContentType('application/json');
     }
 
+    public function setAccept(string $accept): self
+    {
+        $this->headers['Accept'] = $accept;
+        return $this;
+    }
+
+    public function setAcceptApplicationJson(): self
+    {
+        return $this->setAccept('application/json');
+    }
+
     public function toArray(): array
     {
         $headers = [];

@@ -77,11 +77,8 @@ class OpenAIApi
         return new Moderation(self::API_URL, $this->configuration->toArray());
     }
 
-    public function File(bool $useJson = true): File
+    public function File(): File
     {
-        if ($useJson) {
-            $this->configuration->setApplicationJson();
-        }
         return new File(self::API_URL, $this->configuration->toArray());
     }
 }

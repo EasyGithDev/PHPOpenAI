@@ -1,11 +1,9 @@
 <?php
 
-use EasyGithDev\PHPOpenAI\Chats\Message;
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
@@ -14,10 +12,10 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 
 $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
-$file = $openAIApi->File();
+$file = $openAIApi->File(true);
 
 $response = $file->create(
-    file: __DIR__ . '/../assets/mydata.jsonl',
+    file: __DIR__ . '/../../assets/mydata.jsonl',
     purpose: 'fine-tune',
 );
 
