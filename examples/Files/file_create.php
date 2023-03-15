@@ -22,13 +22,11 @@ $response = $file->create(
 ?>
 
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Titre de la page</title>
-    <!-- <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script> -->
+    <title>File create</title>
 </head>
 
 <body>

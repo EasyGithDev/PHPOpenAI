@@ -19,13 +19,11 @@ $response = $file->delete('file-2CM2a6KQBL1bB8xk0quOReMp');
 ?>
 
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Titre de la page</title>
-    <!-- <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script> -->
+    <title>File list</title>
 </head>
 
 <body>

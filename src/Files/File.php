@@ -74,6 +74,11 @@ class File
     function delete(
         string $file_id,
     ) {
+
+        if (empty($file_id)) {
+            throw new Exception("file_id can not be empty");
+        }
+
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT . '/' . $file_id)
             ->setHeaders(
@@ -92,6 +97,10 @@ class File
         string $file_id,
     ) {
 
+        if (empty($file_id)) {
+            throw new Exception("file_id can not be empty");
+        }
+
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT . '/' . $file_id)
             ->setHeaders(
@@ -107,11 +116,17 @@ class File
     function download(
         string $file_id,
     ) {
+
+        if (empty($file_id)) {
+            throw new Exception("file_id can not be empty");
+        }
+
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT . '/' . $file_id . '/content')
             ->setHeaders(
                 $this->headers
             )
+            // ->verboseEnabled('debug.txt')
             ->exec();
 
         $this->curl->close();

@@ -14,7 +14,16 @@ $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
 $file = $openAIApi->File();
 
-$response = $file->list();
+$response = $file->download('file-EmrKv0H0CpZzk6ELaGJkhN1V');
+$json_response = json_decode($response);
+
+// Unable to test at this moment
+// "error": {
+//     "message": "To help mitigate abuse, downloading of fine-tune training files is disabled for free accounts.",
+//     "type": "invalid_request_error",
+//     "param": null,
+//     "code": null
+//   }
 
 ?>
 
@@ -23,7 +32,7 @@ $response = $file->list();
 
 <head>
     <meta charset="utf-8">
-    <title>File list</title>
+    <title>File download</title>
 </head>
 
 <body>

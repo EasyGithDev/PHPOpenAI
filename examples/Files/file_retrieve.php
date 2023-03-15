@@ -14,8 +14,8 @@ $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
 $file = $openAIApi->File();
 
-$response = $file->list();
-
+$response = $file->retrieve('file-EmrKv0H0CpZzk6ELaGJkhN1V');
+$json_response = json_decode($response);
 ?>
 
 <!doctype html>
@@ -23,7 +23,7 @@ $response = $file->list();
 
 <head>
     <meta charset="utf-8">
-    <title>File list</title>
+    <title>File retrieve</title>
 </head>
 
 <body>
