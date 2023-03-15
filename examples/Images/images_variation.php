@@ -1,14 +1,14 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
+use EasyGithDev\PHPOpenAI\Images\ImageSize;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
-function normalize($str)
+function displayUrl($url)
 {
-    $str =  str_replace(['-', '.', ':'], ['_', '_', '_'], $str);
-    return mb_strtoupper($str);
+    return '<img src="' . $url . '" />';
 }
 
 $apiKey = "XXXXXXX YOUR KEY";
@@ -18,21 +18,24 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 
 $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
-$model = $openAIApi->Model();
-$response = $model->list();
+$image = $openAIApi->ImageVariation();
 
-$json_response = json_decode($response);
+$response = $image->createVariation(
+    __DIR__ . '/../../assets/image_variation_original.png',
+    n:2,
+    size:ImageSize::is256
+);
+
+$json_response = json_decode($response, true);
 
 ?>
 
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Titre de la page</title>
-    <!-- <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script> -->
+    <title>Image variation</title>
 </head>
 
 <body>
@@ -43,11 +46,8 @@ $json_response = json_decode($response);
         </label>
     </div>
 
-
-    <?php foreach ($json_response->data as $model) : ?>
-        <div>
-            <?= 'case ' . normalize($model->id) . '="' .  $model->id . '";' ?>
-        </div>
+    <?php foreach ($json_response['data'] as $image) : ?>
+        <div> <?= displayUrl($image['url']) ?> </div>
     <?php endforeach; ?>
 
 </body>

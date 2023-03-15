@@ -6,7 +6,7 @@ use EasyGithDev\PHPOpenAI\Images\ImageSize;
 use EasyGithDev\PHPOpenAI\Images\ResponseFormat;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 function displayImg($data)
 {
@@ -33,22 +33,14 @@ $json_response = json_decode($response, true);
 ?>
 
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Titre de la page</title>
-    <!-- <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script> -->
+    <title>Image using b64 format</title>
 </head>
 
 <body>
-
-    <!-- <div>
-        <label>Payload :
-            <textarea name="payload" id="payload" cols="100" rows="30"><?= $payload ?></textarea>
-        </label>
-    </div> -->
 
     <div>
         <label>Response :

@@ -1,33 +1,35 @@
 <?php
 
+use EasyGithDev\PHPOpenAI\Audios\ResponseFormat;
 use EasyGithDev\PHPOpenAI\Configuration;
 use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-require __DIR__ . '/../vendor/autoload.php';
+
+require __DIR__ . '/../../vendor/autoload.php';
 
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
+$configuration = new Configuration($apiKey);
+$openAIApi = new OpenAIApi($configuration);
+$audio = $openAIApi->Transcription();
 
-$response = (new OpenAIApi($apiKey))->Completion()->create(
-    Model::TEXT_DAVINCI_003,
-    "Say this is a test",
+$response = $audio->transcription(
+    __DIR__ . '/../../assets/openai.mp3',
+    Model::WHISPER_1,
+    responseFormat: ResponseFormat::SRT
 );
-
-$json_response = json_decode($response, true);
 
 ?>
 
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Titre de la page</title>
-    <!-- <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script> -->
+    <title>Audio transcription</title>
 </head>
 
 <body>

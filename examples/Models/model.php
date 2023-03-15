@@ -1,11 +1,15 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
+function normalize($str)
+{
+    $str =  str_replace(['-', '.', ':'], ['_', '_', '_'], $str);
+    return mb_strtoupper($str);
+}
 
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
@@ -14,25 +18,19 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 
 $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
-$completion = $openAIApi->Completion();
-$response = $completion->create(
-    Model::TEXT_DAVINCI_003,
-    "Say this is a test",
-    
-);
+$model = $openAIApi->Model();
+$response = $model->list();
 
-$json_response = json_decode($response, true);
+$json_response = json_decode($response);
 
 ?>
 
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Titre de la page</title>
-    <!-- <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script> -->
+    <title>Model list</title>
 </head>
 
 <body>
@@ -42,6 +40,13 @@ $json_response = json_decode($response, true);
             <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
         </label>
     </div>
+
+
+    <?php foreach ($json_response->data as $model) : ?>
+        <div>
+            <?= 'case ' . normalize($model->id) . '="' .  $model->id . '";' ?>
+        </div>
+    <?php endforeach; ?>
 
 </body>
 

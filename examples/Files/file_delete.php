@@ -14,7 +14,7 @@ $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
 $file = $openAIApi->File(false);
 
-$response = $file->delete('file-2CM2a6KQBL1bB8xk0quOReMp');
+$response = $file->delete('file-EmrKv0H0CpZzk6ELaGJkhN1V');
 
 ?>
 

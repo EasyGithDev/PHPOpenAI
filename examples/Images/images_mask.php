@@ -4,13 +4,7 @@ use EasyGithDev\PHPOpenAI\Configuration;
 use EasyGithDev\PHPOpenAI\Images\ImageSize;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-require __DIR__ . '/../vendor/autoload.php';
-
-function saveImg($url)
-{
-    $content =  file_get_contents($url);
-    file_put_contents('dall-e.png', $content);
-}
+require __DIR__ . '/../../vendor/autoload.php';
 
 function displayUrl($url)
 {
@@ -24,12 +18,13 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 
 $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
-$image = $openAIApi->Image();
+$image = $openAIApi->ImageEdit();
 
-$response = $image->create(
-    "a rabbit inside a beautiful garden, 32 bit isometric",
-    n:4,
-    size: ImageSize::is256,
+$response = $image->createEdit(
+    image: __DIR__ . '/../../assets/image_edit_original.png',
+    mask: __DIR__ . '/../../assets/image_edit_mask2.png',
+    prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
+    size: ImageSize::is512,
 );
 
 $json_response = json_decode($response, true);
@@ -37,13 +32,11 @@ $json_response = json_decode($response, true);
 ?>
 
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Titre de la page</title>
-    <!-- <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script> -->
+    <title>Image mask</title>
 </head>
 
 <body>
