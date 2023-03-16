@@ -10,15 +10,12 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$file = $openAIApi->File(true);
-
-$response = $file->create(
-    file: __DIR__ . '/../../assets/mydata.jsonl',
-    purpose: 'fine-tune',
-);
-
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->create(
+        __DIR__ . '/../../assets/mydata.jsonl',
+        'fine-tune',
+    );
 ?>
 
 <!doctype html>

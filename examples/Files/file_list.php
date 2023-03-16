@@ -10,11 +10,9 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$file = $openAIApi->File();
-
-$response = $file->list();
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->list();
 
 ?>
 

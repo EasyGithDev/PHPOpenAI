@@ -10,12 +10,11 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$file = $openAIApi->File();
-
-$response = $file->retrieve('file-EmrKv0H0CpZzk6ELaGJkhN1V');
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->retrieve('file-l7aGxLssbuLLKyWKFGDz9cJ7');
 $json_response = json_decode($response);
+
 ?>
 
 <!doctype html>

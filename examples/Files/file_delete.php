@@ -10,11 +10,9 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$file = $openAIApi->File(false);
-
-$response = $file->delete('file-EmrKv0H0CpZzk6ELaGJkhN1V');
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->delete('file-l7aGxLssbuLLKyWKFGDz9cJ7');
 
 ?>
 

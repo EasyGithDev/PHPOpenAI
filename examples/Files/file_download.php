@@ -11,17 +11,10 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$file = $openAIApi->File();
-
-try {
-    $response = $file->download('file-EmrKv0H0CpZzk6ELaGJkhN1V');
-    $json_response = json_decode($response);
-} catch (ApiException $e) {
-    echo nl2br($e->getMessage());
-    die;
-}
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->download('file-l7aGxLssbuLLKyWKFGDz9cJ7');
+$json_response = json_decode($response);
 
 // Unable to test at this moment
 // "error": {
