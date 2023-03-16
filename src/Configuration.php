@@ -2,63 +2,48 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use Exception;
+
 class Configuration
 {
-    static $_configDir = __DIR__ . '/../config';
+    public static $_configDir = __DIR__ . '/../config';
 
-    protected array $headers = [
-        'Content-Type' => '',
-        'Authorization' => '',
-        'OpenAI-Organization' => '',
-    ];
+    protected array $headers = [];
 
     public function __construct(
         string $apiKey,
-        string $organization = '',
-        string $contentType = ''
+        string $organization = ''
     ) {
 
-        $this->headers['Authorization'] = "Bearer $apiKey";
-
-        if (!empty($organization)) {
-            $this->headers['OpenAI-Organization'] = $organization;
+        if (empty($apiKey)) {
+            throw new Exception('apiKey can not be empty');
         }
 
-        if (!empty($contentType)) {
-            $this->headers['Content-Type'] = $contentType;
+        $this->setHeader(['Authorization' => "Bearer $apiKey"]);
+
+        if (!empty($organization)) {
+            $this->setHeader(['OpenAI-Organization' => $organization]);
         }
     }
 
-    public function setContentType(string $contentType): self
+    public function setHeader(array $header): self
     {
-        $this->headers['Content-Type'] = $contentType;
+        $this->headers[] = $header;
         return $this;
     }
 
     public function setApplicationJson(): self
     {
-        return $this->setContentType('application/json');
-    }
-
-    public function setAccept(string $accept): self
-    {
-        $this->headers['Accept'] = $accept;
-        return $this;
-    }
-
-    public function setAcceptApplicationJson(): self
-    {
-        return $this->setAccept('application/json');
+        return $this->setHeader(['Content-Type' => 'application/json']);
     }
 
     public function toArray(): array
     {
         $headers = [];
-        foreach ($this->headers as $k => $v) {
-            if (empty($v)) {
-                continue;
+        foreach ($this->headers as $header) {
+            foreach ($header as $key => $value) {
+                $headers[] = "$key: $value";
             }
-            $headers[] = "$k: $v";
         }
         return $headers;
     }
