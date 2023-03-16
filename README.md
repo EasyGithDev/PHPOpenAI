@@ -6,7 +6,7 @@ The project is written in PHP and can be used to easily integrate the OpenAI API
 
 ## System Requirements
 
-- PHP 8.0
+- PHP 8.1
 - CURL
 
 ## Installation via Git
