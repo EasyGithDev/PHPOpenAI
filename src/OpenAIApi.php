@@ -27,57 +27,81 @@ class OpenAIApi
 
     public function Model(): Model
     {
-        $this->configuration->setApplicationJson();
-        return new Model($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new Model(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
+        );
     }
 
     public function Completion(): Completion
     {
-        $this->configuration->setApplicationJson();
-        return new Completion($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new Completion(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
+        );
     }
 
     public function Edit(): Edit
     {
-        $this->configuration->setApplicationJson();
-        return new Edit($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new Edit(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
+        );
     }
 
     public function Chat(): Chat
     {
-        $this->configuration->setApplicationJson();
-        return new Chat($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new Chat(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
+        );
     }
 
     public function Image(): Image
     {
-        $this->configuration->setApplicationJson();
-        return new Image($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new Image(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders()
+        );
     }
 
     public function ImageVariation(): Image
     {
-        return new Image($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new Image(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders()
+        );
     }
 
     public function ImageEdit(): Image
     {
-        return new Image($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new Image(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders()
+        );
     }
 
     public function Audio(): Audio
     {
-        return new Audio($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new Audio(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders()
+        );
     }
 
     public function Moderation(): Moderation
     {
-        $this->configuration->setApplicationJson();
-        return new Moderation($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new Moderation(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
+        );
     }
 
     public function File(): File
     {
-        return new File($this->configuration->getApiUrl(), $this->configuration->toArray());
+        return new File(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders()
+        );
     }
 }

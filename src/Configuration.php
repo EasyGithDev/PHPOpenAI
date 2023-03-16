@@ -32,20 +32,22 @@ class Configuration
         return $this;
     }
 
-    public function setApplicationJson(): self
+    public function getCurlHeaders(?array $additionalHeader = null): array
     {
-        return $this->setHeader(['Content-Type' => 'application/json']);
-    }
+        $headers = $this->headers;
 
-    public function toArray(): array
-    {
-        $headers = [];
-        foreach ($this->headers as $header) {
+        if (!is_null($additionalHeader)) {
+            $headers = array_merge($headers, $additionalHeader);
+        }
+
+        $result = [];
+        foreach ($headers as $header) {
             foreach ($header as $key => $value) {
-                $headers[] = "$key: $value";
+                $result[] = "$key: $value";
             }
         }
-        return $headers;
+
+        return $result;
     }
 
     public static function defaultConfiguration(string $apiKey): Configuration

@@ -9,6 +9,8 @@ class Image
 {
     const MAX_PROMPT_CHARS = 1000;
     const END_POINT = '/images';
+    const VARIATION_END_POINT = self::END_POINT . '/variations';
+    const EDIT_END_POINT = self::END_POINT . '/edits';
 
     protected Curl $curl;
     protected string $apiUrl;
@@ -97,7 +99,7 @@ class Image
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT . '/variations')
+            ->setUrl($this->apiUrl . self::VARIATION_END_POINT)
             ->setHeaders(
                 $this->headers
             )
@@ -155,7 +157,7 @@ class Image
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT . '/edits')
+            ->setUrl($this->apiUrl . self::EDIT_END_POINT)
             ->setHeaders(
                 $this->headers
             )
