@@ -48,7 +48,7 @@ $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
 $completion = $openAIApi->Completion();
 $response = $completion->create(
-    Model::TEXT_DAVINCI_003,
+    ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",    
 );
 
@@ -86,7 +86,7 @@ use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 $response = (new OpenAIApi("YOUR KEY"))->Completion()->create(
-    Model::TEXT_DAVINCI_003,
+    ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );
 ```
@@ -99,7 +99,7 @@ Integrating OpenAI into your application is now as simple as a few lines of code
 
 ```php
 $response = (new OpenAIApi($apiKey))->Chat()->create(
-    Model::GPT_3_5_TURBO,
+    ModelEnum::GPT_3_5_TURBO,
     [
         new Message(Message::ROLE_SYSTEM, "You are a helpful assistant."),
         new Message(Message::ROLE_USER, "Who won the world series in 2020?"),
@@ -115,7 +115,7 @@ $response = (new OpenAIApi($apiKey))->Chat()->create(
 
 ```php
 $response = (new OpenAIApi($apiKey))->Completion()->create(
-    Model::TEXT_DAVINCI_003,
+    ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );
 ```
@@ -176,28 +176,54 @@ $response = (new OpenAIApi($apiKey))->ImageEdit()->createEdit(
 ```php
 $response = (new OpenAIApi($apiKey))->Audio()->transcription(
     __DIR__ . '/../../assets/openai.mp3',
-    Model::WHISPER_1,
+    ModelEnum::WHISPER_1,
     responseFormat: ResponseFormat::SRT
 );
 ```
 
-[Learn more about speech to text](https://platform.openai.com/docs/guides/speech-to-text).
+[Learn more about audio transcription](https://platform.openai.com/docs/guides/speech-to-text).
 
 ### Audio Translation (Speech to text) using Whisper
 
 ```php
 $response = (new OpenAIApi($apiKey))->Audio()->translation(
     __DIR__ . '/../../assets/openai_fr.mp3',
-    Model::WHISPER_1,
+    ModelEnum::WHISPER_1,
     responseFormat: ResponseFormat::TEXT
 );
 ```
 
-[Learn more about speech to text](https://platform.openai.com/docs/guides/speech-to-text/translations).
+[Learn more about audio translation](https://platform.openai.com/docs/guides/speech-to-text/translations).
 
+### Model List
+
+```php
+$response = (new OpenAIApi($apiKey))->Model()->list();
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/models).
+
+### Model Retrieve
+
+```php
+$response = (new OpenAIApi($apiKey))->Model()->retrieve('text-davinci-001');
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/models/retrieve).
 
 ### Errors
 
+```php
+try {
+    $response = $file->download('file-EmrKv0H0CpZzk6ELaGJkhN1V');
+    $json_response = json_decode($response);
+} catch (ApiException $e) {
+    echo nl2br($e->getMessage());
+    die;
+}
+```
+
+[Learn more about errors](https://platform.openai.com/docs/guides/error-codes/api-errors).
 
 
 ### Summary
