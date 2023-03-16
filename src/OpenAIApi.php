@@ -66,7 +66,7 @@ class OpenAIApi
         return new Image(self::API_URL, $this->configuration->toArray());
     }
 
-    public function Transcription(): Audio
+    public function Audio(): Audio
     {
         return new Audio(self::API_URL, $this->configuration->toArray());
     }

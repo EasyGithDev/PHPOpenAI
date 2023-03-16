@@ -1,26 +1,28 @@
 <?php
 
-use EasyGithDev\PHPOpenAI\Audios\ResponseFormat;
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\Images\ImageSize;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-
 require __DIR__ . '/../../vendor/autoload.php';
+
+function displayUrl($url)
+{
+    return '<img src="' . $url . '" />';
+}
 
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$audio = $openAIApi->Audio();
 
-$response = $audio->transcription(
-    __DIR__ . '/../../assets/openai.mp3',
-    Model::WHISPER_1,
-    responseFormat: ResponseFormat::SRT
+$response = (new OpenAIApi($apiKey))->ImageVariation()->createVariation(
+    __DIR__ . '/../../assets/image_variation_original.png',
+    n: 2,
+    size: ImageSize::is256
 );
+
+$json_response = json_decode($response, true);
 
 ?>
 
@@ -29,7 +31,7 @@ $response = $audio->transcription(
 
 <head>
     <meta charset="utf-8">
-    <title>Audio transcription</title>
+    <title>Image variation</title>
 </head>
 
 <body>
@@ -39,6 +41,10 @@ $response = $audio->transcription(
             <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
         </label>
     </div>
+
+    <?php foreach ($json_response['data'] as $image) : ?>
+        <div> <?= displayUrl($image['url']) ?> </div>
+    <?php endforeach; ?>
 
 </body>
 

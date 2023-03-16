@@ -4,7 +4,12 @@ Welcome to the GitHub project page for "PHPOpenAI", a project that enables the u
 
 The project is written in PHP and can be used to easily integrate the OpenAI API into your existing PHP project. The OpenAI API provides natural language processing tools for text classification, image generation and named entity recognition.
 
-### Installation via Git
+## System Requirements
+
+- PHP 8.0
+- CURL
+
+## Installation via Git
 
 To install the project, you can clone it from GitHub using the following Git command:
 
@@ -12,7 +17,7 @@ To install the project, you can clone it from GitHub using the following Git com
 git clone git@github.com:EasyGithDev/PHPOpenAI.git
 ```
 
-### Using Composer
+## Using Composer
 
 The project uses Composer to manage dependencies. If you haven't already installed Composer, you can do so by following the instructions on the official Composer website. After installing Composer, you can install the project dependencies by running the following command in the project directory:
 
@@ -20,7 +25,7 @@ The project uses Composer to manage dependencies. If you haven't already install
 composer install
 ```
 
-### Writing a First Example
+## Writing a First Example
 
 To use the OpenAI API, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
 
@@ -85,6 +90,115 @@ $response = (new OpenAIApi("YOUR KEY"))->Completion()->create(
     "Say this is a test",
 );
 ```
+
+## Examples
+
+Integrating OpenAI into your application is now as simple as a few lines of code.
+
+### Text Completion using ChatGPT
+
+```php
+$response = (new OpenAIApi($apiKey))->Chat()->create(
+    Model::GPT_3_5_TURBO,
+    [
+        new Message(Message::ROLE_SYSTEM, "You are a helpful assistant."),
+        new Message(Message::ROLE_USER, "Who won the world series in 2020?"),
+        new Message(Message::ROLE_ASSISTANT, "The Los Angeles Dodgers won the World Series in 2020."),
+        new Message(Message::ROLE_USER, "Where was it played?"),
+    ]
+);
+```
+
+[Learn more about chat completion](https://platform.openai.com/docs/guides/chat).
+
+### Text Completion using GPT-3
+
+```php
+$response = (new OpenAIApi($apiKey))->Completion()->create(
+    Model::TEXT_DAVINCI_003,
+    "Say this is a test",
+);
+```
+
+[Learn more about text completion](https://platform.openai.com/docs/guides/completion).
+
+### Text Edit
+
+```php
+$response = (new OpenAIApi($apiKey))->Edit()->create(
+    input: "What day of the wek is it?",
+    instruction: "Fix the spelling mistakes",
+);
+```
+
+[Learn more about text edit](https://platform.openai.com/docs/guides/code/editing-code).
+
+### Image Generation Using DALL·E
+
+```php
+$response = (new OpenAIApi($apiKey))->Image()->create(
+    "a rabbit inside a beautiful garden, 32 bit isometric",
+    n:4,
+    size: ImageSize::is256,
+);
+
+```
+
+[Learn more about image generation](https://platform.openai.com/docs/guides/images).
+
+### Image Variation Using DALL·E
+
+```php
+$response = (new OpenAIApi($apiKey))->ImageVariation()->createVariation(
+    __DIR__ . '/../../assets/image_variation_original.png',
+    n: 2,
+    size: ImageSize::is256
+);
+```
+
+[Learn more about image variation](https://platform.openai.com/docs/guides/images/variations).
+
+### Image Edit Using DALL·E
+
+```php
+$response = (new OpenAIApi($apiKey))->ImageEdit()->createEdit(
+    image: __DIR__ . '/../../assets/image_edit_original.png',
+    mask: __DIR__ . '/../../assets/image_edit_mask2.png',
+    prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
+    size: ImageSize::is512,
+);
+```
+
+[Learn more about image edit](https://platform.openai.com/docs/guides/images/edits).
+
+### Audio Transcription (Speech to text) using Whisper
+
+```php
+$response = (new OpenAIApi($apiKey))->Audio()->transcription(
+    __DIR__ . '/../../assets/openai.mp3',
+    Model::WHISPER_1,
+    responseFormat: ResponseFormat::SRT
+);
+```
+
+[Learn more about speech to text](https://platform.openai.com/docs/guides/speech-to-text).
+
+### Audio Translation (Speech to text) using Whisper
+
+```php
+$response = (new OpenAIApi($apiKey))->Audio()->translation(
+    __DIR__ . '/../../assets/openai_fr.mp3',
+    Model::WHISPER_1,
+    responseFormat: ResponseFormat::TEXT
+);
+```
+
+[Learn more about speech to text](https://platform.openai.com/docs/guides/speech-to-text/translations).
+
+
+### Errors
+
+
 
 ### Summary
 

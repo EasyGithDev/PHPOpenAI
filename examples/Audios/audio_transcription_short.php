@@ -12,11 +12,8 @@ $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$audio = $openAIApi->Audio();
 
-$response = $audio->transcription(
+$response = (new OpenAIApi($apiKey))->Audio()->transcription(
     __DIR__ . '/../../assets/openai.mp3',
     Model::WHISPER_1,
     responseFormat: ResponseFormat::SRT

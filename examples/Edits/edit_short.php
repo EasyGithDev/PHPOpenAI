@@ -1,10 +1,7 @@
 <?php
 
-use EasyGithDev\PHPOpenAI\Audios\ResponseFormat;
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
-
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -12,15 +9,13 @@ $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$audio = $openAIApi->Audio();
 
-$response = $audio->transcription(
-    __DIR__ . '/../../assets/openai.mp3',
-    Model::WHISPER_1,
-    responseFormat: ResponseFormat::SRT
+$response = (new OpenAIApi($apiKey))->Edit()->create(
+    input: "What day of the wek is it?",
+    instruction: "Fix the spelling mistakes",
 );
+
+$json_response = json_decode($response, true);
 
 ?>
 
@@ -29,7 +24,7 @@ $response = $audio->transcription(
 
 <head>
     <meta charset="utf-8">
-    <title>Audio transcription</title>
+    <title>Edit</title>
 </head>
 
 <body>
