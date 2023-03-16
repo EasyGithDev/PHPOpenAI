@@ -7,7 +7,7 @@ use Exception;
 class Configuration
 {
     public static $_configDir = __DIR__ . '/../config';
-
+    protected string $apiUrl = 'https://api.openai.com/v1';
     protected array $headers = [];
 
     public function __construct(
@@ -51,5 +51,25 @@ class Configuration
     public static function defaultConfiguration(string $apiKey): Configuration
     {
         return new Configuration($apiKey);
+    }
+
+    /**
+     * Get the value of apiUrl
+     */
+    public function getApiUrl(): string
+    {
+        return $this->apiUrl;
+    }
+
+    /**
+     * Set the value of apiUrl
+     *
+     * @return  self
+     */
+    public function setApiUrl($apiUrl): self
+    {
+        $this->apiUrl = $apiUrl;
+
+        return $this;
     }
 }

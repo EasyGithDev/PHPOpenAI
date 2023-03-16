@@ -13,7 +13,6 @@ use EasyGithDev\PHPOpenAI\Chats\Chat;
 
 class OpenAIApi
 {
-    const API_URL = 'https://api.openai.com/v1';
 
     protected ?Configuration $configuration = null;
 
@@ -29,56 +28,56 @@ class OpenAIApi
     public function Model(): Model
     {
         $this->configuration->setApplicationJson();
-        return new Model(self::API_URL, $this->configuration->toArray());
+        return new Model($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 
     public function Completion(): Completion
     {
         $this->configuration->setApplicationJson();
-        return new Completion(self::API_URL, $this->configuration->toArray());
+        return new Completion($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 
     public function Edit(): Edit
     {
         $this->configuration->setApplicationJson();
-        return new Edit(self::API_URL, $this->configuration->toArray());
+        return new Edit($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 
     public function Chat(): Chat
     {
         $this->configuration->setApplicationJson();
-        return new Chat(self::API_URL, $this->configuration->toArray());
+        return new Chat($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 
     public function Image(): Image
     {
         $this->configuration->setApplicationJson();
-        return new Image(self::API_URL, $this->configuration->toArray());
+        return new Image($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 
     public function ImageVariation(): Image
     {
-        return new Image(self::API_URL, $this->configuration->toArray());
+        return new Image($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 
     public function ImageEdit(): Image
     {
-        return new Image(self::API_URL, $this->configuration->toArray());
+        return new Image($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 
     public function Audio(): Audio
     {
-        return new Audio(self::API_URL, $this->configuration->toArray());
+        return new Audio($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 
     public function Moderation(): Moderation
     {
         $this->configuration->setApplicationJson();
-        return new Moderation(self::API_URL, $this->configuration->toArray());
+        return new Moderation($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 
     public function File(): File
     {
-        return new File(self::API_URL, $this->configuration->toArray());
+        return new File($this->configuration->getApiUrl(), $this->configuration->toArray());
     }
 }
