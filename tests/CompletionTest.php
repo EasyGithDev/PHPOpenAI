@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use PHPUnit\Framework\TestCase;
 
 final class CompletionTest extends TestCase
@@ -24,7 +25,7 @@ final class CompletionTest extends TestCase
     public function testCreate()
     {
         $response = $this->model->create(
-            Model::TEXT_DAVINCI_003,
+            ModelEnum::TEXT_DAVINCI_003,
             "Say this is a test",    
         );
         $json_response = json_decode($response);

@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI;
 
 use EasyGithDev\PHPOpenAI\Chats\Message;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use PHPUnit\Framework\TestCase;
 
 final class ChatTest extends TestCase
@@ -26,7 +27,7 @@ final class ChatTest extends TestCase
     {
 
         $response =  $this->model->create(
-            Model::GPT_3_5_TURBO,
+            ModelEnum::GPT_3_5_TURBO,
             [
                 new Message(Message::ROLE_USER, 'Hello!'),
             ]

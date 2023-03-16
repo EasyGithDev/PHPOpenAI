@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI;
+namespace EasyGithDev\PHPOpenAI\Models;
 
-enum Model: string
+enum ModelEnum: string
 {
     case BABBAGE = "babbage";
     case DAVINCI = "davinci";

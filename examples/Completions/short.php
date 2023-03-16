@@ -1,7 +1,7 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -12,7 +12,7 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 }
 
 $response = (new OpenAIApi($apiKey))->Completion()->create(
-    Model::TEXT_DAVINCI_003,
+    ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );
 

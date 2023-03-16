@@ -2,7 +2,7 @@
 
 use EasyGithDev\PHPOpenAI\Audios\ResponseFormat;
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 
@@ -18,7 +18,7 @@ $audio = $openAIApi->Audio();
 
 $response = $audio->transcription(
     __DIR__ . '/../../assets/openai.mp3',
-    Model::WHISPER_1,
+    ModelEnum::WHISPER_1,
     responseFormat: ResponseFormat::SRT
 );
 

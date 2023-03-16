@@ -3,7 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Chats;
 
 use EasyGithDev\PHPOpenAI\Curl;
-use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 
 class Chat
 {
@@ -27,7 +27,7 @@ class Chat
 
 
     function create(
-        Model $model,
+        ModelEnum $model,
         array $messages,
         float $temperature = 1.0,
         float $top_p = 1.0,

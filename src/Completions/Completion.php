@@ -3,7 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Completions;
 
 use EasyGithDev\PHPOpenAI\Curl;
-use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 
 class Completion
 {
@@ -25,7 +25,7 @@ class Completion
     }
 
     function create(
-        Model $model,
+        ModelEnum $model,
         string $prompt,
         ?string $suffix = null,
         int $max_tokens = 16,

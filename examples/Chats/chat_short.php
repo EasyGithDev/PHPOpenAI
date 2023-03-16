@@ -2,7 +2,7 @@
 
 use EasyGithDev\PHPOpenAI\Chats\Message;
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -13,7 +13,7 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 }
 
 $response = (new OpenAIApi($apiKey))->Chat()->create(
-    Model::GPT_3_5_TURBO,
+    ModelEnum::GPT_3_5_TURBO,
     [
         new Message(Message::ROLE_SYSTEM, "You are a helpful assistant."),
         new Message(Message::ROLE_USER, "Who won the world series in 2020?"),

@@ -3,7 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Edits;
 
 use EasyGithDev\PHPOpenAI\Curl;
-use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 
 class Edit
 {
@@ -26,7 +26,7 @@ class Edit
 
     function create(
         string $instruction,
-        Model $model = Model::TEXT_DAVINCI_EDIT_001,
+        ModelEnum $model = ModelEnum::TEXT_DAVINCI_EDIT_001,
         string $input = '',
         float $temperature = 1.0,
         float $top_p = 1.0,
@@ -37,7 +37,7 @@ class Edit
             throw new \Exception("Instruction can not be empty");
         }
         
-        if ($model != Model::TEXT_DAVINCI_EDIT_001 && $model != Model::CODE_DAVINCI_EDIT_001) {
+        if ($model != ModelEnum::TEXT_DAVINCI_EDIT_001 && $model != ModelEnum::CODE_DAVINCI_EDIT_001) {
             throw new \Exception("text-davinci-edit-001 or code-davinci-edit-001 are supported");
         }
 

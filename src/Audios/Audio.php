@@ -3,7 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Audios;
 
 use EasyGithDev\PHPOpenAI\Curl;
-use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use Exception;
 
 class Audio
@@ -33,7 +33,7 @@ class Audio
 
     public function transcription(
         string $audioFile,
-        Model $model = Model::WHISPER_1,
+        ModelEnum $model = ModelEnum::WHISPER_1,
         string $prompt = '',
         ResponseFormat $responseFormat = ResponseFormat::JSON,
         float $temperature = 0,
@@ -47,7 +47,7 @@ class Audio
             throw new Exception("Use one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm");
         }
 
-        if ($model != Model::WHISPER_1) {
+        if ($model != ModelEnum::WHISPER_1) {
             throw new \Exception("Only whisper-1 is currently available.");
         }
 
@@ -82,7 +82,7 @@ class Audio
 
     public function translation(
         string $audioFile,
-        Model $model = Model::WHISPER_1,
+        ModelEnum $model = ModelEnum::WHISPER_1,
         string $prompt = '',
         ResponseFormat $responseFormat = ResponseFormat::JSON,
         float $temperature = 0
@@ -95,7 +95,7 @@ class Audio
             throw new Exception("Use one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm");
         }
 
-        if ($model != Model::WHISPER_1) {
+        if ($model != ModelEnum::WHISPER_1) {
             throw new \Exception("Only whisper-1 is currently available.");
         }
 
