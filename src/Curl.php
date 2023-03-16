@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 use Exception;
 
 class Curl
@@ -43,7 +44,7 @@ class Curl
         if (empty($this->url)) {
             throw new Exception('Url is required');
         }
-        
+
         curl_setopt($this->ch, CURLOPT_URL, $this->url);
 
         switch ($this->method) {
@@ -99,7 +100,8 @@ class Curl
         $http_code = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
 
         if ($http_code != intval(200)) {
-            throw new \Exception('Api error : ' . $http_code);
+            $jsonReponse = json_decode($response);
+            throw new ApiException($http_code, $jsonReponse->error);
         }
 
         return $response;

@@ -1,6 +1,7 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
+use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -14,8 +15,13 @@ $configuration = new Configuration($apiKey);
 $openAIApi = new OpenAIApi($configuration);
 $file = $openAIApi->File();
 
-$response = $file->download('file-EmrKv0H0CpZzk6ELaGJkhN1V');
-$json_response = json_decode($response);
+try {
+    $response = $file->download('file-EmrKv0H0CpZzk6ELaGJkhN1V');
+    $json_response = json_decode($response);
+} catch (ApiException $e) {
+    echo nl2br($e->getMessage());
+    die;
+}
 
 // Unable to test at this moment
 // "error": {
