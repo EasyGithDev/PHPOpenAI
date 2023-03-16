@@ -198,7 +198,9 @@ $response = (new OpenAIApi($apiKey))->Audio()->translation(
 ### Model List
 
 ```php
-$response = (new OpenAIApi($apiKey))->Model()->list();
+$response = (new OpenAIApi($apiKey))
+    ->Model()
+    ->list();
 ```
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/models).
@@ -206,10 +208,65 @@ $response = (new OpenAIApi($apiKey))->Model()->list();
 ### Model Retrieve
 
 ```php
-$response = (new OpenAIApi($apiKey))->Model()->retrieve('text-davinci-001');
+$response = (new OpenAIApi($apiKey))
+        ->Model()
+        ->retrieve('text-davinci-001');
 ```
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/models/retrieve).
+
+### File List
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->list();
+```
+
+[Learn more about file](https://platform.openai.com/docs/api-reference/files/list).
+
+### File Upload
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->create(
+        __DIR__ . '/../../assets/mydata.jsonl',
+        'fine-tune',
+    );
+```
+
+[Learn more about file](https://platform.openai.com/docs/api-reference/files/upload).
+
+### File Delete
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->delete('file-xxxx');
+```
+
+[Learn more about file](https://platform.openai.com/docs/api-reference/files/delete).
+
+### File Retrieve
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->retrieve('file-xxxx');
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve).
+
+### File Retrieve Content
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->download('file-xxxx');
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve-content).
 
 ### Errors
 
