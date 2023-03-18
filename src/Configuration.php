@@ -40,14 +40,10 @@ class Configuration
             $headers = array_merge($headers, $additionalHeader);
         }
 
-        $result = [];
-        foreach ($headers as $header) {
-            foreach ($header as $key => $value) {
-                $result[] = "$key: $value";
-            }
-        }
-
-        return $result;
+        return array_map(function (array $value): string {
+            $k = array_key_first($value);
+            return $k . ': ' . $value[$k];
+        }, $headers);
     }
 
     public static function defaultConfiguration(string $apiKey): Configuration
