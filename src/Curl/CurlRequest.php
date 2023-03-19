@@ -15,7 +15,7 @@ class CurlRequest
     const CURL_PATCH = 'PATCH';
 
     protected ?\CurlHandle $ch = null;
-    protected string $url = '';
+    protected string $baseUrl = '';
     protected array $headers = [];
     protected string|array|null $payload = null;
     protected string $method = self::CURL_GET;
@@ -43,11 +43,11 @@ class CurlRequest
      */
     protected function prepare(): void
     {
-        if (empty($this->url)) {
+        if (empty($this->baseUrl)) {
             throw new Exception('Url is required');
         }
 
-        curl_setopt($this->ch, CURLOPT_URL, $this->url);
+        curl_setopt($this->ch, CURLOPT_URL, $this->baseUrl);
 
         switch ($this->method) {
             case self::CURL_POST:
@@ -132,13 +132,13 @@ class CurlRequest
     }
 
     /**
-     * Set the value of url
+     * Set the value of baseUrl
      *
      * @return  self
      */
-    public function setUrl(string $url): self
+    public function setUrl(string $baseUrl): self
     {
-        $this->url = $url;
+        $this->baseUrl = $baseUrl;
 
         return $this;
     }
@@ -203,4 +203,32 @@ class CurlRequest
 
         return $this;
     }
+
+    /**
+     * Get the value of baseUrl
+     */ 
+    public function getBaseUrl() : string
+    {
+        return $this->baseUrl;
+    }
+
+    /**
+     * Set the value of baseUrl
+     *
+     * @return  self
+     */ 
+    public function setBaseUrl(string $baseUrl) : self
+    {
+        $this->baseUrl = $baseUrl;
+
+        return $this;
+    }
+
+    public function appendToUrl(string $part) : self
+    {
+        $this->baseUrl .= $part;
+
+        return $this;
+    }
+
 }

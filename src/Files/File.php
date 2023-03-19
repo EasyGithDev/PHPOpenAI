@@ -12,18 +12,15 @@ class File
     const END_POINT = '/files';
 
     protected CurlRequest $curl;
-    protected string $apiUrl;
-    protected array $headers = [];
+
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(string $apiUrl, array $headers)
+    function __construct(CurlRequest $curl)
     {
-        $this->curl = new CurlRequest;
-        $this->apiUrl = $apiUrl;
-        $this->headers = $headers;
+        $this->curl = $curl;
     }
 
     /**
@@ -32,10 +29,7 @@ class File
     function list(): CurlResponse
     {
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT)
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT)
             ->exec();
 
         $this->curl->close();
@@ -62,10 +56,7 @@ class File
         ];
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT)
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT)
             ->setPayload(
                 $payload
             )
@@ -90,10 +81,8 @@ class File
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT . '/' . $file_id)
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT . '/' . $file_id)
+
             ->setMethod(CurlRequest::CURL_DELETE)
             ->exec();
 
@@ -116,10 +105,7 @@ class File
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT . '/' . $file_id)
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT . '/' . $file_id)
             ->exec();
 
         $this->curl->close();
@@ -140,10 +126,8 @@ class File
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT . '/' . $file_id . '/content')
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT . '/' . $file_id . '/content')
+
             // ->verboseEnabled('debug.txt')
             ->exec();
 

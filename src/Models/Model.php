@@ -11,17 +11,15 @@ class Model
     const END_POINT = '/models';
 
     protected CurlRequest $curl;
-    protected string $apiUrl;
-    protected array $headers = [];
+
 
     /**
      * @param string $apiKey
      */
-    function __construct(string $apiUrl, array $headers)
+    function __construct(CurlRequest $curl)
     {
-        $this->curl = new CurlRequest;
-        $this->apiUrl = $apiUrl;
-        $this->headers = $headers;
+        $this->curl = $curl;
+       
     }
 
     
@@ -31,10 +29,7 @@ class Model
     function list(): CurlResponse
     {
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT)
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT)
             ->exec();
 
         $this->curl->close();
@@ -51,10 +46,7 @@ class Model
     function retrieve(string $model): CurlResponse
     {
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT . "/$model")
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT . "/$model")
             ->exec();
 
         $this->curl->close();

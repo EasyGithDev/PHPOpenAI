@@ -15,18 +15,16 @@ class Image
     const EDIT_END_POINT = self::END_POINT . '/edits';
 
     protected CurlRequest $curl;
-    protected string $apiUrl;
-    protected array $headers = [];
+
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(string $apiUrl, array $headers)
+    function __construct(CurlRequest $curl)
     {
-        $this->curl = new CurlRequest;
-        $this->apiUrl = $apiUrl;
-        $this->headers = $headers;
+        $this->curl = $curl;
+       
     }
 
    
@@ -61,10 +59,7 @@ class Image
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT . '/generations')
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT . '/generations')
             ->setPayload(
                 json_encode($payload)
             )
@@ -103,10 +98,7 @@ class Image
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::VARIATION_END_POINT)
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::VARIATION_END_POINT)
             ->setPayload($payload)
             ->exec();
 
@@ -162,10 +154,7 @@ class Image
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::EDIT_END_POINT)
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::EDIT_END_POINT)
             ->setPayload($payload)
             ->exec();
 

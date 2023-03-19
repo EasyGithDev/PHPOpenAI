@@ -13,18 +13,15 @@ class Audio
     const END_POINT = '/audio';
 
     protected CurlRequest $curl;
-    protected string $apiUrl;
-    protected array $headers = [];
+
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(string $apiUrl, array $headers)
+    function __construct(CurlRequest $curl)
     {
-        $this->curl = new CurlRequest;
-        $this->apiUrl = $apiUrl;
-        $this->headers = $headers;
+        $this->curl = $curl;
     }
 
     protected function extensionAvailable(string $filename): bool
@@ -70,10 +67,7 @@ class Audio
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT . '/transcriptions')
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT . '/transcriptions')
             ->setPayload($payload)
             ->exec();
 
@@ -118,10 +112,7 @@ class Audio
         }
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT . '/translations')
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl(self::END_POINT . '/translations')
             ->setPayload($payload)
             ->exec();
 

@@ -12,18 +12,16 @@ class Edit
     const END_POINT = '/edits';
 
     protected CurlRequest $curl;
-    protected string $apiUrl;
-    protected array $headers = [];
+
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(string $apiUrl, array $headers)
+    function __construct(CurlRequest $curl)
     {
-        $this->curl = new CurlRequest;
-        $this->apiUrl = $apiUrl;
-        $this->headers = $headers;
+        $this->curl = $curl;
+       
     }
 
     function create(
@@ -65,10 +63,7 @@ class Edit
         ];
 
         $response =  $this->curl
-            ->setUrl($this->apiUrl . self::END_POINT)
-            ->setHeaders(
-                $this->headers
-            )
+            ->appendToUrl( self::END_POINT)
             ->setPayload(
                 json_encode($payload)
             )
