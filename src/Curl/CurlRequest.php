@@ -1,11 +1,11 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI;
+namespace EasyGithDev\PHPOpenAI\Curl;
 
 use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 use Exception;
 
-class Curl
+class CurlRequest
 {
 
     const CURL_GET = 'GET';
@@ -89,16 +89,16 @@ class Curl
     }
 
     /**
-     * @return Response
+     * @return CurlResponse
      */
-    public function exec(): Response
+    public function exec(): CurlResponse
     {
         $this->prepare();
 
         $buffer = curl_exec($this->ch);
 
         if (curl_errno($this->ch)) {
-            throw new \Exception('Curl error : ' . curl_error($this->ch));
+            throw new \Exception('CurlRequest error : ' . curl_error($this->ch));
         }
 
         $curlinfo = curl_getinfo($this->ch);
@@ -118,7 +118,7 @@ class Curl
             ]
         ];
 
-        return new Response($infos);
+        return new CurlResponse($infos);
     }
 
     /**

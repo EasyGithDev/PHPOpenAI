@@ -2,14 +2,15 @@
 
 namespace EasyGithDev\PHPOpenAI\Moderations;
 
-use EasyGithDev\PHPOpenAI\Curl;
-use EasyGithDev\PHPOpenAI\Response;
+use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+
 
 class Moderation
 {
     const END_POINT = '/moderations';
 
-    protected Curl $curl;
+    protected CurlRequest $curl;
     protected string $apiUrl;
     protected array $headers = [];
 
@@ -18,7 +19,7 @@ class Moderation
      */
     function __construct(string $apiUrl, array $headers)
     {
-        $this->curl = new Curl;
+        $this->curl = new CurlRequest;
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
@@ -26,9 +27,9 @@ class Moderation
     /**
      * @param string $input
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function create(string $input): Response
+    function create(string $input): CurlResponse
     {
         if (empty($input)) {
             throw new \Exception("Input can not be empty");

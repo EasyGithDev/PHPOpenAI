@@ -2,15 +2,16 @@
 
 namespace EasyGithDev\PHPOpenAI\Completions;
 
-use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\Response;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+
 
 class Completion
 {
     const END_POINT = '/completions';
 
-    protected Curl $curl;
+    protected CurlRequest $curl;
     protected string $apiUrl;
     protected array $headers = [];
 
@@ -20,7 +21,7 @@ class Completion
      */
     function __construct(string $apiUrl, array $headers)
     {
-        $this->curl = new Curl;
+        $this->curl = new CurlRequest;
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
@@ -42,7 +43,7 @@ class Completion
         ?int $best_of = 1,
         $logit_bias = null,
         string $user = ''
-    ): Response {
+    ): CurlResponse {
 
         if (empty($model)) {
             throw new \Exception("Model can not be empty");

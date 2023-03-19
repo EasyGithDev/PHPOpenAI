@@ -2,15 +2,16 @@
 
 namespace EasyGithDev\PHPOpenAI\Edits;
 
-use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\Response;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+
 
 class Edit
 {
     const END_POINT = '/edits';
 
-    protected Curl $curl;
+    protected CurlRequest $curl;
     protected string $apiUrl;
     protected array $headers = [];
 
@@ -20,7 +21,7 @@ class Edit
      */
     function __construct(string $apiUrl, array $headers)
     {
-        $this->curl = new Curl;
+        $this->curl = new CurlRequest;
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
@@ -32,7 +33,7 @@ class Edit
         float $temperature = 1.0,
         float $top_p = 1.0,
         int $n = 1,
-    ): Response {
+    ): CurlResponse {
 
         if (empty($instruction)) {
             throw new \Exception("Instruction can not be empty");

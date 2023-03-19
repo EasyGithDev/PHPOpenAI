@@ -2,15 +2,16 @@
 
 namespace EasyGithDev\PHPOpenAI\Embeddings;
 
-use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\Response;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+
 
 class Embedding
 {
     const END_POINT = '/embeddings';
 
-    protected Curl $curl;
+    protected CurlRequest $curl;
     protected string $apiUrl;
     protected array $headers = [];
 
@@ -20,7 +21,7 @@ class Embedding
      */
     function __construct(string $apiUrl, array $headers)
     {
-        $this->curl = new Curl;
+        $this->curl = new CurlRequest;
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
@@ -30,9 +31,9 @@ class Embedding
      * @param string|array $input
      * @param string $user
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function create(ModelEnum $model, string|array $input, string $user = ''): Response
+    function create(ModelEnum $model, string|array $input, string $user = ''): CurlResponse
     {
 
         if (empty($input)) {

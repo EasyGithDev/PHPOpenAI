@@ -1,10 +1,10 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI;
+namespace EasyGithDev\PHPOpenAI\Curl;
 
 use stdClass;
 
-class Response
+class CurlResponse
 {
 
     private array $infos;

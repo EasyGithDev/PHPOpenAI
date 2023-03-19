@@ -2,8 +2,9 @@
 
 namespace EasyGithDev\PHPOpenAI\Images;
 
-use EasyGithDev\PHPOpenAI\Curl;
-use EasyGithDev\PHPOpenAI\Response;
+use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+
 use Exception;
 
 class Image
@@ -13,7 +14,7 @@ class Image
     const VARIATION_END_POINT = self::END_POINT . '/variations';
     const EDIT_END_POINT = self::END_POINT . '/edits';
 
-    protected Curl $curl;
+    protected CurlRequest $curl;
     protected string $apiUrl;
     protected array $headers = [];
 
@@ -23,7 +24,7 @@ class Image
      */
     function __construct(string $apiUrl, array $headers)
     {
-        $this->curl = new Curl;
+        $this->curl = new CurlRequest;
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
@@ -36,9 +37,9 @@ class Image
      * @param ResponseFormat $response_format
      * @param string $user
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): Response
+    function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): CurlResponse
     {
         if (mb_strlen($prompt) > self::MAX_PROMPT_CHARS) {
             throw new \Exception("Max prompt is 1000 chars");
@@ -82,9 +83,9 @@ class Image
      * @param ResponseFormat $response_format
      * @param string $user
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): Response
+    function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): CurlResponse
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");
@@ -124,9 +125,9 @@ class Image
      * @param ResponseFormat $response_format
      * @param string $user
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): Response
+    function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): CurlResponse
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");

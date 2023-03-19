@@ -2,14 +2,15 @@
 
 namespace EasyGithDev\PHPOpenAI\Models;
 
-use EasyGithDev\PHPOpenAI\Curl;
-use EasyGithDev\PHPOpenAI\Response;
+use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+
 
 class Model
 {
     const END_POINT = '/models';
 
-    protected Curl $curl;
+    protected CurlRequest $curl;
     protected string $apiUrl;
     protected array $headers = [];
 
@@ -18,16 +19,16 @@ class Model
      */
     function __construct(string $apiUrl, array $headers)
     {
-        $this->curl = new Curl;
+        $this->curl = new CurlRequest;
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
 
     
     /**
-     * @return Response
+     * @return CurlResponse
      */
-    function list(): Response
+    function list(): CurlResponse
     {
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT)
@@ -45,9 +46,9 @@ class Model
     /**
      * @param string $model
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function retrieve(string $model): Response
+    function retrieve(string $model): CurlResponse
     {
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT . "/$model")

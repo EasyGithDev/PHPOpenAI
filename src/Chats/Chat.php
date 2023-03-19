@@ -2,16 +2,17 @@
 
 namespace EasyGithDev\PHPOpenAI\Chats;
 
-use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\Response;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+
 
 class Chat
 {
     const MAX_PROMPT_CHARS = 1000;
     const END_POINT = '/chat/completions';
 
-    protected Curl $curl;
+    protected CurlRequest $curl;
     protected string $apiUrl;
     protected array $headers = [];
 
@@ -21,7 +22,7 @@ class Chat
      */
     function __construct(string $apiUrl, array $headers)
     {
-        $this->curl = new Curl;
+        $this->curl = new CurlRequest;
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
@@ -40,7 +41,7 @@ class Chat
         int $frequency_penalty = 0,
         $logit_bias = null,
         string $user = ''
-    ): Response {
+    ): CurlResponse {
 
         if ($temperature < 0 or $temperature > 2) {
             throw new \Exception("Temperature to use, between 0 and 2");

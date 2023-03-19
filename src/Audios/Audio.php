@@ -2,16 +2,17 @@
 
 namespace EasyGithDev\PHPOpenAI\Audios;
 
-use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\Response;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+
 use Exception;
 
 class Audio
 {
     const END_POINT = '/audio';
 
-    protected Curl $curl;
+    protected CurlRequest $curl;
     protected string $apiUrl;
     protected array $headers = [];
 
@@ -21,7 +22,7 @@ class Audio
      */
     function __construct(string $apiUrl, array $headers)
     {
-        $this->curl = new Curl;
+        $this->curl = new CurlRequest;
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
@@ -39,7 +40,7 @@ class Audio
         ResponseFormat $responseFormat = ResponseFormat::JSON,
         float $temperature = 0,
         Language $language = Language::ENGLISH
-    ): Response {
+    ): CurlResponse {
         if (!file_exists($audioFile)) {
             throw new Exception("Unable to locate file: $audioFile");
         }
@@ -87,7 +88,7 @@ class Audio
         string $prompt = '',
         ResponseFormat $responseFormat = ResponseFormat::JSON,
         float $temperature = 0
-    ): Response {
+    ): CurlResponse {
         if (!file_exists($audioFile)) {
             throw new Exception("Unable to locate file: $audioFile");
         }

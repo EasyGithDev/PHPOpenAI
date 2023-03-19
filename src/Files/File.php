@@ -2,15 +2,16 @@
 
 namespace EasyGithDev\PHPOpenAI\Files;
 
-use EasyGithDev\PHPOpenAI\Curl;
-use EasyGithDev\PHPOpenAI\Response;
+use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+
 use Exception;
 
 class File
 {
     const END_POINT = '/files';
 
-    protected Curl $curl;
+    protected CurlRequest $curl;
     protected string $apiUrl;
     protected array $headers = [];
 
@@ -20,15 +21,15 @@ class File
      */
     function __construct(string $apiUrl, array $headers)
     {
-        $this->curl = new Curl;
+        $this->curl = new CurlRequest;
         $this->apiUrl = $apiUrl;
         $this->headers = $headers;
     }
 
     /**
-     * @return Response
+     * @return CurlResponse
      */
-    function list(): Response
+    function list(): CurlResponse
     {
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT)
@@ -46,9 +47,9 @@ class File
      * @param string $file
      * @param string $purpose
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function create(string $file, string $purpose): Response
+    function create(string $file, string $purpose): CurlResponse
     {
 
         if (!file_exists($file)) {
@@ -79,9 +80,9 @@ class File
     /**
      * @param string $file_id
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function delete(string $file_id): Response
+    function delete(string $file_id): CurlResponse
     {
 
         if (empty($file_id)) {
@@ -93,7 +94,7 @@ class File
             ->setHeaders(
                 $this->headers
             )
-            ->setMethod(Curl::CURL_DELETE)
+            ->setMethod(CurlRequest::CURL_DELETE)
             ->exec();
 
         $this->curl->close();
@@ -105,9 +106,9 @@ class File
     /**
      * @param string $file_id
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function retrieve(string $file_id): Response
+    function retrieve(string $file_id): CurlResponse
     {
 
         if (empty($file_id)) {
@@ -129,9 +130,9 @@ class File
     /**
      * @param string $file_id
      * 
-     * @return Response
+     * @return CurlResponse
      */
-    function download(string $file_id): Response
+    function download(string $file_id): CurlResponse
     {
 
         if (empty($file_id)) {
