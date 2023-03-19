@@ -12,16 +12,16 @@ class Chat
     const MAX_PROMPT_CHARS = 1000;
     const END_POINT = '/chat/completions';
 
-    protected CurlRequest $curl;
+    
 
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(CurlRequest $curl)
+    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        $this->curl = $curl;
+        
        
     }
 
@@ -92,6 +92,6 @@ class Chat
 
         $this->curl->close();
 
-        return $response;
+                return $this->response->setInfos($response);
     }
 }

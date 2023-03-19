@@ -11,6 +11,15 @@ use EasyGithDev\PHPOpenAI\Moderations\Moderation;
 use EasyGithDev\PHPOpenAI\Audios\Audio;
 use EasyGithDev\PHPOpenAI\Chats\Chat;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
+use EasyGithDev\PHPOpenAI\Curl\Responses\AudioResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\ChatResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\CompletionResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\EditResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\EmbedingResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\FileResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\ImageResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\ModelResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\ModerationResponse;
 use EasyGithDev\PHPOpenAI\Embeddings\Embedding;
 
 class OpenAIApi
@@ -36,7 +45,7 @@ class OpenAIApi
             ->setBaseUrl(
                 $this->configuration->getApiUrl()
             );
-        return new Model($curl);
+        return new Model($curl, new ModelResponse());
     }
 
     public function Completion(): Completion
@@ -48,7 +57,7 @@ class OpenAIApi
             ->setBaseUrl(
                 $this->configuration->getApiUrl()
             );
-        return new Completion($curl);
+        return new Completion($curl, new CompletionResponse());
     }
 
     public function Edit(): Edit
@@ -61,7 +70,7 @@ class OpenAIApi
                 $this->configuration->getApiUrl()
             );
         return new Edit(
-            $curl
+            $curl, new EditResponse()
         );
     }
 
@@ -75,7 +84,7 @@ class OpenAIApi
                 $this->configuration->getApiUrl()
             );
         return new Chat(
-            $curl
+            $curl, new ChatResponse()
         );
     }
 
@@ -89,7 +98,7 @@ class OpenAIApi
                 $this->configuration->getApiUrl()
             );
         return new Image(
-            $curl
+            $curl, new ImageResponse()
         );
     }
 
@@ -104,7 +113,8 @@ class OpenAIApi
             )
             ->setTimeout(20);
         return new Image(
-            $curl
+            $curl, new ImageResponse()
+
         );
     }
 
@@ -119,7 +129,8 @@ class OpenAIApi
             )
             ->setTimeout(20);
         return new Image(
-            $curl
+            $curl, new ImageResponse()
+
         );
     }
 
@@ -133,7 +144,7 @@ class OpenAIApi
                 $this->configuration->getApiUrl()
             );
         return new Audio(
-            $curl
+            $curl, new AudioResponse()
         );
     }
 
@@ -147,7 +158,7 @@ class OpenAIApi
                 $this->configuration->getApiUrl()
             );
         return new Moderation(
-            $curl
+            $curl, new ModerationResponse()
         );
     }
 
@@ -161,7 +172,7 @@ class OpenAIApi
                 $this->configuration->getApiUrl()
             );
         return new File(
-            $curl
+            $curl, new FileResponse()
         );
     }
 
@@ -174,6 +185,6 @@ class OpenAIApi
             ->setBaseUrl(
                 $this->configuration->getApiUrl()
             );
-        return new Embedding($curl);
+        return new Embedding($curl, new EmbedingResponse());
     }
 }

@@ -4,7 +4,7 @@ namespace EasyGithDev\PHPOpenAI\Curl\Responses;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 
-class CompletionResponse extends CurlResponse
+class ModerationResponse extends CurlResponse
 {
 
     function choices()

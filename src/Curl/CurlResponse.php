@@ -7,11 +7,8 @@ use stdClass;
 class CurlResponse
 {
 
-    private array $infos;
-
-    public function __construct(array $infos)
+    public function __construct(protected ?array $infos = null)
     {
-        $this->infos = $infos;
     }
 
     /**
@@ -42,11 +39,31 @@ class CurlResponse
 
     public function toArray(): array
     {
-        return json_decode( $this->infos['output']['buffer'], true);
+        return json_decode($this->infos['output']['buffer'], true);
     }
 
     public function toObject(): stdClass
     {
         return json_decode($this->infos['output']['buffer']);
+    }
+
+    /**
+     * Get the value of infos
+     */
+    public function getInfos(): array
+    {
+        return $this->infos;
+    }
+
+    /**
+     * Set the value of infos
+     *
+     * @return  self
+     */
+    public function setInfos($infos): self
+    {
+        $this->infos = $infos;
+
+        return $this;
     }
 }

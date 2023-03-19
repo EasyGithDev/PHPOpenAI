@@ -91,7 +91,7 @@ class CurlRequest
     /**
      * @return CurlResponse
      */
-    public function exec(): CurlResponse
+    public function exec(): array
     {
         $this->prepare();
 
@@ -118,7 +118,7 @@ class CurlRequest
             ]
         ];
 
-        return new CurlResponse($infos);
+        return $infos;
     }
 
     /**

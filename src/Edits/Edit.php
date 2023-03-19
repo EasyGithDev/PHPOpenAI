@@ -11,16 +11,16 @@ class Edit
 {
     const END_POINT = '/edits';
 
-    protected CurlRequest $curl;
+    
 
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(CurlRequest $curl)
+    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        $this->curl = $curl;
+        
        
     }
 
@@ -71,6 +71,6 @@ class Edit
 
         $this->curl->close();
 
-        return $response;
+                return $this->response->setInfos($response);
     }
 }

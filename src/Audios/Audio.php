@@ -12,16 +12,12 @@ class Audio
 {
     const END_POINT = '/audio';
 
-    protected CurlRequest $curl;
-
-
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(CurlRequest $curl)
+    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        $this->curl = $curl;
     }
 
     protected function extensionAvailable(string $filename): bool
@@ -73,7 +69,7 @@ class Audio
 
         $this->curl->close();
 
-        return $response;
+        return $this->response->setInfos($response);
     }
 
     public function translation(
@@ -118,6 +114,6 @@ class Audio
 
         $this->curl->close();
 
-        return $response;
+        return $this->response->setInfos($response);
     }
 }

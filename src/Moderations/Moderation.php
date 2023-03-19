@@ -10,15 +10,15 @@ class Moderation
 {
     const END_POINT = '/moderations';
 
-    protected CurlRequest $curl;
+    
 
 
     /**
      * @param string $apiKey
      */
-    function __construct(CurlRequest $curl)
+    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        $this->curl = $curl;
+        
        
     }
 
@@ -46,6 +46,6 @@ class Moderation
 
         $this->curl->close();
 
-        return $response;
+                return $this->response->setInfos($response);
     }
 }

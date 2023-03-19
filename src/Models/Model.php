@@ -10,15 +10,15 @@ class Model
 {
     const END_POINT = '/models';
 
-    protected CurlRequest $curl;
+    
 
 
     /**
      * @param string $apiKey
      */
-    function __construct(CurlRequest $curl)
+    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        $this->curl = $curl;
+        
        
     }
 
@@ -34,7 +34,7 @@ class Model
 
         $this->curl->close();
 
-        return $response;
+                return $this->response->setInfos($response);
     }
 
 
@@ -51,6 +51,6 @@ class Model
 
         $this->curl->close();
 
-        return $response;
+                return $this->response->setInfos($response);
     }
 }

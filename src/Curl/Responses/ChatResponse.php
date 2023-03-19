@@ -4,9 +4,8 @@ namespace EasyGithDev\PHPOpenAI\Curl\Responses;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 
-class CompletionResponse extends CurlResponse
+class ChatResponse extends CurlResponse
 {
-
     function choices()
     {
         return $this->toObject()->choices;

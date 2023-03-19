@@ -16,8 +16,6 @@ $response = (new OpenAIApi($apiKey))->Completion()->create(
     "Say this is a test",
 );
 
-$json_response = json_decode($response, true);
-
 ?>
 
 <!doctype html>
@@ -31,9 +29,7 @@ $json_response = json_decode($response, true);
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
 </body>

@@ -14,16 +14,16 @@ class Image
     const VARIATION_END_POINT = self::END_POINT . '/variations';
     const EDIT_END_POINT = self::END_POINT . '/edits';
 
-    protected CurlRequest $curl;
+    
 
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(CurlRequest $curl)
+    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        $this->curl = $curl;
+        
        
     }
 
@@ -67,7 +67,7 @@ class Image
 
         $this->curl->close();
 
-        return $response;
+                return $this->response->setInfos($response);
     }
 
   
@@ -104,7 +104,7 @@ class Image
 
         $this->curl->close();
 
-        return $response;
+                return $this->response->setInfos($response);
     }
 
    
@@ -160,6 +160,6 @@ class Image
 
         $this->curl->close();
 
-        return $response;
+                return $this->response->setInfos($response);
     }
 }
