@@ -4,5 +4,10 @@
 #php vendor/phpunit/phpunit/phpunit tests/EditTest.php
 #php vendor/phpunit/phpunit/phpunit tests/ModerationTest.php
 #php vendor/phpunit/phpunit/phpunit tests/ChatTest.php
-php vendor/phpunit/phpunit/phpunit tests
+#php vendor/phpunit/phpunit/phpunit tests/AudioTest.php
+#php vendor/phpunit/phpunit/phpunit tests/EmbeddingTest.php
+php vendor/phpunit/phpunit/phpunit tests/ImageTest.php
+
+
+#php vendor/phpunit/phpunit/phpunit tests
 

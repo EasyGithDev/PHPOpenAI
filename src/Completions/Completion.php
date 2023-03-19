@@ -4,6 +4,7 @@ namespace EasyGithDev\PHPOpenAI\Completions;
 
 use EasyGithDev\PHPOpenAI\Curl;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
+use EasyGithDev\PHPOpenAI\Response;
 
 class Completion
 {
@@ -41,7 +42,7 @@ class Completion
         ?int $best_of = 1,
         $logit_bias = null,
         string $user = ''
-    ): string {
+    ): Response {
 
         if (empty($model)) {
             throw new \Exception("Model can not be empty");

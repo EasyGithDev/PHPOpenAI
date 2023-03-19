@@ -4,6 +4,7 @@ namespace EasyGithDev\PHPOpenAI\Embeddings;
 
 use EasyGithDev\PHPOpenAI\Curl;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
+use EasyGithDev\PHPOpenAI\Response;
 
 class Embedding
 {
@@ -24,11 +25,15 @@ class Embedding
         $this->headers = $headers;
     }
 
-    function create(
-        ModelEnum $model,
-        string|array $input,
-        string $user = ''
-    ): string {
+    /**
+     * @param ModelEnum $model
+     * @param string|array $input
+     * @param string $user
+     * 
+     * @return Response
+     */
+    function create(ModelEnum $model, string|array $input, string $user = ''): Response
+    {
 
         if (empty($input)) {
             throw new \Exception("Input is required");

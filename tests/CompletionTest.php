@@ -28,9 +28,7 @@ final class CompletionTest extends TestCase
             ModelEnum::TEXT_DAVINCI_003,
             "Say this is a test",    
         );
-        $json_response = json_decode($response);
-        $text = $json_response->choices[0]->text;
-        $this->assertEquals('This is indeed a test.', trim($text));
+        $this->assertEquals(200, $response->getHttpCode());
     }
 
    

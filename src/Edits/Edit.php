@@ -4,6 +4,7 @@ namespace EasyGithDev\PHPOpenAI\Edits;
 
 use EasyGithDev\PHPOpenAI\Curl;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
+use EasyGithDev\PHPOpenAI\Response;
 
 class Edit
 {
@@ -31,7 +32,7 @@ class Edit
         float $temperature = 1.0,
         float $top_p = 1.0,
         int $n = 1,
-    ): string {
+    ): Response {
 
         if (empty($instruction)) {
             throw new \Exception("Instruction can not be empty");

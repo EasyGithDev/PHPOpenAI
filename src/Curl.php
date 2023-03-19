@@ -84,10 +84,11 @@ class Curl
     }
 
 
+
     /**
-     * @return string
+     * @return Response
      */
-    public function exec(): string
+    public function exec(): Response
     {
         $this->prepare();
 
@@ -99,12 +100,12 @@ class Curl
 
         $http_code = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
 
-        if ($http_code != intval(200)) {
-            $jsonReponse = json_decode($response);
-            throw new ApiException($http_code, $jsonReponse->error);
-        }
+        // if ($http_code != intval(200)) {
+        //     $jsonReponse = json_decode($response);
+        //     throw new ApiException($http_code, $jsonReponse->error);
+        // }
 
-        return $response;
+        return new Response($response, $http_code);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace EasyGithDev\PHPOpenAI\Chats;
 
 use EasyGithDev\PHPOpenAI\Curl;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
+use EasyGithDev\PHPOpenAI\Response;
 
 class Chat
 {
@@ -39,7 +40,7 @@ class Chat
         int $frequency_penalty = 0,
         $logit_bias = null,
         string $user = ''
-    ): string {
+    ): Response {
 
         if ($temperature < 0 or $temperature > 2) {
             throw new \Exception("Temperature to use, between 0 and 2");

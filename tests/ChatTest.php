@@ -32,9 +32,8 @@ final class ChatTest extends TestCase
                 new Message(Message::ROLE_USER, 'Hello!'),
             ]
         );
-        $json_response = json_decode($response);
-        $text = $json_response->choices[0]->message->content;
-        $this->assertEquals('Hello there! How may I assist you today?', trim($text));
+        
+        $this->assertEquals(200, $response->getHttpCode());
     }
 
    

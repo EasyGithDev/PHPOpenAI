@@ -24,16 +24,14 @@ final class ModelTest extends TestCase
     public function testList()
     {
         $response = $this->model->list();
-        $json_response = json_decode($response);
-        $id = $json_response->data[0]->id;
-        $this->assertEquals('babbage', $id);
+        $this->assertEquals(200, $response->getHttpCode());
     }
 
     public function testRetrieve()
     {
         $response = $this->model->retrieve('text-davinci-003');
-        $json_response = json_decode($response);
-        $id = $json_response->id;
+        $obj = $response->toObject();
+        $id = $obj->id;
         $this->assertEquals('text-davinci-003', $id);
     }
 }

@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Images;
 
 use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Response;
 use Exception;
 
 class Image
@@ -27,6 +28,7 @@ class Image
         $this->headers = $headers;
     }
 
+   
     /**
      * @param string $prompt
      * @param int $n
@@ -34,9 +36,9 @@ class Image
      * @param ResponseFormat $response_format
      * @param string $user
      * 
-     * @return string
+     * @return Response
      */
-    function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): string
+    function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): Response
     {
         if (mb_strlen($prompt) > self::MAX_PROMPT_CHARS) {
             throw new \Exception("Max prompt is 1000 chars");
@@ -72,6 +74,7 @@ class Image
         return $response;
     }
 
+  
     /**
      * @param string $image
      * @param int $n
@@ -79,9 +82,9 @@ class Image
      * @param ResponseFormat $response_format
      * @param string $user
      * 
-     * @return string
+     * @return Response
      */
-    function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): string
+    function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): Response
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");
@@ -111,18 +114,19 @@ class Image
         return $response;
     }
 
+   
     /**
      * @param string $image
-     * @param string $mask
      * @param string $prompt
+     * @param string $mask
      * @param int $n
      * @param ImageSize $size
      * @param ResponseFormat $response_format
      * @param string $user
      * 
-     * @return string
+     * @return Response
      */
-    function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): string
+    function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): Response
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");

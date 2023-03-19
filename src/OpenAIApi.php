@@ -62,7 +62,7 @@ class OpenAIApi
     {
         return new Image(
             $this->configuration->getApiUrl(),
-            $this->configuration->getCurlHeaders()
+            $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
         );
     }
 

@@ -2,9 +2,10 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use PHPUnit\Framework\TestCase;
 
-final class EditTest extends TestCase
+final class EmbeddingTest extends TestCase
 {
     protected $apiKey;
     protected $model;
@@ -16,19 +17,22 @@ final class EditTest extends TestCase
         }
         $configuration = new Configuration($this->apiKey);
         $openAIApi = new OpenAIApi($configuration);
-        $this->model = $openAIApi->Edit();
+        $this->model = $openAIApi->Embedding();
 
         parent::__construct();
     }
 
     public function testCreate()
     {
+
         $response = $this->model->create(
-            input: "What day of the wek is it?",
-            instruction: "Fix the spelling mistakes",
+            ModelEnum::TEXT_EMBEDDING_ADA_002,
+            "The food was delicious and the waiter...",
         );
+        
         $this->assertEquals(200, $response->getHttpCode());
     }
+
 
    
 }

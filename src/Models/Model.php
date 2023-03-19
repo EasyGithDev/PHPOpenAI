@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Models;
 
 use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Response;
 
 class Model
 {
@@ -22,10 +23,11 @@ class Model
         $this->headers = $headers;
     }
 
+    
     /**
-     * @return string
+     * @return Response
      */
-    function list(): string
+    function list(): Response
     {
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT)
@@ -39,12 +41,13 @@ class Model
         return $response;
     }
 
+
     /**
      * @param string $model
      * 
-     * @return string
+     * @return Response
      */
-    function retrieve(string $model): string
+    function retrieve(string $model): Response
     {
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT . "/$model")

@@ -28,7 +28,7 @@ $response = (new OpenAIApi($apiKey))->Image()->create(
     size: ImageSize::is256,
 );
 
-$json_response = json_decode($response, true);
+$obj = $response->toObject();
 
 ?>
 
@@ -48,8 +48,8 @@ $json_response = json_decode($response, true);
         </label>
     </div>
 
-    <?php foreach ($json_response['data'] as $image) : ?>
-        <div> <?= displayUrl($image['url']) ?> </div>
+    <?php foreach ($obj->data as $image) : ?>
+        <div> <?= displayUrl($image->url) ?> </div>
     <?php endforeach; ?>
 
 </body>

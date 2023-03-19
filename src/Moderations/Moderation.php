@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Moderations;
 
 use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Response;
 
 class Moderation
 {
@@ -22,7 +23,12 @@ class Moderation
         $this->headers = $headers;
     }
 
-    function create(string $input): string
+    /**
+     * @param string $input
+     * 
+     * @return Response
+     */
+    function create(string $input): Response
     {
         if (empty($input)) {
             throw new \Exception("Input can not be empty");

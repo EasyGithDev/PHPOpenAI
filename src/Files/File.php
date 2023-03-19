@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Files;
 
 use EasyGithDev\PHPOpenAI\Curl;
+use EasyGithDev\PHPOpenAI\Response;
 use Exception;
 
 class File
@@ -25,9 +26,9 @@ class File
     }
 
     /**
-     * @return string
+     * @return Response
      */
-    function list(): string
+    function list(): Response
     {
         $response =  $this->curl
             ->setUrl($this->apiUrl . self::END_POINT)
@@ -41,10 +42,14 @@ class File
         return $response;
     }
 
-    function create(
-        string $file,
-        string $purpose,
-    ) {
+    /**
+     * @param string $file
+     * @param string $purpose
+     * 
+     * @return Response
+     */
+    function create(string $file, string $purpose): Response
+    {
 
         if (!file_exists($file)) {
             throw new Exception("Unable to locate file: $file");
@@ -71,9 +76,13 @@ class File
         return $response;
     }
 
-    function delete(
-        string $file_id,
-    ) {
+    /**
+     * @param string $file_id
+     * 
+     * @return Response
+     */
+    function delete(string $file_id): Response
+    {
 
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");
@@ -93,9 +102,13 @@ class File
     }
 
 
-    function retrieve(
-        string $file_id,
-    ) {
+    /**
+     * @param string $file_id
+     * 
+     * @return Response
+     */
+    function retrieve(string $file_id): Response
+    {
 
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");
@@ -113,9 +126,13 @@ class File
         return $response;
     }
 
-    function download(
-        string $file_id,
-    ) {
+    /**
+     * @param string $file_id
+     * 
+     * @return Response
+     */
+    function download(string $file_id): Response
+    {
 
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");
