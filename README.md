@@ -171,6 +171,17 @@ $response = (new OpenAIApi($apiKey))->ImageEdit()->createEdit(
 
 [Learn more about image edit](https://platform.openai.com/docs/guides/images/edits).
 
+### Embedding
+
+```php
+$response = (new OpenAIApi($apiKey))->Embedding()->create(
+    ModelEnum::TEXT_EMBEDDING_ADA_002,
+    "The food was delicious and the waiter...",
+);
+```
+
+[Learn more about embedding](https://platform.openai.com/docs/guides/embeddings).
+
 ### Audio Transcription (Speech to text) using Whisper
 
 ```php

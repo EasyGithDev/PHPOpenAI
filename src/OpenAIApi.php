@@ -10,6 +10,7 @@ use EasyGithDev\PHPOpenAI\Models\Model;
 use EasyGithDev\PHPOpenAI\Moderations\Moderation;
 use EasyGithDev\PHPOpenAI\Audios\Audio;
 use EasyGithDev\PHPOpenAI\Chats\Chat;
+use EasyGithDev\PHPOpenAI\Embeddings\Embedding;
 
 class OpenAIApi
 {
@@ -102,6 +103,14 @@ class OpenAIApi
         return new File(
             $this->configuration->getApiUrl(),
             $this->configuration->getCurlHeaders()
+        );
+    }
+
+    public function Embedding(): Embedding
+    {
+        return new Embedding(
+            $this->configuration->getApiUrl(),
+            $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
         );
     }
 }
