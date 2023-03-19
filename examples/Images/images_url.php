@@ -24,12 +24,9 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 
 $response = (new OpenAIApi($apiKey))->Image()->create(
     "a rabbit inside a beautiful garden, 32 bit isometric",
-    n:4,
+    n: 2,
     size: ImageSize::is256,
 );
-
-$obj = $response->toObject();
-
 ?>
 
 <!doctype html>
@@ -43,13 +40,11 @@ $obj = $response->toObject();
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
-    <?php foreach ($obj->data as $image) : ?>
-        <div> <?= displayUrl($image->url) ?> </div>
+    <?php foreach ($response->urlImages() as $image) : ?>
+        <div> <?= displayUrl($image) ?> </div>
     <?php endforeach; ?>
 
 </body>

@@ -5,7 +5,7 @@ namespace EasyGithDev\PHPOpenAI\Audios;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-
+use EasyGithDev\PHPOpenAI\Curl\Responses\AudioResponse;
 use Exception;
 
 class Audio
@@ -33,7 +33,7 @@ class Audio
         ResponseFormat $responseFormat = ResponseFormat::JSON,
         float $temperature = 0,
         Language $language = Language::ENGLISH
-    ): CurlResponse {
+    ): AudioResponse {
         if (!file_exists($audioFile)) {
             throw new Exception("Unable to locate file: $audioFile");
         }
@@ -78,7 +78,7 @@ class Audio
         string $prompt = '',
         ResponseFormat $responseFormat = ResponseFormat::JSON,
         float $temperature = 0
-    ): CurlResponse {
+    ): AudioResponse {
         if (!file_exists($audioFile)) {
             throw new Exception("Unable to locate file: $audioFile");
         }

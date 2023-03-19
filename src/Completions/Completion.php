@@ -5,7 +5,7 @@ namespace EasyGithDev\PHPOpenAI\Completions;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-
+use EasyGithDev\PHPOpenAI\Curl\Responses\CompletionResponse;
 
 class Completion
 {
@@ -41,7 +41,7 @@ class Completion
         ?int $best_of = 1,
         $logit_bias = null,
         string $user = ''
-    ): CurlResponse {
+    ): CompletionResponse {
 
         if (empty($model)) {
             throw new \Exception("Model can not be empty");

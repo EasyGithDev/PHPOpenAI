@@ -4,7 +4,7 @@ namespace EasyGithDev\PHPOpenAI\Images;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-
+use EasyGithDev\PHPOpenAI\Curl\Responses\ImageResponse;
 use Exception;
 
 class Image
@@ -37,7 +37,7 @@ class Image
      * 
      * @return CurlResponse
      */
-    function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): CurlResponse
+    function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): ImageResponse
     {
         if (mb_strlen($prompt) > self::MAX_PROMPT_CHARS) {
             throw new \Exception("Max prompt is 1000 chars");
@@ -80,7 +80,7 @@ class Image
      * 
      * @return CurlResponse
      */
-    function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): CurlResponse
+    function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): ImageResponse
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");
@@ -119,7 +119,7 @@ class Image
      * 
      * @return CurlResponse
      */
-    function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): CurlResponse
+    function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): ImageResponse
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");

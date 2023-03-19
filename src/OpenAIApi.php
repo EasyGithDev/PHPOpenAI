@@ -15,7 +15,7 @@ use EasyGithDev\PHPOpenAI\Curl\Responses\AudioResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ChatResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\CompletionResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\EditResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\EmbedingResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\EmbeddingResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\FileResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ImageResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ModelResponse;
@@ -185,6 +185,6 @@ class OpenAIApi
             ->setBaseUrl(
                 $this->configuration->getApiUrl()
             );
-        return new Embedding($curl, new EmbedingResponse());
+        return new Embedding($curl, new EmbeddingResponse());
     }
 }

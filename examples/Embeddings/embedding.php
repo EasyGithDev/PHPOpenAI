@@ -29,11 +29,14 @@ $response = (new OpenAIApi($apiKey))->Embedding()->create(
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
+    <?php foreach ($response->choices() as $choice) : ?>
+        <?php foreach ($choice->embedding as $embedding) : ?>
+            <div> <?= $embedding ?> </div>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
 </body>
 
 </html>

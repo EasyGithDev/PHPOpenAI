@@ -16,13 +16,12 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$response = (new OpenAIApi($apiKey))->ImageVariation()->createVariation(
-    __DIR__ . '/../../assets/image_variation_original.png',
-    n: 2,
-    size: ImageSize::is256
+$response = (new OpenAIApi($apiKey))->ImageEdit()->createEdit(
+    image: __DIR__ . '/../../assets/image_edit_original.png',
+    mask: __DIR__ . '/../../assets/image_edit_mask2.png',
+    prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
+    size: ImageSize::is512,
 );
-
-$json_response = json_decode($response, true);
 
 ?>
 
@@ -31,19 +30,17 @@ $json_response = json_decode($response, true);
 
 <head>
     <meta charset="utf-8">
-    <title>Image variation</title>
+    <title>Image mask</title>
 </head>
 
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
-    <?php foreach ($json_response['data'] as $image) : ?>
-        <div> <?= displayUrl($image['url']) ?> </div>
+    <?php foreach ($response->urlImages() as $image) : ?>
+        <div> <?= displayUrl($image) ?> </div>
     <?php endforeach; ?>
 
 </body>

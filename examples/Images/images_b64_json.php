@@ -29,7 +29,6 @@ $response = $image->create(
     response_format: ResponseFormat::B64_JSON
 );
 
-$json_response = json_decode($response, true);
 ?>
 
 <!doctype html>
@@ -43,13 +42,11 @@ $json_response = json_decode($response, true);
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
-    <?php foreach ($json_response['data'] as $image) : ?>
-        <div> <?= displayImg($image['b64_json']) ?> </div>
+    <?php foreach ($response->b64Images() as $image) : ?>
+        <div> <?= displayImg($image) ?> </div>
     <?php endforeach; ?>
 
 </body>

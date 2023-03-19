@@ -9,6 +9,6 @@ class AudioResponse extends CurlResponse
 
     function text(): string
     {
-        return $this->toObject()->text;
+        return $this->getBuffer();
     }
 }

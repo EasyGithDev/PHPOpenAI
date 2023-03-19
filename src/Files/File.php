@@ -4,14 +4,14 @@ namespace EasyGithDev\PHPOpenAI\Files;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-
+use EasyGithDev\PHPOpenAI\Curl\Responses\FileResponse;
 use Exception;
 
 class File
 {
     const END_POINT = '/files';
 
-    
+
 
 
     /**
@@ -20,13 +20,12 @@ class File
      */
     function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        
     }
 
     /**
      * @return CurlResponse
      */
-    function list(): CurlResponse
+    function list(): FileResponse
     {
         $response =  $this->curl
             ->appendToUrl(self::END_POINT)
@@ -34,7 +33,7 @@ class File
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 
     /**
@@ -43,7 +42,7 @@ class File
      * 
      * @return CurlResponse
      */
-    function create(string $file, string $purpose): CurlResponse
+    function create(string $file, string $purpose): FileResponse
     {
 
         if (!file_exists($file)) {
@@ -65,7 +64,7 @@ class File
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 
     /**
@@ -73,7 +72,7 @@ class File
      * 
      * @return CurlResponse
      */
-    function delete(string $file_id): CurlResponse
+    function delete(string $file_id): FileResponse
     {
 
         if (empty($file_id)) {
@@ -88,7 +87,7 @@ class File
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 
 
@@ -97,7 +96,7 @@ class File
      * 
      * @return CurlResponse
      */
-    function retrieve(string $file_id): CurlResponse
+    function retrieve(string $file_id): FileResponse
     {
 
         if (empty($file_id)) {
@@ -110,7 +109,7 @@ class File
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 
     /**
@@ -118,7 +117,7 @@ class File
      * 
      * @return CurlResponse
      */
-    function download(string $file_id): CurlResponse
+    function download(string $file_id): FileResponse
     {
 
         if (empty($file_id)) {
@@ -133,6 +132,6 @@ class File
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 }

@@ -4,16 +4,16 @@ namespace EasyGithDev\PHPOpenAI\Curl\Responses;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 
-class EmbedingResponse extends CurlResponse
+class EmbeddingResponse extends CurlResponse
 {
 
     function choices()
     {
-        return $this->toObject()->choices;
+        return $this->toObject()->data;
     }
 
     function first()
     {
-        return $this->toObject()->choices[0];
+        return $this->toObject()->data[0];
     }
 }

@@ -7,13 +7,13 @@ use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 class CompletionResponse extends CurlResponse
 {
 
-    function choices()
+    function choices() : array
     {
         return $this->toObject()->choices;
     }
 
-    function first()
+    function first() : string
     {
-        return $this->toObject()->choices[0];
+        return $this->toObject()->choices[0]->text;
     }
 }

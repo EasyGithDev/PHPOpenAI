@@ -7,13 +7,17 @@ use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 class ImageResponse extends CurlResponse
 {
 
-    function choices()
+    function urlImages(): array
     {
-        return $this->toObject()->choices;
+        return array_map(function ($value) {
+            return $value->url;
+        }, $this->toObject()->data);
     }
 
-    function first()
+    function b64Images(): array
     {
-        return $this->toObject()->choices[0];
+        return array_map(function ($value) {
+            return $value->b64_json;
+        }, $this->toObject()->data);
     }
 }

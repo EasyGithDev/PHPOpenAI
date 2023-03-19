@@ -4,29 +4,23 @@ namespace EasyGithDev\PHPOpenAI\Models;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-
+use EasyGithDev\PHPOpenAI\Curl\Responses\ModelResponse;
 
 class Model
 {
     const END_POINT = '/models';
-
-    
-
 
     /**
      * @param string $apiKey
      */
     function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        
-       
     }
 
-    
     /**
      * @return CurlResponse
      */
-    function list(): CurlResponse
+    function list(): ModelResponse
     {
         $response =  $this->curl
             ->appendToUrl(self::END_POINT)

@@ -13,10 +13,10 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$response = (new OpenAIApi($apiKey))->Audio()->transcription(
-    __DIR__ . '/../../assets/openai.mp3',
+$response = (new OpenAIApi($apiKey))->Audio()->translation(
+    __DIR__ . '/../../assets/openai_fr.mp3',
     ModelEnum::WHISPER_1,
-    responseFormat: ResponseFormat::SRT
+    responseFormat: ResponseFormat::TEXT
 );
 
 ?>
@@ -32,11 +32,12 @@ $response = (new OpenAIApi($apiKey))->Audio()->transcription(
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
+    <div>
+        <?= $response->text() ?>
+    </div>
 </body>
 
 </html>

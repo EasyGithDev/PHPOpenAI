@@ -5,7 +5,7 @@ namespace EasyGithDev\PHPOpenAI\Edits;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-
+use EasyGithDev\PHPOpenAI\Curl\Responses\EditResponse;
 
 class Edit
 {
@@ -31,7 +31,7 @@ class Edit
         float $temperature = 1.0,
         float $top_p = 1.0,
         int $n = 1,
-    ): CurlResponse {
+    ): EditResponse {
 
         if (empty($instruction)) {
             throw new \Exception("Instruction can not be empty");

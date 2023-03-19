@@ -1,36 +1,46 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Models\ModelEnum;
+use EasyGithDev\PHPOpenAI\Images\ImageSize;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../../vendor/autoload.php';
+
+function displayUrl($url)
+{
+    return '<img src="' . $url . '" />';
+}
 
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$response = (new OpenAIApi($apiKey))->Completion()->create(
-    ModelEnum::TEXT_DAVINCI_003,
-    "Say this is a test",
+$response = (new OpenAIApi($apiKey))->ImageVariation()->createVariation(
+    __DIR__ . '/../../assets/image_variation_original.png',
+    n: 2,
+    size: ImageSize::is256
 );
 
 ?>
-
 <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Completion using short syntaxe</title>
+    <title>Image variation</title>
 </head>
 
 <body>
 
     <div>
         <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
+
     </div>
+
+    <?php foreach ($response->urlImages() as $image) : ?>
+        <div> <?= displayUrl($image) ?> </div>
+    <?php endforeach; ?>
 
 </body>
 
