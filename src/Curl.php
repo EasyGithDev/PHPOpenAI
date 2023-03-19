@@ -17,9 +17,11 @@ class Curl
     protected ?\CurlHandle $ch = null;
     protected string $url = '';
     protected array $headers = [];
-    protected string|array $payload;
+    protected string|array|null $payload = null;
     protected string $method = self::CURL_GET;
     protected bool $returnTransfer = true;
+    protected int $connecttimeout = 0;
+    protected int $timeout = 10;
 
     /**
      */
@@ -66,6 +68,9 @@ class Curl
         if ($this->returnTransfer) {
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, $this->returnTransfer);
         }
+
+        curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, $this->connecttimeout);
+        curl_setopt($this->ch, CURLOPT_TIMEOUT, $this->timeout); //timeout in seconds
     }
 
     public function verboseEnabled(string $filename): self
@@ -83,8 +88,6 @@ class Curl
         return $this;
     }
 
-
-
     /**
      * @return Response
      */
@@ -92,20 +95,30 @@ class Curl
     {
         $this->prepare();
 
-        $response = curl_exec($this->ch);
+        $buffer = curl_exec($this->ch);
 
         if (curl_errno($this->ch)) {
             throw new \Exception('Curl error : ' . curl_error($this->ch));
         }
 
-        $http_code = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+        $curlinfo = curl_getinfo($this->ch);
 
         // if ($http_code != intval(200)) {
         //     $jsonReponse = json_decode($response);
         //     throw new ApiException($http_code, $jsonReponse->error);
         // }
 
-        return new Response($response, $http_code);
+        $infos = [
+            'input' => [
+                'payload' => $this->payload
+            ],
+            'output' => [
+                'curlinfo' => $curlinfo,
+                'buffer' => $buffer
+            ]
+        ];
+
+        return new Response($infos);
     }
 
     /**
@@ -163,6 +176,30 @@ class Curl
     public function setReturnTransfer(bool $returnTransfer): self
     {
         $this->returnTransfer = $returnTransfer;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of timeout
+     *
+     * @return  self
+     */
+    public function setTimeout($timeout): self
+    {
+        $this->timeout = $timeout;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of connecttimeout
+     *
+     * @return  self
+     */
+    public function setConnecttimeout($connecttimeout): self
+    {
+        $this->connecttimeout = $connecttimeout;
 
         return $this;
     }

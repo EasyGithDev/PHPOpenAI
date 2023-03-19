@@ -7,13 +7,11 @@ use stdClass;
 class Response
 {
 
-    private string $buffer;
-    private int $httpCode;
+    private array $infos;
 
-    public function __construct(string $buffer, int $httpCode)
+    public function __construct(array $infos)
     {
-        $this->buffer = $buffer;
-        $this->httpCode = $httpCode;
+        $this->infos = $infos;
     }
 
     /**
@@ -21,7 +19,12 @@ class Response
      */
     public function getHttpCode(): int
     {
-        return $this->httpCode;
+        return $this->infos['output']['curlinfo']['http_code'];
+    }
+
+    public function getPayload(): string|array|null
+    {
+        return $this->infos['input']['payload'];
     }
 
     /**
@@ -29,21 +32,21 @@ class Response
      */
     public function getBuffer(): string
     {
-        return $this->buffer;
+        return $this->infos['output']['buffer'];
     }
 
     public function __toString(): string
     {
-        return $this->buffer;
+        return $this->infos['output']['buffer'];
     }
 
     public function toArray(): array
     {
-        return json_decode($this->buffer, true);
+        return json_decode( $this->infos['output']['buffer'], true);
     }
 
     public function toObject(): stdClass
     {
-        return json_decode($this->buffer);
+        return json_decode($this->infos['output']['buffer']);
     }
 }
