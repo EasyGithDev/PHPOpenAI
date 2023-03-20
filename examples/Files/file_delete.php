@@ -9,11 +9,11 @@ $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
-
-$response = (new OpenAIApi($apiKey))
-    ->File()
-    ->delete('file-wKTCLLGV4SsacPLaAd5Nyo1o');
-
+if (isset($_POST['submit'])) {
+    $response = (new OpenAIApi($apiKey))
+        ->File()
+        ->delete($_POST['file_id']);
+}
 ?>
 
 <!doctype html>
@@ -25,11 +25,18 @@ $response = (new OpenAIApi($apiKey))
 </head>
 
 <body>
+    <form action="<?= $_SERVER['PHP_SELF']  ?>" method="POST">
+        <input type="text" name='file_id'>
+        <input type="submit" name='submit'>
+    </form>
+    <?php if (isset($_POST['submit'])) : ?>
 
-    <div>
-        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-    </div>
-    <?= ($response->toObject()->deleted) ? 'file is deleted' : 'not deleted' ?>
+        <div>
+            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
+        </div>
+        <?= ($response->toObject()->deleted) ? 'file is deleted' : 'not deleted' ?>
+    <?php endif ?>
+
 </body>
 
 </html>
