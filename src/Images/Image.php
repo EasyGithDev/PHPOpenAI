@@ -14,20 +14,15 @@ class Image
     const VARIATION_END_POINT = self::END_POINT . '/variations';
     const EDIT_END_POINT = self::END_POINT . '/edits';
 
-    
-
-
     /**
      * @param string $apiUrl
      * @param array $headers
      */
     function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        
-       
     }
 
-   
+
     /**
      * @param string $prompt
      * @param int $n
@@ -63,14 +58,15 @@ class Image
             ->setPayload(
                 json_encode($payload)
             )
+            ->addHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 
-  
+
     /**
      * @param string $image
      * @param int $n
@@ -104,10 +100,10 @@ class Image
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 
-   
+
     /**
      * @param string $image
      * @param string $prompt
@@ -160,6 +156,6 @@ class Image
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 }

@@ -38,153 +38,93 @@ class OpenAIApi
 
     public function Model(): Model
     {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            );
-        return new Model($curl, new ModelResponse());
+        return new Model((new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl()),
+            new ModelResponse()
+        );
     }
 
     public function Completion(): Completion
     {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            );
-        return new Completion($curl, new CompletionResponse());
+        return new Completion((new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl()),
+            new CompletionResponse()
+        );
     }
 
     public function Edit(): Edit
     {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            );
         return new Edit(
-            $curl, new EditResponse()
+            (new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl()),
+            new EditResponse()
         );
     }
 
     public function Chat(): Chat
     {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            );
+
         return new Chat(
-            $curl, new ChatResponse()
+            (new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl()),
+            new ChatResponse()
         );
     }
 
     public function Image(): Image
     {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            );
         return new Image(
-            $curl, new ImageResponse()
-        );
-    }
-
-    public function ImageVariation(): Image
-    {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders()
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            )
-            ->setTimeout(20);
-        return new Image(
-            $curl, new ImageResponse()
-
-        );
-    }
-
-    public function ImageEdit(): Image
-    {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders()
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            )
-            ->setTimeout(20);
-        return new Image(
-            $curl, new ImageResponse()
-
+            (new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl())
+                ->setTimeout(30),
+            new ImageResponse()
         );
     }
 
     public function Audio(): Audio
     {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders()
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            );
+
         return new Audio(
-            $curl, new AudioResponse()
+            (new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl()),
+            new AudioResponse()
         );
     }
 
     public function Moderation(): Moderation
     {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            );
+
         return new Moderation(
-            $curl, new ModerationResponse()
+            (new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl()),
+            new ModerationResponse()
         );
     }
 
     public function File(): File
     {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders()
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            );
         return new File(
-            $curl, new FileResponse()
+            (new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl()),
+            new FileResponse()
         );
     }
 
     public function Embedding(): Embedding
     {
-        $curl = (new CurlRequest())
-            ->setHeaders(
-                $this->configuration->getCurlHeaders([['Content-Type' => 'application/json']])
-            )
-            ->setBaseUrl(
-                $this->configuration->getApiUrl()
-            );
-        return new Embedding($curl, new EmbeddingResponse());
+        return new Embedding(
+            (new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl()),
+            new EmbeddingResponse()
+        );
     }
 }

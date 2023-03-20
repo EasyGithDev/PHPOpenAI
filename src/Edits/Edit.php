@@ -11,7 +11,7 @@ class Edit
 {
     const END_POINT = '/edits';
 
-    
+
 
 
     /**
@@ -20,8 +20,6 @@ class Edit
      */
     function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        
-       
     }
 
     function create(
@@ -36,7 +34,7 @@ class Edit
         if (empty($instruction)) {
             throw new \Exception("Instruction can not be empty");
         }
-        
+
         if ($model != ModelEnum::TEXT_DAVINCI_EDIT_001 && $model != ModelEnum::CODE_DAVINCI_EDIT_001) {
             throw new \Exception("text-davinci-edit-001 or code-davinci-edit-001 are supported");
         }
@@ -63,14 +61,15 @@ class Edit
         ];
 
         $response =  $this->curl
-            ->appendToUrl( self::END_POINT)
+            ->appendToUrl(self::END_POINT)
             ->setPayload(
                 json_encode($payload)
             )
+            ->addHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 }

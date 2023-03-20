@@ -12,7 +12,7 @@ class Chat
     const MAX_PROMPT_CHARS = 1000;
     const END_POINT = '/chat/completions';
 
-    
+
 
 
     /**
@@ -21,8 +21,6 @@ class Chat
      */
     function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        
-       
     }
 
 
@@ -82,16 +80,16 @@ class Chat
             $payload["user"] = $user;
         }
 
-        // var_dump($msg);die;
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT) 
+            ->appendToUrl(self::END_POINT)
             ->setPayload(
                 json_encode($payload)
             )
+            ->addHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 }

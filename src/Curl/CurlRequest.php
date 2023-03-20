@@ -156,6 +156,18 @@ class CurlRequest
     }
 
     /**
+     * @param array $additionalHeader
+     * 
+     * @return self
+     */
+    public function addHeaders(array $additionalHeader): self
+    {
+        $this->headers = array_merge($this->headers, $additionalHeader);
+
+        return $this;
+    }
+
+    /**
      * Set the value of payload
      *
      * @return  self
@@ -206,8 +218,8 @@ class CurlRequest
 
     /**
      * Get the value of baseUrl
-     */ 
-    public function getBaseUrl() : string
+     */
+    public function getBaseUrl(): string
     {
         return $this->baseUrl;
     }
@@ -216,19 +228,18 @@ class CurlRequest
      * Set the value of baseUrl
      *
      * @return  self
-     */ 
-    public function setBaseUrl(string $baseUrl) : self
+     */
+    public function setBaseUrl(string $baseUrl): self
     {
         $this->baseUrl = $baseUrl;
 
         return $this;
     }
 
-    public function appendToUrl(string $part) : self
+    public function appendToUrl(string $part): self
     {
         $this->baseUrl .= $part;
 
         return $this;
     }
-
 }

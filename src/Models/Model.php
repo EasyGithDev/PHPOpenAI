@@ -28,7 +28,7 @@ class Model
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 
 
@@ -41,10 +41,11 @@ class Model
     {
         $response =  $this->curl
             ->appendToUrl(self::END_POINT . "/$model")
+            ->addHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 }

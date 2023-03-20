@@ -47,6 +47,7 @@ class Embedding
             ->setPayload(
                 json_encode($payload)
             )
+            ->addHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();

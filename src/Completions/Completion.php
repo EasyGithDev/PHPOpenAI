@@ -11,7 +11,7 @@ class Completion
 {
     const END_POINT = '/completions';
 
-    
+
 
 
     /**
@@ -20,8 +20,6 @@ class Completion
      */
     function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
-        
-       
     }
 
     function create(
@@ -91,11 +89,11 @@ class Completion
             // "logit_bias" => $logit_bias,
         ];
 
-        if(!is_null($stop)) {
-            $payload["stop"] = is_array( $stop ) ? $stop : [$stop];
+        if (!is_null($stop)) {
+            $payload["stop"] = is_array($stop) ? $stop : [$stop];
         }
 
-        if(!is_null($best_of)) {
+        if (!is_null($best_of)) {
             $payload["best_of"] = $best_of;
         }
 
@@ -104,14 +102,15 @@ class Completion
         }
 
         $response =  $this->curl
-            ->appendToUrl( self::END_POINT)
+            ->appendToUrl(self::END_POINT)
             ->setPayload(
                 json_encode($payload)
             )
+            ->addHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();
 
-                return $this->response->setInfos($response);
+        return $this->response->setInfos($response);
     }
 }

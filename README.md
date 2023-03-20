@@ -149,7 +149,7 @@ $response = (new OpenAIApi($apiKey))->Image()->create(
 ### Image Variation Using DALL·E
 
 ```php
-$response = (new OpenAIApi($apiKey))->ImageVariation()->createVariation(
+$response = (new OpenAIApi($apiKey))->Image()->createVariation(
     __DIR__ . '/../../assets/image_variation_original.png',
     n: 2,
     size: ImageSize::is256
@@ -161,7 +161,7 @@ $response = (new OpenAIApi($apiKey))->ImageVariation()->createVariation(
 ### Image Edit Using DALL·E
 
 ```php
-$response = (new OpenAIApi($apiKey))->ImageEdit()->createEdit(
+$response = (new OpenAIApi($apiKey))->Image()->createEdit(
     image: __DIR__ . '/../../assets/image_edit_original.png',
     mask: __DIR__ . '/../../assets/image_edit_mask2.png',
     prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',

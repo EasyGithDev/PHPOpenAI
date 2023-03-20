@@ -16,7 +16,7 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$response = (new OpenAIApi($apiKey))->ImageEdit()->createEdit(
+$response = (new OpenAIApi($apiKey))->Image()->createEdit(
     image: __DIR__ . '/../../assets/image_edit_original.png',
     mask: __DIR__ . '/../../assets/image_edit_mask2.png',
     prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',

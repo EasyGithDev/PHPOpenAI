@@ -37,7 +37,7 @@ final class ImageTest extends TestCase
     public function testVariation()
     {
 
-        $response = $this->client->ImageVariation()->createVariation(
+        $response = $this->client->Image()->createVariation(
             __DIR__ . '/../assets/image_variation_original.png',
             n: 1,
             size: ImageSize::is256
@@ -49,7 +49,7 @@ final class ImageTest extends TestCase
     public function testEdit()
     {
 
-        $response = $this->client->ImageEdit()->createEdit(
+        $response = $this->client->Image()->createEdit(
             image: __DIR__ . '/../assets/image_edit_original.png',
             mask: __DIR__ . '/../assets/image_edit_mask2.png',
             prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',

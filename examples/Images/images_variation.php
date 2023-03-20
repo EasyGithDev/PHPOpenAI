@@ -16,7 +16,7 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$response = (new OpenAIApi($apiKey))->ImageVariation()->createVariation(
+$response = (new OpenAIApi($apiKey))->Image()->createVariation(
     __DIR__ . '/../../assets/image_variation_original.png',
     n: 2,
     size: ImageSize::is256
