@@ -298,13 +298,13 @@ try {
 To run all tests:
 
 ```bash
-composer test
+composer test tests
 ```
 
 To run only one test :
 
 ```bash
-php vendor/phpunit/phpunit/phpunit tests/[NAME]Test.php
+composer test tests/[NAME]Test.php
 ```
 
 ### Summary
