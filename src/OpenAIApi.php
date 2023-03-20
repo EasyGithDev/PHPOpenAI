@@ -11,6 +11,7 @@ use EasyGithDev\PHPOpenAI\Moderations\Moderation;
 use EasyGithDev\PHPOpenAI\Audios\Audio;
 use EasyGithDev\PHPOpenAI\Chats\Chat;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
+use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\AudioResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ChatResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\CompletionResponse;
@@ -20,7 +21,9 @@ use EasyGithDev\PHPOpenAI\Curl\Responses\FileResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ImageResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ModelResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ModerationResponse;
+use EasyGithDev\PHPOpenAI\Curl\Responses\FineTuneResponse;
 use EasyGithDev\PHPOpenAI\Embeddings\Embedding;
+use EasyGithDev\PHPOpenAI\Finetunes\FineTune;
 
 class OpenAIApi
 {
@@ -115,6 +118,16 @@ class OpenAIApi
                 ->setHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new FileResponse()
+        );
+    }
+
+    public function FineTune(): FineTune
+    {
+        return new Finetune(
+            (new CurlRequest())
+                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseUrl($this->configuration->getApiUrl()),
+            new CurlResponse()
         );
     }
 
