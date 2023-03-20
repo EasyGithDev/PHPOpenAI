@@ -11,11 +11,9 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 }
 
 $response = (new OpenAIApi($apiKey))
-    ->File()
-    ->create(
-        __DIR__ . '/../../assets/mydata.jsonl',
-        'fine-tune',
-    );
+    ->Moderation()
+    ->create('I want to kill them.');
+
 ?>
 
 <!doctype html>
@@ -23,7 +21,7 @@ $response = (new OpenAIApi($apiKey))
 
 <head>
     <meta charset="utf-8">
-    <title>File create</title>
+    <title>Moderation</title>
 </head>
 
 <body>
@@ -31,6 +29,10 @@ $response = (new OpenAIApi($apiKey))
     <div>
         <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
+
+    <?php var_dump($response->categories()) ?>
+
+    <?php var_dump($response->scores()) ?>
 
 </body>
 

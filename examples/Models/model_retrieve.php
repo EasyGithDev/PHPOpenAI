@@ -1,7 +1,6 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
-use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -11,10 +10,7 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$response = (new OpenAIApi($apiKey))->Embedding()->create(
-    ModelEnum::TEXT_EMBEDDING_ADA_002,
-    "The food was delicious and the waiter...",
-);
+$response = (new OpenAIApi($apiKey))->Model()->retrieve('text-davinci-001');
 
 ?>
 
@@ -23,7 +19,7 @@ $response = (new OpenAIApi($apiKey))->Embedding()->create(
 
 <head>
     <meta charset="utf-8">
-    <title>Embedding using short syntaxe</title>
+    <title>Model retrieve</title>
 </head>
 
 <body>
@@ -32,11 +28,9 @@ $response = (new OpenAIApi($apiKey))->Embedding()->create(
         <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
-    <?php foreach ($response->datas() as $data) : ?>
-        <?php foreach ($data->embedding as $embedding) : ?>
-            <div> <?= $embedding ?> </div>
-        <?php endforeach; ?>
-    <?php endforeach; ?>
+    <?= $response->toObject()->id ?>
+
+
 </body>
 
 </html>

@@ -12,7 +12,7 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 
 $response = (new OpenAIApi($apiKey))
     ->File()
-    ->delete('file-l7aGxLssbuLLKyWKFGDz9cJ7');
+    ->delete('file-wKTCLLGV4SsacPLaAd5Nyo1o');
 
 ?>
 
@@ -21,17 +21,15 @@ $response = (new OpenAIApi($apiKey))
 
 <head>
     <meta charset="utf-8">
-    <title>File list</title>
+    <title>File delete</title>
 </head>
 
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
-
+    <?= ($response->toObject()->deleted) ? 'file is deleted' : 'not deleted' ?>
 </body>
 
 </html>

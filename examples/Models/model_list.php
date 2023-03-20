@@ -17,7 +17,6 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 }
 
 $response = (new OpenAIApi($apiKey))->Model()->list();
-$json_response = json_decode($response);
 
 ?>
 
@@ -32,15 +31,13 @@ $json_response = json_decode($response);
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
 
-    <?php foreach ($json_response->data as $model) : ?>
+    <?php foreach ($response->fetchAll() as $model) : ?>
         <div>
-            <?= 'case ' . normalize($model->id) . '="' .  $model->id . '";' ?>
+            <?= 'case ' . normalize($model) . '="' .  $model . '";' ?>
         </div>
     <?php endforeach; ?>
 

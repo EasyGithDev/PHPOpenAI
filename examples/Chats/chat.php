@@ -22,13 +22,10 @@ $response = (new OpenAIApi($apiKey))->Chat()->create(
     ]
 );
 
-$json_response = json_decode($response, true);
-
 ?>
 
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>Chat completion</title>
@@ -40,8 +37,8 @@ $json_response = json_decode($response, true);
         <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
-    <?php foreach ($response->choices() as $choice) : ?>
-        <div> <?= $choice->message->content ?> </div>
+    <?php foreach ($response->fetchAll() as $text) : ?>
+        <div> <?= $text ?> </div>
     <?php endforeach; ?>
 
 </body>

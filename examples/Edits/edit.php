@@ -30,8 +30,8 @@ $response = (new OpenAIApi($apiKey))->Edit()->create(
     <div>
         <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
-    <?php foreach ($response->choices() as $choice) : ?>
-        <div> <?= $choice->text ?> </div>
+    <?php foreach ($response->fetchAll() as $text) : ?>
+        <div> <?= $text ?> </div>
     <?php endforeach; ?>
 </body>
 

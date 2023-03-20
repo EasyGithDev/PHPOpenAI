@@ -12,8 +12,7 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 
 $response = (new OpenAIApi($apiKey))
     ->File()
-    ->retrieve('file-l7aGxLssbuLLKyWKFGDz9cJ7');
-$json_response = json_decode($response);
+    ->retrieve('file-wKTCLLGV4SsacPLaAd5Nyo1o');
 
 ?>
 
@@ -28,10 +27,10 @@ $json_response = json_decode($response);
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
+
+    <?= $response->toObject()->filename ?>
 
 </body>
 

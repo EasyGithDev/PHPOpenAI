@@ -27,10 +27,12 @@ $response = (new OpenAIApi($apiKey))
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
+
+    <?php foreach ($response->fetchAll() as $id) : ?>
+        <div> <?= $id ?> </div>
+    <?php endforeach; ?>
 
 </body>
 

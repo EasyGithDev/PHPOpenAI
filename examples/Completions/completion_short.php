@@ -17,7 +17,6 @@ $response = (new OpenAIApi($apiKey))->Completion()->create(
 );
 
 ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -32,7 +31,9 @@ $response = (new OpenAIApi($apiKey))->Completion()->create(
         <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
-    <div><?= $response->first() ?></div>
+    <?php foreach ($response->fetchAll() as $text) : ?>
+        <div> <?= $text ?> </div>
+    <?php endforeach; ?>
 
 </body>
 

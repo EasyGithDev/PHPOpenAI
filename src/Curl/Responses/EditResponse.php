@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Curl\Responses;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+use stdClass;
 
 class EditResponse extends CurlResponse
 {
@@ -12,8 +13,15 @@ class EditResponse extends CurlResponse
         return $this->toObject()->choices;
     }
 
-    function first() : string
+    function choice(int $n) : stdClass
     {
-        return $this->toObject()->choices[0]->text;
+        return $this->toObject()->choices[$n];
+    }
+
+    function fetchAll(): array
+    {
+        return array_map(function ($value) {
+            return $value->text;
+        }, $this->toObject()->choices);
     }
 }

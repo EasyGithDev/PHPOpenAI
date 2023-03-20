@@ -10,8 +10,12 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$response = (new OpenAIApi($apiKey))->Model()->retrieve('text-davinci-001');
-
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->create(
+        __DIR__ . '/../../assets/mydata.jsonl',
+        'fine-tune',
+    );
 ?>
 
 <!doctype html>
@@ -19,16 +23,16 @@ $response = (new OpenAIApi($apiKey))->Model()->retrieve('text-davinci-001');
 
 <head>
     <meta charset="utf-8">
-    <title>Model list</title>
+    <title>File upload</title>
 </head>
 
 <body>
 
     <div>
-        <label>Response :
-            <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-        </label>
+        <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
+
+    <?= $response->toObject()->filename ?>
 
 </body>
 
