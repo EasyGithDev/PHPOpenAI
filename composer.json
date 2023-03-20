@@ -1,10 +1,21 @@
 {
     "name": "easygithdev/phpopenai",
-    "description": "Wrapper to access OpenAI API",
+    "description": "PHPOpenAI is a wrapper to access OpenAI API",
     "keywords": [
         "php",
-        "openAI",
-        "curl"
+        "ai",
+        "openai",
+        "dalle",
+        "dall-e",
+        "gpt-3",
+        "gpt-3.5",
+        "gpt3",
+        "gpt3.5",
+        "whisper",
+        "api",
+        "curl",
+        "phpopenai",
+        "easygithdev"
     ],
     "license": "MIT License",
     "authors": [
@@ -23,5 +34,8 @@
         "psr-4": {
             "EasyGithDev\\PHPOpenAI\\": "src/"
         }
+    },
+    "scripts": {
+        "test": "./vendor/phpunit/phpunit/phpunit"
     }
 }

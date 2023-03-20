@@ -293,6 +293,19 @@ try {
 
 [Learn more about errors](https://platform.openai.com/docs/guides/error-codes/api-errors).
 
+## Testing
+
+To run all tests:
+
+```bash
+composer test
+```
+
+To run only one test :
+
+```bash
+php vendor/phpunit/phpunit/phpunit tests/[NAME]Test.php
+```
 
 ### Summary
 

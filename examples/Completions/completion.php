@@ -6,7 +6,6 @@ use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-
 $apiKey = "XXXXXXX YOUR KEY";
 if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
@@ -17,8 +16,7 @@ $openAIApi = new OpenAIApi($configuration);
 $completion = $openAIApi->Completion();
 $response = $completion->create(
     ModelEnum::TEXT_DAVINCI_003,
-    "Say this is a test",
-
+    "Say this is a test"
 );
 
 ?>
@@ -35,7 +33,6 @@ $response = $completion->create(
 
     <div>
         <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
-
     </div>
 
     <?php foreach ($response->choices() as $choice) : ?>
