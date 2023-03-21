@@ -236,6 +236,17 @@ $response = (new OpenAIApi($apiKey))
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/models/retrieve).
 
+### Model Delete
+
+```php
+$response = (new OpenAIApi($apiKey))
+        ->Model()
+        ->delete('your own model');
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/fine-tunes/delete-model).
+
+
 ### File List
 
 ```php
@@ -288,6 +299,59 @@ $response = (new OpenAIApi($apiKey))
 ```
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve-content).
+
+
+### Fine-tune List
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->FineTune()
+    ->list();
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/list).
+
+### Fine-tune Create
+
+```php
+ $response = (new OpenAIApi($apiKey))
+        ->FineTune()
+        ->create(
+            'file-xxxx'
+        );
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/create).
+
+### Fine-tune Retrieve
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->FineTune()
+    ->retrieve('ft-xxx');
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/retrieve).
+
+### Fine-tune List Events
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->FineTune()
+    ->listEvents('ft-xxx');
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/events).
+
+### Fine-tune Cancel
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->FineTune()
+    ->Cancel('ft-xxx');
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/cancel).
 
 ### Manage the errors
 
