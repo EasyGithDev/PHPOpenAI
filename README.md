@@ -353,7 +353,7 @@ $response = (new OpenAIApi($apiKey))
 
 [Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/cancel).
 
-### Manage the errors
+## Manage the errors
 
 Sometimes, the API returns errors. Therefore, it is necessary to be able to identify what caused the problem. To handle this difficulty, you have two options. 
 
