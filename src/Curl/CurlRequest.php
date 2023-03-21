@@ -103,11 +103,6 @@ class CurlRequest
 
         $curlinfo = curl_getinfo($this->ch);
 
-        // if ($http_code != intval(200)) {
-        //     $jsonReponse = json_decode($response);
-        //     throw new ApiException($http_code, $jsonReponse->error);
-        // }
-
         $infos = [
             'input' => [
                 'payload' => $this->payload
