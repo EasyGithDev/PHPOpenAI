@@ -62,6 +62,7 @@ class Edit
 
         $response =  $this->curl
             ->appendToUrl(self::END_POINT)
+            ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
                 json_encode($payload)
             )

@@ -56,6 +56,7 @@ class File
 
         $response =  $this->curl
             ->appendToUrl(self::END_POINT)
+            ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
                 $payload
             )
@@ -81,7 +82,6 @@ class File
 
         $response =  $this->curl
             ->appendToUrl(self::END_POINT . '/' . $file_id)
-
             ->setMethod(CurlRequest::CURL_DELETE)
             ->exec();
 

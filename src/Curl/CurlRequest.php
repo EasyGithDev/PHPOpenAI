@@ -170,8 +170,7 @@ class CurlRequest
     public function setPayload(string|array $payload): self
     {
         $this->payload = $payload;
-        $this->setMethod(self::CURL_POST);
-
+        
         return $this;
     }
 

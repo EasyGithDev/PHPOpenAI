@@ -43,6 +43,7 @@ final class FileTest extends TestCase
      */
     public function testRetrieve(string $file_id)
     {
+        $this->assertStringStartsWith('file-', $file_id);
         $response = $this->model->retrieve($file_id);
         $this->assertEquals(200, $response->getHttpCode());
         return $file_id;
@@ -53,6 +54,7 @@ final class FileTest extends TestCase
      */
     public function testDelete(string $file_id)
     {
+        $this->assertStringStartsWith('file-', $file_id);
         $response = $this->model->delete($file_id);
         $this->assertEquals(200, $response->getHttpCode());
     }

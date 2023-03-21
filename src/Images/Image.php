@@ -55,6 +55,7 @@ class Image
 
         $response =  $this->curl
             ->appendToUrl(self::END_POINT . '/generations')
+            ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
                 json_encode($payload)
             )
@@ -95,6 +96,7 @@ class Image
 
         $response =  $this->curl
             ->appendToUrl(self::VARIATION_END_POINT)
+            ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();
 
@@ -151,6 +153,7 @@ class Image
 
         $response =  $this->curl
             ->appendToUrl(self::EDIT_END_POINT)
+            ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();
 
