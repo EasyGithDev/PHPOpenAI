@@ -104,8 +104,21 @@ class CurlResponse implements JsonSerializable
     public function throwable(): self
     {
         if (!$this->isOk()) {
-            throw new ApiException($this->getHttpCode(), $this->toObject()->error);
+            throw new ApiException($this->getHttpCode(), $this->getError());
         }
         return $this;
+    }
+
+    public function getError(): stdClass
+    {
+        if (!isset($this->toObject()->error)) {
+            $err = new stdClass;
+            $err->message = $this->infos['output']['buffer'];
+            $err->type = '';
+            $err->param = '';
+            $err->code = '';
+            return $err;
+        }
+        return $this->toObject()->error;
     }
 }

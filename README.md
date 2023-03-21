@@ -35,39 +35,18 @@ Here's an example code that shows you how to use the OpenAI API in PHP:
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-use EasyGithDev\PHPOpenAI\Configuration;
 use EasyGithDev\PHPOpenAI\Model;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-$apiKey = "XXXXXXX YOUR KEY";
-if (file_exists(Configuration::$_configDir . '/key.php')) {
-    $apiKey = require Configuration::$_configDir . '/key.php';
-}
-
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$completion = $openAIApi->Completion();
-$response = $completion->create(
+$response = (new OpenAIApi("YOUR KEY"))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
-    "Say this is a test",    
+    "Say this is a test",
 );
 
 var_dump($response);
 ```
 
 This code instantiates a new `OpenAIApi` object with an API key, and then creates a new `Completion` object to perform text completion with the GPT-3 AI language model provided by OpenAI.
-
-You can create a file containing the api key. It will be necessary to place the file in the folder named config.
-
-```php
-<?php
-return "YOUR KEY";
-```
-
-This code instantiates a new `OpenAIApi` object with an API key, and then creates a new `Completion` object to perform text completion with the GPT-3 AI language model provided by OpenAI.
-
-You can create a file containing the api key. It will be necessary to place the file in the folder named config.
-
 
 The `create()` method is called on the `Completion` object to generate a new text completion. It takes two parameters:
 
@@ -76,16 +55,47 @@ The `create()` method is called on the `Completion` object to generate a new tex
 
 The result of the completion is returned in the `$response` variable. The result can then be used for further processing, such as displaying the completed text or feeding it into another part of the program for additional processing.
 
-Obviously you can use a short syntax.
+
+## Manage the API Key
+
+### First possibility
+
+You can use an environment variable to store your key. You can then use this variable as in the following example:
 
 ```php
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+$response = (env('API_KEY'))->Completion()->create(
+    ModelEnum::TEXT_DAVINCI_003,
+    "Say this is a test",
+);
+```
 
-use EasyGithDev\PHPOpenAI\Model;
-use EasyGithDev\PHPOpenAI\OpenAIApi;
+### Second possibility
 
-$response = (new OpenAIApi("YOUR KEY"))->Completion()->create(
+You can create a file containing the key. By default, you should use the folder named "config" to place your file. However, you can modify this behavior as follows:
+
+```php
+<?php
+Configuration::$_configDir = '/YOUR/PATH/TO/THE/FILE';
+```
+
+The contents of the "key.php" file are as follows:
+
+```php
+<?php
+return 'API_KEY';
+```
+
+You can then use this variable as in the following example:
+
+```php
+<?php
+$apiKey = '';
+if (file_exists(Configuration::$_configDir . '/key.php')) {
+    $apiKey = require Configuration::$_configDir . '/key.php';
+}
+
+$response = ($apiKey)->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );
@@ -279,12 +289,35 @@ $response = (new OpenAIApi($apiKey))
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve-content).
 
-### Errors
+### Manage the errors
+
+Sometimes, the API returns errors. Therefore, it is necessary to be able to identify what caused the problem. To handle this difficulty, you have two options. 
+
+Either you receive the response and check that an error has occurred using the isOk() method. 
+
+```php
+$response = (new OpenAIApi('BAD KEY'))->Completion()->create(
+    ModelEnum::TEXT_DAVINCI_003,
+    "Say this is a test",
+);
+
+if (!$response->isOk()) {
+    $err = $response->getError();
+    echo $err->message, ' ',
+    $err->type, ' ',
+    $err->param, ' ',
+    $err->code;
+}
+```
+
+Or, you use a try-catch structure by using the throwable() method of the Response object.
 
 ```php
 try {
-    $response = $file->download('file-EmrKv0H0CpZzk6ELaGJkhN1V');
-    $json_response = json_decode($response);
+    $response = (new OpenAIApi('BAD KEY'))->Completion()->create(
+        ModelEnum::TEXT_DAVINCI_003,
+        "Say this is a test",
+    )->throwable();
 } catch (ApiException $e) {
     echo nl2br($e->getMessage());
     die;
