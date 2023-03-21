@@ -7,33 +7,39 @@ use PHPUnit\Framework\TestCase;
 final class FineTuneTest extends TestCase
 {
     protected $apiKey;
-    protected $model;
-   
+    protected $client;
+
     function __construct()
     {
         if (file_exists(Configuration::$_configDir . '/key.php')) {
             $this->apiKey = require Configuration::$_configDir . '/key.php';
         }
         $configuration = new Configuration($this->apiKey);
-        $openAIApi = new OpenAIApi($configuration);
-        $this->model = $openAIApi->FineTune();
+        $this->client = new OpenAIApi($configuration);
 
         parent::__construct();
     }
 
     public function testList()
     {
-        $response = $this->model->list();
+        $response = $this->client->FineTune()->list();
         $this->assertEquals(200, $response->getHttpCode());
     }
 
     public function testCreate()
     {
-        $this->assertTrue(false);
-        // $response = $this->model->create('file-TaUub0NiSnZ70YSgUoWqAS8K');
-        // $this->assertEquals(200, $response->getHttpCode());
-        // return $response->toObject()->id;
-        return '';
+        $response = $this->client
+            ->File()
+            ->create(
+                __DIR__ . '/../assets/mydata.jsonl',
+                'fine-tune',
+            );
+        $file_id = $response->toObject()->id;
+
+
+        $response = $this->client->FineTune()->create($file_id);
+        $this->assertEquals(200, $response->getHttpCode());
+        return $response->toObject()->id;
     }
 
     /**
@@ -42,7 +48,7 @@ final class FineTuneTest extends TestCase
     public function testCancel($fine_tune_id)
     {
         $this->assertStringStartsWith('ft-', $fine_tune_id);
-        $response = $this->model->cancel($fine_tune_id);
+        $response = $this->client->FineTune()->cancel($fine_tune_id);
         $this->assertEquals(200, $response->getHttpCode());
         return $fine_tune_id;
     }
@@ -53,7 +59,7 @@ final class FineTuneTest extends TestCase
     public function testRetrieve($fine_tune_id)
     {
         $this->assertStringStartsWith('ft-', $fine_tune_id);
-        $response = $this->model->retrieve($fine_tune_id);
+        $response = $this->client->FineTune()->retrieve($fine_tune_id);
         $this->assertEquals(200, $response->getHttpCode());
         return $fine_tune_id;
     }
@@ -64,7 +70,7 @@ final class FineTuneTest extends TestCase
     public function testListEvents($fine_tune_id)
     {
         $this->assertStringStartsWith('ft-', $fine_tune_id);
-        $response = $this->model->listEvents($fine_tune_id);
+        $response = $this->client->FineTune()->listEvents($fine_tune_id);
         $this->assertEquals(200, $response->getHttpCode());
         return $fine_tune_id;
     }

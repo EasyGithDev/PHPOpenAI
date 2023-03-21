@@ -1,6 +1,7 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
+use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -10,11 +11,16 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 if (isset($_POST['submit'])) {
-    $response = (new OpenAIApi($apiKey))
-        ->FineTune()
-        ->create(
-            $_POST['file_id']
-        );
+    try {
+        $response = (new OpenAIApi($apiKey))
+            ->Model()
+            ->delete(
+                $_POST['model']
+            )->throwable();
+    } catch (ApiException $e) {
+        echo nl2br($e->getMessage());
+        die;
+    }
 }
 
 ?>
@@ -24,12 +30,12 @@ if (isset($_POST['submit'])) {
 
 <head>
     <meta charset="utf-8">
-    <title>Finetune create</title>
+    <title>Model delete</title>
 </head>
 
 <body>
     <form action="<?= $_SERVER['PHP_SELF']  ?>" method="POST">
-        <input type="text" name='file_id'>
+        <input type="text" name='model'>
         <input type="submit" name='submit'>
     </form>
     <?php if (isset($_POST['submit'])) : ?>

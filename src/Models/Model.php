@@ -48,4 +48,16 @@ class Model
 
         return $this->response->setInfos($response);
     }
+
+    function delete(string $model): CurlResponse
+    {
+        $response =  $this->curl
+            ->appendToUrl(self::END_POINT . "/$model")
+            ->setMethod(CurlRequest::CURL_DELETE)
+            ->exec();
+
+        $this->curl->close();
+
+        return $this->response->setInfos($response);
+    }
 }

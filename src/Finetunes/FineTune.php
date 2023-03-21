@@ -104,10 +104,9 @@ class FineTune
             ->appendToUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
-                $payload
+                json_encode($payload)
             )
             ->addHeaders(['Content-Type: application/json'])
-            // ->verboseEnabled('debug.txt')
             ->exec();
 
         $this->curl->close();
