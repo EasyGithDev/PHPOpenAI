@@ -11,13 +11,15 @@ The project is written in PHP and can be used to easily integrate the OpenAI API
 
 ## Installation via Git
 
+### Clone the project
+
 To install the project, you can clone it from GitHub using the following Git command:
 
 ```bash
 git clone git@github.com:EasyGithDev/PHPOpenAI.git
 ```
 
-## Using Composer
+### Install the project
 
 The project uses Composer to manage dependencies. If you haven't already installed Composer, you can do so by following the instructions on the official Composer website. After installing Composer, you can install the project dependencies by running the following command in the project directory:
 
