@@ -11,22 +11,18 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$configuration = new Configuration($apiKey);
-$openAIApi = new OpenAIApi($configuration);
-$completion = $openAIApi->Completion();
-$response = $completion->create(
+$response = (new OpenAIApi($apiKey))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
-    "Say this is a test"
+    "Say this is a test",
 );
 
 ?>
-
 <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Completion</title>
+    <title>Completion using short syntaxe</title>
 </head>
 
 <body>
@@ -35,9 +31,10 @@ $response = $completion->create(
         <textarea name="response" id="response" cols="100" rows="30"><?= $response ?></textarea>
     </div>
 
-    <?php foreach ($response->choices() as $choice) : ?>
-        <div> <?= $choice->text ?> </div>
+    <?php foreach ($response->fetchAll() as $text) : ?>
+        <div> <?= $text ?> </div>
     <?php endforeach; ?>
+
 </body>
 
 </html>

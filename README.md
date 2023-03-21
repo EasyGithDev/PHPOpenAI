@@ -25,7 +25,7 @@ The project uses Composer to manage dependencies. If you haven't already install
 composer install
 ```
 
-## Writing a First Example
+## Writing a first example
 
 To use the OpenAI API, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
 
@@ -35,10 +35,10 @@ Here's an example code that shows you how to use the OpenAI API in PHP:
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-use EasyGithDev\PHPOpenAI\Model;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
-$response = (new OpenAIApi("YOUR KEY"))->Completion()->create(
+$response = (new OpenAIApi("YOUR_KEY"))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );
