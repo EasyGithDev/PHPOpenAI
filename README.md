@@ -11,19 +11,27 @@ This project is based on PHP version 8.1 in order to use features such as enumer
 - PHP version >= 8.1
 - cURL extension
 
-## Installation via Git
+## Installation
 
-### Clone the project
+The project uses Composer to manage dependencies. If you haven't already installed Composer, you can do so by following the instructions on the official Composer website.
+
+### Packagist install
+
+To install the project, you can install the package from packagist.org using the following command:
+
+```bash
+composer require easygithdev/phpopenai
+```
+
+### Github install
+
+#### Clone the project
 
 To install the project, you can clone it from GitHub using the following Git command:
 
 ```bash
 git clone git@github.com:EasyGithDev/PHPOpenAI.git
 ```
-
-### Install the project
-
-The project uses Composer to manage dependencies. If you haven't already installed Composer, you can do so by following the instructions on the official Composer website. After installing Composer, you can install the project dependencies by running the following command in the project directory:
 
 ```bash
 composer install
