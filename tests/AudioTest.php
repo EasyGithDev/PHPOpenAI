@@ -14,10 +14,8 @@ final class AudioTest extends TestCase
     
     function __construct()
     {
-        if (file_exists(Configuration::$_configDir . '/key.php')) {
-            $this->apiKey = require Configuration::$_configDir . '/key.php';
-        }
-        $configuration = new Configuration($this->apiKey);
+        
+        $configuration = new Configuration(getenv('OPENAI_API_KEY'));
         $openAIApi = new OpenAIApi($configuration);
         $this->model = $openAIApi->Audio();
 

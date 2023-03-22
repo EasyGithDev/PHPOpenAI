@@ -76,9 +76,13 @@ The result of the completion is returned in the `$response` variable. The result
 
 You can use an environment variable to store your key. You can then use this variable as in the following example:
 
+```bash
+export OPENAI_API_KEY="sk-xxxxxxxxxxx"
+```
+
 ```php
 <?php
-$response = (new OpenAIApi(env('API_KEY')))->Completion()->create(
+$response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );

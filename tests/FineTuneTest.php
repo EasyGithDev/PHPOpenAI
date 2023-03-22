@@ -11,10 +11,8 @@ final class FineTuneTest extends TestCase
 
     function __construct()
     {
-        if (file_exists(Configuration::$_configDir . '/key.php')) {
-            $this->apiKey = require Configuration::$_configDir . '/key.php';
-        }
-        $configuration = new Configuration($this->apiKey);
+        
+        $configuration = new Configuration(getenv('OPENAI_API_KEY'));
         $this->client = new OpenAIApi($configuration);
 
         parent::__construct();
