@@ -17,7 +17,7 @@
         "phpopenai",
         "easygithdev"
     ],
-    "license": "MIT License",
+    "license": "MIT",
     "authors": [
         {
             "name": "Florent Brusciano",
