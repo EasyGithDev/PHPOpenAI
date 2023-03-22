@@ -6,6 +6,8 @@ The project is written in PHP and can be used to easily integrate the OpenAI API
 
 ## System Requirements
 
+This project is based on PHP version 8.1 in order to use features such as enumerations. This project does not require any external dependencies. However, you must have the cURL extension installed for it to work properly.
+
 - PHP version >= 8.1
 - cURL extension
 
@@ -66,7 +68,7 @@ You can use an environment variable to store your key. You can then use this var
 
 ```php
 <?php
-$response = (env('API_KEY'))->Completion()->create(
+$response = (new OpenAIApi(env('API_KEY')))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );
@@ -97,7 +99,7 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 
-$response = ($apiKey)->Completion()->create(
+$response = (new OpenAIApi($apiKey))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );
@@ -106,6 +108,8 @@ $response = ($apiKey)->Completion()->create(
 ## Examples
 
 Integrating OpenAI into your application is now as simple as a few lines of code.
+
+You can find all the examples in the folder named "examples".
 
 ### Text Completion using ChatGPT
 
