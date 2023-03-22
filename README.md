@@ -192,8 +192,8 @@ try {
 }
 ```
 
-[Learn more about errors](https://platform.openai.com/docs/guides/error-codes/api-errors){:target="_blank"}.
-<a href="http://example.com" target="_blank">test</a>
+[Learn more about errors](https://platform.openai.com/docs/guides/error-codes/api-errors).
+
 ## Examples
 
 Integrating OpenAI into your application is now as simple as a few lines of code.
@@ -214,7 +214,7 @@ $response = (new OpenAIApi($apiKey))->Chat()->create(
 );
 ```
 
-[Learn more about chat completion](https://platform.openai.com/docs/guides/chat){:target="_blank"}.
+[Learn more about chat completion](https://platform.openai.com/docs/guides/chat).
 
 ### Text Completion using GPT-3
 
@@ -225,7 +225,7 @@ $response = (new OpenAIApi($apiKey))->Completion()->create(
 );
 ```
 
-[Learn more about text completion](https://platform.openai.com/docs/guides/completion){:target="_blank"}.
+[Learn more about text completion](https://platform.openai.com/docs/guides/completion).
 
 ### Text Edit
 
@@ -236,7 +236,7 @@ $response = (new OpenAIApi($apiKey))->Edit()->create(
 );
 ```
 
-[Learn more about text edit](https://platform.openai.com/docs/guides/code/editing-code){:target="_blank"}.
+[Learn more about text edit](https://platform.openai.com/docs/guides/code/editing-code).
 
 ### Image Generation Using DALL·E
 
@@ -249,7 +249,7 @@ $response = (new OpenAIApi($apiKey))->Image()->create(
 
 ```
 
-[Learn more about image generation](https://platform.openai.com/docs/guides/images){:target="_blank"}.
+[Learn more about image generation](https://platform.openai.com/docs/guides/images).
 
 ### Image Variation Using DALL·E
 
@@ -261,7 +261,7 @@ $response = (new OpenAIApi($apiKey))->Image()->createVariation(
 );
 ```
 
-[Learn more about image variation](https://platform.openai.com/docs/guides/images/variations){:target="_blank"}.
+[Learn more about image variation](https://platform.openai.com/docs/guides/images/variations).
 
 ### Image Edit Using DALL·E
 
@@ -274,7 +274,7 @@ $response = (new OpenAIApi($apiKey))->Image()->createEdit(
 );
 ```
 
-[Learn more about image edit](https://platform.openai.com/docs/guides/images/edits){:target="_blank"}.
+[Learn more about image edit](https://platform.openai.com/docs/guides/images/edits).
 
 ### Embedding
 
@@ -297,7 +297,7 @@ $response = (new OpenAIApi($apiKey))->Audio()->transcription(
 );
 ```
 
-[Learn more about audio transcription](https://platform.openai.com/docs/guides/speech-to-text){:target="_blank"}.
+[Learn more about audio transcription](https://platform.openai.com/docs/guides/speech-to-text).
 
 ### Audio Translation (Speech to text) using Whisper
 
@@ -309,7 +309,7 @@ $response = (new OpenAIApi($apiKey))->Audio()->translation(
 );
 ```
 
-[Learn more about audio translation](https://platform.openai.com/docs/guides/speech-to-text/translations){:target="_blank"}.
+[Learn more about audio translation](https://platform.openai.com/docs/guides/speech-to-text/translations).
 
 ### Model List
 
@@ -319,7 +319,7 @@ $response = (new OpenAIApi($apiKey))
     ->list();
 ```
 
-[Learn more about model](https://platform.openai.com/docs/api-reference/models){:target="_blank"}.
+[Learn more about model](https://platform.openai.com/docs/api-reference/models).
 
 ### Model Retrieve
 
@@ -329,7 +329,7 @@ $response = (new OpenAIApi($apiKey))
         ->retrieve('text-davinci-001');
 ```
 
-[Learn more about model](https://platform.openai.com/docs/api-reference/models/retrieve){:target="_blank"}.
+[Learn more about model](https://platform.openai.com/docs/api-reference/models/retrieve).
 
 ### Model Delete
 
@@ -339,7 +339,7 @@ $response = (new OpenAIApi($apiKey))
         ->delete('your own model');
 ```
 
-[Learn more about model](https://platform.openai.com/docs/api-reference/fine-tunes/delete-model){:target="_blank"}.
+[Learn more about model](https://platform.openai.com/docs/api-reference/fine-tunes/delete-model).
 
 
 ### File List
@@ -350,7 +350,7 @@ $response = (new OpenAIApi($apiKey))
     ->list();
 ```
 
-[Learn more about file](https://platform.openai.com/docs/api-reference/files/list){:target="_blank"}.
+[Learn more about file](https://platform.openai.com/docs/api-reference/files/list).
 
 ### File Upload
 
@@ -363,7 +363,7 @@ $response = (new OpenAIApi($apiKey))
     );
 ```
 
-[Learn more about file](https://platform.openai.com/docs/api-reference/files/upload){:target="_blank"}.
+[Learn more about file](https://platform.openai.com/docs/api-reference/files/upload).
 
 ### File Delete
 
@@ -373,7 +373,7 @@ $response = (new OpenAIApi($apiKey))
     ->delete('file-xxxx');
 ```
 
-[Learn more about file](https://platform.openai.com/docs/api-reference/files/delete){:target="_blank"}.
+[Learn more about file](https://platform.openai.com/docs/api-reference/files/delete).
 
 ### File Retrieve
 
@@ -383,7 +383,7 @@ $response = (new OpenAIApi($apiKey))
     ->retrieve('file-xxxx');
 ```
 
-[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve){:target="_blank"}.
+[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve).
 
 ### File Retrieve Content
 
@@ -393,7 +393,7 @@ $response = (new OpenAIApi($apiKey))
     ->download('file-xxxx');
 ```
 
-[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve-content){:target="_blank"}.
+[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve-content).
 
 
 ### Fine-tune List
@@ -404,7 +404,7 @@ $response = (new OpenAIApi($apiKey))
     ->list();
 ```
 
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/list){:target="_blank"}.
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/list).
 
 ### Fine-tune Create
 
@@ -416,7 +416,7 @@ $response = (new OpenAIApi($apiKey))
         );
 ```
 
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/create){:target="_blank"}.
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/create).
 
 ### Fine-tune Retrieve
 
@@ -426,7 +426,7 @@ $response = (new OpenAIApi($apiKey))
     ->retrieve('ft-xxx');
 ```
 
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/retrieve){:target="_blank"}.
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/retrieve).
 
 ### Fine-tune List Events
 
@@ -436,7 +436,7 @@ $response = (new OpenAIApi($apiKey))
     ->listEvents('ft-xxx');
 ```
 
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/events){:target="_blank"}.
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/events).
 
 ### Fine-tune Cancel
 
@@ -446,7 +446,7 @@ $response = (new OpenAIApi($apiKey))
     ->Cancel('ft-xxx');
 ```
 
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/cancel){:target="_blank"}.
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/cancel).
 
 ## Testing
 
