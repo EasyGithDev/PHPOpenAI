@@ -36,7 +36,6 @@ final class FineTuneTest extends TestCase
             );
         $file_id = $response->toObject()->id;
 
-
         $response = $this->client->FineTune()->create($file_id);
         $this->assertEquals(200, $response->getHttpCode());
         return $response->toObject()->id;
@@ -44,17 +43,6 @@ final class FineTuneTest extends TestCase
 
     /**
      * @depends testCreate
-     */
-    public function testCancel($fine_tune_id)
-    {
-        $this->assertStringStartsWith('ft-', $fine_tune_id);
-        $response = $this->client->FineTune()->cancel($fine_tune_id);
-        $this->assertEquals(200, $response->getHttpCode());
-        return $fine_tune_id;
-    }
-
-    /**
-     * @depends testCancel
      */
     public function testRetrieve($fine_tune_id)
     {
@@ -71,6 +59,17 @@ final class FineTuneTest extends TestCase
     {
         $this->assertStringStartsWith('ft-', $fine_tune_id);
         $response = $this->client->FineTune()->listEvents($fine_tune_id);
+        $this->assertEquals(200, $response->getHttpCode());
+        return $fine_tune_id;
+    }
+
+     /**
+     * @depends testRetrieve
+     */
+    public function testCancel($fine_tune_id)
+    {
+        $this->assertStringStartsWith('ft-', $fine_tune_id);
+        $response = $this->client->FineTune()->cancel($fine_tune_id);
         $this->assertEquals(200, $response->getHttpCode());
         return $fine_tune_id;
     }
