@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 final class AudioTest extends TestCase
 {
-    protected $apiKey;
+    
     protected $model;
     
     function __construct()

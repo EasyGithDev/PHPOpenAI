@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ImageTest extends TestCase
 {
-    protected $apiKey;
+    
     protected $client;
 
     function __construct()

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ModerationTest extends TestCase
 {
-    protected $apiKey;
+    
     protected $model;
     
     function __construct()

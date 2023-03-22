@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 final class FineTuneTest extends TestCase
 {
-    protected $apiKey;
+    
     protected $client;
 
     function __construct()
