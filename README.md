@@ -33,6 +33,8 @@ To install the project, you can clone it from GitHub using the following Git com
 git clone git@github.com:EasyGithDev/PHPOpenAI.git
 ```
 
+#### Install the project
+
 ```bash
 composer install
 ```
@@ -113,259 +115,47 @@ $response = (new OpenAIApi($apiKey))->Completion()->create(
 );
 ```
 
-## Examples
+## Manage the reponses
 
-Integrating OpenAI into your application is now as simple as a few lines of code.
-
-You can find all the examples in the folder named "examples".
-
-### Text Completion using ChatGPT
+The API returns responses in JSON format. To facilitate access to the different information, this response is encapsulated in an object named CurlResponse. You can then call the different methods of this object to access the data.
 
 ```php
-$response = (new OpenAIApi($apiKey))->Chat()->create(
-    ModelEnum::GPT_3_5_TURBO,
-    [
-        new Message(Message::ROLE_SYSTEM, "You are a helpful assistant."),
-        new Message(Message::ROLE_USER, "Who won the world series in 2020?"),
-        new Message(Message::ROLE_ASSISTANT, "The Los Angeles Dodgers won the World Series in 2020."),
-        new Message(Message::ROLE_USER, "Where was it played?"),
-    ]
-);
-```
-
-[Learn more about chat completion](https://platform.openai.com/docs/guides/chat).
-
-### Text Completion using GPT-3
-
-```php
+<?php
 $response = (new OpenAIApi($apiKey))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );
+
+// Response as a string
+echo $response;
+
+// Response as associative array
+echo '<pre>', print_r($response->toArray(), true), '</pre>';
+
+// Response as stClass object
+echo '<pre>', print_r($response->toObject(), true), '</pre>';
 ```
 
-[Learn more about text completion](https://platform.openai.com/docs/guides/completion).
-
-### Text Edit
+Methods specific to the CompletionResponse object.
 
 ```php
-$response = (new OpenAIApi($apiKey))->Edit()->create(
-    input: "What day of the wek is it?",
-    instruction: "Fix the spelling mistakes",
-);
-```
-
-[Learn more about text edit](https://platform.openai.com/docs/guides/code/editing-code).
-
-### Image Generation Using DALL·E
-
-```php
-$response = (new OpenAIApi($apiKey))->Image()->create(
-    "a rabbit inside a beautiful garden, 32 bit isometric",
-    n:4,
-    size: ImageSize::is256,
+<?php
+$response = (new OpenAIApi($apiKey))->Completion()->create(
+    ModelEnum::TEXT_DAVINCI_003,
+    "Say this is a test",
 );
 
+// Get all choices as stClass object
+foreach ($response->choices() as $choice) {
+    echo '<pre>', print_r($choice, true), '</pre>';
+}
+
+// Get one choice as stClass object
+echo $response->choice(0)->text;
+
+// Get all text as string array
+echo '<pre>', print_r($response->fetchAll(), true), '</pre>';
 ```
-
-[Learn more about image generation](https://platform.openai.com/docs/guides/images).
-
-### Image Variation Using DALL·E
-
-```php
-$response = (new OpenAIApi($apiKey))->Image()->createVariation(
-    __DIR__ . '/../../assets/image_variation_original.png',
-    n: 2,
-    size: ImageSize::is256
-);
-```
-
-[Learn more about image variation](https://platform.openai.com/docs/guides/images/variations).
-
-### Image Edit Using DALL·E
-
-```php
-$response = (new OpenAIApi($apiKey))->Image()->createEdit(
-    image: __DIR__ . '/../../assets/image_edit_original.png',
-    mask: __DIR__ . '/../../assets/image_edit_mask2.png',
-    prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
-    size: ImageSize::is512,
-);
-```
-
-[Learn more about image edit](https://platform.openai.com/docs/guides/images/edits).
-
-### Embedding
-
-```php
-$response = (new OpenAIApi($apiKey))->Embedding()->create(
-    ModelEnum::TEXT_EMBEDDING_ADA_002,
-    "The food was delicious and the waiter...",
-);
-```
-
-[Learn more about embedding](https://platform.openai.com/docs/guides/embeddings).
-
-### Audio Transcription (Speech to text) using Whisper
-
-```php
-$response = (new OpenAIApi($apiKey))->Audio()->transcription(
-    __DIR__ . '/../../assets/openai.mp3',
-    ModelEnum::WHISPER_1,
-    responseFormat: ResponseFormat::SRT
-);
-```
-
-[Learn more about audio transcription](https://platform.openai.com/docs/guides/speech-to-text).
-
-### Audio Translation (Speech to text) using Whisper
-
-```php
-$response = (new OpenAIApi($apiKey))->Audio()->translation(
-    __DIR__ . '/../../assets/openai_fr.mp3',
-    ModelEnum::WHISPER_1,
-    responseFormat: ResponseFormat::TEXT
-);
-```
-
-[Learn more about audio translation](https://platform.openai.com/docs/guides/speech-to-text/translations).
-
-### Model List
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->Model()
-    ->list();
-```
-
-[Learn more about model](https://platform.openai.com/docs/api-reference/models).
-
-### Model Retrieve
-
-```php
-$response = (new OpenAIApi($apiKey))
-        ->Model()
-        ->retrieve('text-davinci-001');
-```
-
-[Learn more about model](https://platform.openai.com/docs/api-reference/models/retrieve).
-
-### Model Delete
-
-```php
-$response = (new OpenAIApi($apiKey))
-        ->Model()
-        ->delete('your own model');
-```
-
-[Learn more about model](https://platform.openai.com/docs/api-reference/fine-tunes/delete-model).
-
-
-### File List
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->File()
-    ->list();
-```
-
-[Learn more about file](https://platform.openai.com/docs/api-reference/files/list).
-
-### File Upload
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->File()
-    ->create(
-        __DIR__ . '/../../assets/mydata.jsonl',
-        'fine-tune',
-    );
-```
-
-[Learn more about file](https://platform.openai.com/docs/api-reference/files/upload).
-
-### File Delete
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->File()
-    ->delete('file-xxxx');
-```
-
-[Learn more about file](https://platform.openai.com/docs/api-reference/files/delete).
-
-### File Retrieve
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->File()
-    ->retrieve('file-xxxx');
-```
-
-[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve).
-
-### File Retrieve Content
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->File()
-    ->download('file-xxxx');
-```
-
-[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve-content).
-
-
-### Fine-tune List
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->FineTune()
-    ->list();
-```
-
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/list).
-
-### Fine-tune Create
-
-```php
- $response = (new OpenAIApi($apiKey))
-        ->FineTune()
-        ->create(
-            'file-xxxx'
-        );
-```
-
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/create).
-
-### Fine-tune Retrieve
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->FineTune()
-    ->retrieve('ft-xxx');
-```
-
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/retrieve).
-
-### Fine-tune List Events
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->FineTune()
-    ->listEvents('ft-xxx');
-```
-
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/events).
-
-### Fine-tune Cancel
-
-```php
-$response = (new OpenAIApi($apiKey))
-    ->FineTune()
-    ->Cancel('ft-xxx');
-```
-
-[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/cancel).
 
 ## Manage the errors
 
@@ -388,7 +178,7 @@ if (!$response->isOk()) {
 }
 ```
 
-Or, you use a try-catch structure by using the throwable() method of the Response object.
+Or, you use a try-catch structure by using the throwable() method of the CurlResponse object.
 
 ```php
 try {
@@ -402,7 +192,261 @@ try {
 }
 ```
 
-[Learn more about errors](https://platform.openai.com/docs/guides/error-codes/api-errors).
+[Learn more about errors](https://platform.openai.com/docs/guides/error-codes/api-errors){:target="_blank"}.
+<a href="http://example.com" target="_blank">test</a>
+## Examples
+
+Integrating OpenAI into your application is now as simple as a few lines of code.
+
+You can find all the examples in the folder named "examples".
+
+### Text Completion using ChatGPT
+
+```php
+$response = (new OpenAIApi($apiKey))->Chat()->create(
+    ModelEnum::GPT_3_5_TURBO,
+    [
+        new Message(Message::ROLE_SYSTEM, "You are a helpful assistant."),
+        new Message(Message::ROLE_USER, "Who won the world series in 2020?"),
+        new Message(Message::ROLE_ASSISTANT, "The Los Angeles Dodgers won the World Series in 2020."),
+        new Message(Message::ROLE_USER, "Where was it played?"),
+    ]
+);
+```
+
+[Learn more about chat completion](https://platform.openai.com/docs/guides/chat){:target="_blank"}.
+
+### Text Completion using GPT-3
+
+```php
+$response = (new OpenAIApi($apiKey))->Completion()->create(
+    ModelEnum::TEXT_DAVINCI_003,
+    "Say this is a test",
+);
+```
+
+[Learn more about text completion](https://platform.openai.com/docs/guides/completion){:target="_blank"}.
+
+### Text Edit
+
+```php
+$response = (new OpenAIApi($apiKey))->Edit()->create(
+    input: "What day of the wek is it?",
+    instruction: "Fix the spelling mistakes",
+);
+```
+
+[Learn more about text edit](https://platform.openai.com/docs/guides/code/editing-code){:target="_blank"}.
+
+### Image Generation Using DALL·E
+
+```php
+$response = (new OpenAIApi($apiKey))->Image()->create(
+    "a rabbit inside a beautiful garden, 32 bit isometric",
+    n:4,
+    size: ImageSize::is256,
+);
+
+```
+
+[Learn more about image generation](https://platform.openai.com/docs/guides/images){:target="_blank"}.
+
+### Image Variation Using DALL·E
+
+```php
+$response = (new OpenAIApi($apiKey))->Image()->createVariation(
+    __DIR__ . '/../../assets/image_variation_original.png',
+    n: 2,
+    size: ImageSize::is256
+);
+```
+
+[Learn more about image variation](https://platform.openai.com/docs/guides/images/variations){:target="_blank"}.
+
+### Image Edit Using DALL·E
+
+```php
+$response = (new OpenAIApi($apiKey))->Image()->createEdit(
+    image: __DIR__ . '/../../assets/image_edit_original.png',
+    mask: __DIR__ . '/../../assets/image_edit_mask2.png',
+    prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
+    size: ImageSize::is512,
+);
+```
+
+[Learn more about image edit](https://platform.openai.com/docs/guides/images/edits){:target="_blank"}.
+
+### Embedding
+
+```php
+$response = (new OpenAIApi($apiKey))->Embedding()->create(
+    ModelEnum::TEXT_EMBEDDING_ADA_002,
+    "The food was delicious and the waiter...",
+);
+```
+
+[Learn more about embedding](https://platform.openai.com/docs/guides/embeddings).
+
+### Audio Transcription (Speech to text) using Whisper
+
+```php
+$response = (new OpenAIApi($apiKey))->Audio()->transcription(
+    __DIR__ . '/../../assets/openai.mp3',
+    ModelEnum::WHISPER_1,
+    responseFormat: ResponseFormat::SRT
+);
+```
+
+[Learn more about audio transcription](https://platform.openai.com/docs/guides/speech-to-text){:target="_blank"}.
+
+### Audio Translation (Speech to text) using Whisper
+
+```php
+$response = (new OpenAIApi($apiKey))->Audio()->translation(
+    __DIR__ . '/../../assets/openai_fr.mp3',
+    ModelEnum::WHISPER_1,
+    responseFormat: ResponseFormat::TEXT
+);
+```
+
+[Learn more about audio translation](https://platform.openai.com/docs/guides/speech-to-text/translations){:target="_blank"}.
+
+### Model List
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->Model()
+    ->list();
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/models){:target="_blank"}.
+
+### Model Retrieve
+
+```php
+$response = (new OpenAIApi($apiKey))
+        ->Model()
+        ->retrieve('text-davinci-001');
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/models/retrieve){:target="_blank"}.
+
+### Model Delete
+
+```php
+$response = (new OpenAIApi($apiKey))
+        ->Model()
+        ->delete('your own model');
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/fine-tunes/delete-model){:target="_blank"}.
+
+
+### File List
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->list();
+```
+
+[Learn more about file](https://platform.openai.com/docs/api-reference/files/list){:target="_blank"}.
+
+### File Upload
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->create(
+        __DIR__ . '/../../assets/mydata.jsonl',
+        'fine-tune',
+    );
+```
+
+[Learn more about file](https://platform.openai.com/docs/api-reference/files/upload){:target="_blank"}.
+
+### File Delete
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->delete('file-xxxx');
+```
+
+[Learn more about file](https://platform.openai.com/docs/api-reference/files/delete){:target="_blank"}.
+
+### File Retrieve
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->retrieve('file-xxxx');
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve){:target="_blank"}.
+
+### File Retrieve Content
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->File()
+    ->download('file-xxxx');
+```
+
+[Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve-content){:target="_blank"}.
+
+
+### Fine-tune List
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->FineTune()
+    ->list();
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/list){:target="_blank"}.
+
+### Fine-tune Create
+
+```php
+ $response = (new OpenAIApi($apiKey))
+        ->FineTune()
+        ->create(
+            'file-xxxx'
+        );
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/create){:target="_blank"}.
+
+### Fine-tune Retrieve
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->FineTune()
+    ->retrieve('ft-xxx');
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/retrieve){:target="_blank"}.
+
+### Fine-tune List Events
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->FineTune()
+    ->listEvents('ft-xxx');
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/events){:target="_blank"}.
+
+### Fine-tune Cancel
+
+```php
+$response = (new OpenAIApi($apiKey))
+    ->FineTune()
+    ->Cancel('ft-xxx');
+```
+
+[Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/cancel){:target="_blank"}.
 
 ## Testing
 
