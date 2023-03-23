@@ -36,12 +36,12 @@ class Moderation
         ];
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT)
+            ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
                 json_encode($payload)
             )
-            ->addHeaders(['Content-Type: application/json'])
+            ->setHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();

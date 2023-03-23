@@ -63,7 +63,7 @@ class Audio
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . '/transcriptions')
+            ->setUrl(self::END_POINT . '/transcriptions')
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();
@@ -109,7 +109,7 @@ class Audio
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . '/translations')
+            ->setUrl(self::END_POINT . '/translations')
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();

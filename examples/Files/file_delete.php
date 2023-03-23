@@ -1,6 +1,7 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
+use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -10,9 +11,14 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
     $apiKey = require Configuration::$_configDir . '/key.php';
 }
 if (isset($_POST['submit'])) {
-    $response = (new OpenAIApi($apiKey))
-        ->File()
-        ->delete($_POST['file_id']);
+    try {
+        $response = (new OpenAIApi($apiKey))
+            ->File()
+            ->delete($_POST['file_id'])->throwable();
+    } catch (ApiException $e) {
+        echo nl2br($e->getMessage());
+        die;
+    }
 }
 ?>
 

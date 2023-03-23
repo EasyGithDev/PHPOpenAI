@@ -54,12 +54,12 @@ class Image
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . '/generations')
+            ->setUrl(self::END_POINT . '/generations')
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
                 json_encode($payload)
             )
-            ->addHeaders(['Content-Type: application/json'])
+            ->setHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();
@@ -95,7 +95,7 @@ class Image
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::VARIATION_END_POINT)
+            ->setUrl(self::VARIATION_END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();
@@ -152,7 +152,7 @@ class Image
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::EDIT_END_POINT)
+            ->setUrl(self::EDIT_END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();

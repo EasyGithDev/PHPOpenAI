@@ -23,7 +23,7 @@ class Model
     function list(): ModelResponse
     {
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT)
+            ->setUrl(self::END_POINT)
             ->exec();
 
         $this->curl->close();
@@ -40,8 +40,8 @@ class Model
     function retrieve(string $model): CurlResponse
     {
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . "/$model")
-            ->addHeaders(['Content-Type: application/json'])
+            ->setUrl(self::END_POINT . "/$model")
+            ->setHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();
@@ -52,7 +52,7 @@ class Model
     function delete(string $model): CurlResponse
     {
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . "/$model")
+            ->setUrl(self::END_POINT . "/$model")
             ->setMethod(CurlRequest::CURL_DELETE)
             ->exec();
 

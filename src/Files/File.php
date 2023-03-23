@@ -28,7 +28,7 @@ class File
     function list(): FileResponse
     {
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT)
+            ->setUrl(self::END_POINT)
             ->exec();
 
         $this->curl->close();
@@ -55,12 +55,11 @@ class File
         ];
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT)
+            ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
                 $payload
             )
-            // ->verboseEnabled(__DIR__.'debug.txt')
             ->exec();
 
         $this->curl->close();
@@ -81,10 +80,9 @@ class File
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . '/' . $file_id)
+            ->setUrl(self::END_POINT . '/' . $file_id)
             ->setMethod(CurlRequest::CURL_DELETE)
             ->exec();
-
         $this->curl->close();
 
         return $this->response->setInfos($response);
@@ -104,7 +102,7 @@ class File
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . '/' . $file_id)
+            ->setUrl(self::END_POINT . '/' . $file_id)
             ->exec();
 
         $this->curl->close();
@@ -119,15 +117,12 @@ class File
      */
     function download(string $file_id): FileResponse
     {
-
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . '/' . $file_id . '/content')
-
-            // ->verboseEnabled('debug.txt')
+            ->setUrl(self::END_POINT . '/' . $file_id . '/content')
             ->exec();
 
         $this->curl->close();

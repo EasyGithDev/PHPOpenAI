@@ -2,7 +2,6 @@
 
 namespace EasyGithDev\PHPOpenAI\Curl;
 
-use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 use Exception;
 
 class CurlRequest
@@ -16,6 +15,8 @@ class CurlRequest
 
     protected ?\CurlHandle $ch = null;
     protected string $baseUrl = '';
+    protected string $url = '';
+    protected array $baseHeaders = [];
     protected array $headers = [];
     protected string|array|null $payload = null;
     protected string $method = self::CURL_GET;
@@ -43,11 +44,14 @@ class CurlRequest
      */
     protected function prepare(): void
     {
-        if (empty($this->baseUrl)) {
+        $url = $this->baseUrl . $this->url;
+        $headers = array_merge($this->baseHeaders, $this->headers);
+
+        if (empty($url)) {
             throw new Exception('Url is required');
         }
 
-        curl_setopt($this->ch, CURLOPT_URL, $this->baseUrl);
+        curl_setopt($this->ch, CURLOPT_URL, $url);
 
         switch ($this->method) {
             case self::CURL_POST:
@@ -61,8 +65,8 @@ class CurlRequest
                 break;
         }
 
-        if (count($this->headers)) {
-            curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
+        if (count($headers)) {
+            curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
         }
 
         if ($this->returnTransfer) {
@@ -126,17 +130,6 @@ class CurlRequest
         }
     }
 
-    /**
-     * Set the value of baseUrl
-     *
-     * @return  self
-     */
-    public function setUrl(string $baseUrl): self
-    {
-        $this->baseUrl = $baseUrl;
-
-        return $this;
-    }
 
     /**
      * Set the value of headers
@@ -232,11 +225,35 @@ class CurlRequest
         return $this;
     }
 
-    public function appendToUrl(string $part, bool $unic = true): self
+    /**
+     * Get the value of url
+     */
+    public function getUrl(): string
     {
-        if ($unic && strpos($this->baseUrl, $part) === false) {
-            $this->baseUrl .= $part;
-        }
+        return $this->url;
+    }
+
+    /**
+     * Set the value of url
+     *
+     * @return  self
+     */
+    public function setUrl($url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of baseHeaders
+     *
+     * @return  self
+     */
+    public function setBaseHeaders($baseHeaders): self
+    {
+        $this->baseHeaders = $baseHeaders;
+
         return $this;
     }
 }

@@ -24,7 +24,7 @@ class FineTune
     function list(): CurlResponse
     {
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT)
+            ->setUrl(self::END_POINT)
             ->exec();
 
         $this->curl->close();
@@ -35,7 +35,7 @@ class FineTune
     function listEvents(string $fine_tune_id, bool $stream = false): CurlResponse
     {
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . '/' . $fine_tune_id . '/events')
+            ->setUrl(self::END_POINT . '/' . $fine_tune_id . '/events')
             ->exec();
 
         $this->curl->close();
@@ -101,12 +101,12 @@ class FineTune
             $payload['suffix'] = $suffix;
         }
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT)
+            ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
                 json_encode($payload)
             )
-            ->addHeaders(['Content-Type: application/json'])
+            ->setHeaders(['Content-Type: application/json'])
             ->exec();
 
         $this->curl->close();
@@ -127,7 +127,7 @@ class FineTune
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . '/' . $fine_tune_id)
+            ->setUrl(self::END_POINT . '/' . $fine_tune_id)
             ->exec();
 
         $this->curl->close();
@@ -142,7 +142,7 @@ class FineTune
         }
 
         $response =  $this->curl
-            ->appendToUrl(self::END_POINT . '/' . $fine_tune_id . '/cancel')
+            ->setUrl(self::END_POINT . '/' . $fine_tune_id . '/cancel')
             ->setMethod(CurlRequest::CURL_POST)
             ->exec();
 

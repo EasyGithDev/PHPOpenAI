@@ -42,7 +42,7 @@ class OpenAIApi
     public function Model(): Model
     {
         return new Model((new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new ModelResponse()
         );
@@ -51,7 +51,7 @@ class OpenAIApi
     public function Completion(): Completion
     {
         return new Completion((new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new CompletionResponse()
         );
@@ -61,7 +61,7 @@ class OpenAIApi
     {
         return new Edit(
             (new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new EditResponse()
         );
@@ -72,7 +72,7 @@ class OpenAIApi
 
         return new Chat(
             (new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new ChatResponse()
         );
@@ -82,7 +82,7 @@ class OpenAIApi
     {
         return new Image(
             (new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl())
                 ->setTimeout(30),
             new ImageResponse()
@@ -94,7 +94,7 @@ class OpenAIApi
 
         return new Audio(
             (new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new AudioResponse()
         );
@@ -105,7 +105,7 @@ class OpenAIApi
 
         return new Moderation(
             (new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new ModerationResponse()
         );
@@ -115,7 +115,7 @@ class OpenAIApi
     {
         return new File(
             (new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new FileResponse()
         );
@@ -125,7 +125,7 @@ class OpenAIApi
     {
         return new Finetune(
             (new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new CurlResponse()
         );
@@ -135,7 +135,7 @@ class OpenAIApi
     {
         return new Embedding(
             (new CurlRequest())
-                ->setHeaders($this->configuration->getCurlHeaders())
+                ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new EmbeddingResponse()
         );
