@@ -27,7 +27,6 @@ use EasyGithDev\PHPOpenAI\Finetunes\FineTune;
 
 class OpenAIApi
 {
-
     protected ?Configuration $configuration = null;
 
     public function __construct(Configuration|string $var)
@@ -41,7 +40,8 @@ class OpenAIApi
 
     public function Model(): Model
     {
-        return new Model((new CurlRequest())
+        return new Model(
+            (new CurlRequest())
                 ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new ModelResponse()
@@ -50,7 +50,8 @@ class OpenAIApi
 
     public function Completion(): Completion
     {
-        return new Completion((new CurlRequest())
+        return new Completion(
+            (new CurlRequest())
                 ->setBaseHeaders($this->configuration->getCurlHeaders())
                 ->setBaseUrl($this->configuration->getApiUrl()),
             new CompletionResponse()
@@ -69,7 +70,6 @@ class OpenAIApi
 
     public function Chat(): Chat
     {
-
         return new Chat(
             (new CurlRequest())
                 ->setBaseHeaders($this->configuration->getCurlHeaders())
@@ -91,7 +91,6 @@ class OpenAIApi
 
     public function Audio(): Audio
     {
-
         return new Audio(
             (new CurlRequest())
                 ->setBaseHeaders($this->configuration->getCurlHeaders())
@@ -102,7 +101,6 @@ class OpenAIApi
 
     public function Moderation(): Moderation
     {
-
         return new Moderation(
             (new CurlRequest())
                 ->setBaseHeaders($this->configuration->getCurlHeaders())

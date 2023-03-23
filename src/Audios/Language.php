@@ -123,7 +123,7 @@ enum Language: string
     case SOUTHERN_NDEBELE = "nr";
     case OCCITAN = "oc";
     case OJIBWE_OJIBWA = "oj";
-        // case OLD CHURCH SLAVONIC_CHURCH SLAVONIC_OLD BULGARIAN="cu";
+    // case OLD CHURCH SLAVONIC_CHURCH SLAVONIC_OLD BULGARIAN="cu";
     case OROMO = "om";
     case ORIYA = "or";
     case OSSETIAN_OSSETIC = "os";

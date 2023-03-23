@@ -4,7 +4,6 @@ namespace EasyGithDev\PHPOpenAI\Audios;
 
 enum ResponseFormat: string
 {
-
     case JSON =  'json';
     case TEXT = 'text';
     case SRT = 'srt';

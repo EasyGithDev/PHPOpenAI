@@ -6,8 +6,7 @@ use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 
 class AudioResponse extends CurlResponse
 {
-
-    function text(): string
+    public function text(): string
     {
         return $this->getBuffer();
     }

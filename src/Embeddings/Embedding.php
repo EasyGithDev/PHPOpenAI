@@ -9,13 +9,13 @@ use EasyGithDev\PHPOpenAI\Curl\Responses\EmbeddingResponse;
 
 class Embedding
 {
-    const END_POINT = '/embeddings';
+    public const END_POINT = '/embeddings';
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
     }
 
@@ -23,12 +23,11 @@ class Embedding
      * @param ModelEnum $model
      * @param string|array $input
      * @param string $user
-     * 
+     *
      * @return CurlResponse
      */
-    function create(ModelEnum $model, string|array $input, string $user = ''): EmbeddingResponse
+    public function create(ModelEnum $model, string|array $input, string $user = ''): EmbeddingResponse
     {
-
         if (empty($input)) {
             throw new \Exception("Input is required");
         }

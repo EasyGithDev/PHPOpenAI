@@ -14,7 +14,6 @@ class Configuration
         string $apiKey,
         string $organization = ''
     ) {
-
         if (empty($apiKey)) {
             throw new Exception('apiKey can not be empty');
         }

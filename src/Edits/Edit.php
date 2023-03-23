@@ -9,7 +9,7 @@ use EasyGithDev\PHPOpenAI\Curl\Responses\EditResponse;
 
 class Edit
 {
-    const END_POINT = '/edits';
+    public const END_POINT = '/edits';
 
 
 
@@ -18,11 +18,11 @@ class Edit
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
     }
 
-    function create(
+    public function create(
         string $instruction,
         ModelEnum $model = ModelEnum::TEXT_DAVINCI_EDIT_001,
         string $input = '',
@@ -30,7 +30,6 @@ class Edit
         float $top_p = 1.0,
         int $n = 1,
     ): EditResponse {
-
         if (empty($instruction)) {
             throw new \Exception("Instruction can not be empty");
         }

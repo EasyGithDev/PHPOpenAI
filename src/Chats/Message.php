@@ -4,15 +4,15 @@ namespace EasyGithDev\PHPOpenAI\Chats;
 
 class Message
 {
-    const ROLE_USER = 'user';
-    const ROLE_SYSTEM = 'system';
-    const ROLE_ASSISTANT = 'assistant';
+    public const ROLE_USER = 'user';
+    public const ROLE_SYSTEM = 'system';
+    public const ROLE_ASSISTANT = 'assistant';
 
-    function __construct(protected string $role, protected string $content)
+    public function __construct(protected string $role, protected string $content)
     {
     }
 
-    function toArray(): array
+    public function toArray(): array
     {
         return get_object_vars($this);
     }

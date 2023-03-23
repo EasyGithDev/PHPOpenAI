@@ -7,18 +7,17 @@ use stdClass;
 
 class EditResponse extends CurlResponse
 {
-
-    function choices() : array
+    public function choices(): array
     {
         return $this->toObject()->choices;
     }
 
-    function choice(int $n) : stdClass
+    public function choice(int $n): stdClass
     {
         return $this->toObject()->choices[$n];
     }
 
-    function fetchAll(): array
+    public function fetchAll(): array
     {
         return array_map(function ($value) {
             return $value->text;

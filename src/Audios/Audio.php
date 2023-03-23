@@ -10,13 +10,13 @@ use Exception;
 
 class Audio
 {
-    const END_POINT = '/audio';
+    public const END_POINT = '/audio';
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
     }
 

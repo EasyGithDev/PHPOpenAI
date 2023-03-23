@@ -8,7 +8,6 @@ use stdClass;
 
 class CurlResponse implements JsonSerializable
 {
-
     public function __construct(protected ?array $infos = null)
     {
     }
@@ -112,7 +111,7 @@ class CurlResponse implements JsonSerializable
     public function getError(): stdClass
     {
         if (!isset($this->toObject()->error)) {
-            $err = new stdClass;
+            $err = new stdClass();
             $err->message = $this->infos['output']['buffer'];
             $err->type = '';
             $err->param = '';

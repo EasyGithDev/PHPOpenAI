@@ -9,7 +9,7 @@ use Exception;
 
 class File
 {
-    const END_POINT = '/files';
+    public const END_POINT = '/files';
 
 
 
@@ -18,14 +18,14 @@ class File
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
     }
 
     /**
      * @return CurlResponse
      */
-    function list(): FileResponse
+    public function list(): FileResponse
     {
         $response =  $this->curl
             ->setUrl(self::END_POINT)
@@ -39,12 +39,11 @@ class File
     /**
      * @param string $file
      * @param string $purpose
-     * 
+     *
      * @return CurlResponse
      */
-    function create(string $file, string $purpose): FileResponse
+    public function create(string $file, string $purpose): FileResponse
     {
-
         if (!file_exists($file)) {
             throw new Exception("Unable to locate file: $file");
         }
@@ -69,12 +68,11 @@ class File
 
     /**
      * @param string $file_id
-     * 
+     *
      * @return CurlResponse
      */
-    function delete(string $file_id): FileResponse
+    public function delete(string $file_id): FileResponse
     {
-
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");
         }
@@ -91,12 +89,11 @@ class File
 
     /**
      * @param string $file_id
-     * 
+     *
      * @return CurlResponse
      */
-    function retrieve(string $file_id): FileResponse
+    public function retrieve(string $file_id): FileResponse
     {
-
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");
         }
@@ -112,10 +109,10 @@ class File
 
     /**
      * @param string $file_id
-     * 
+     *
      * @return CurlResponse
      */
-    function download(string $file_id): FileResponse
+    public function download(string $file_id): FileResponse
     {
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");

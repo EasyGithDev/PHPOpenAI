@@ -7,18 +7,17 @@ use stdClass;
 
 class ModelResponse extends CurlResponse
 {
-
-    function datas(): array
+    public function datas(): array
     {
         return $this->toObject()->data;
     }
 
-    function data(int $n): stdClass
+    public function data(int $n): stdClass
     {
         return $this->toObject()->data[$n];
     }
 
-    function fetchAll(): array
+    public function fetchAll(): array
     {
         return array_map(function ($value) {
             return $value->id;

@@ -6,12 +6,11 @@ use Exception;
 
 class CurlRequest
 {
-
-    const CURL_GET = 'GET';
-    const CURL_POST = 'POST';
-    const CURL_PUT = 'PUT';
-    const CURL_DELETE = 'DELETE';
-    const CURL_PATCH = 'PATCH';
+    public const CURL_GET = 'GET';
+    public const CURL_POST = 'POST';
+    public const CURL_PUT = 'PUT';
+    public const CURL_DELETE = 'DELETE';
+    public const CURL_PATCH = 'PATCH';
 
     protected ?\CurlHandle $ch = null;
     protected string $baseUrl = '';
@@ -145,7 +144,7 @@ class CurlRequest
 
     /**
      * @param array $additionalHeader
-     * 
+     *
      * @return self
      */
     public function addHeaders(array $additionalHeader): self

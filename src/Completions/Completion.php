@@ -9,29 +9,29 @@ use EasyGithDev\PHPOpenAI\Curl\Responses\CompletionResponse;
 
 class Completion
 {
-    const END_POINT = '/completions';
-    const MAX_TOKENS = 4096;
-    const MAX_LOGPROBS = 5;
-    const MAX_TOP_P = 1;
-    const MIN_TOP_P = 0;
-    const MAX_TEMPERATURE = 1;
-    const MIN_TEMPERATURE = 0;
-    const MAX_N = 10;
-    const MIN_N = 0;
-    const MAX_PRESENCE_PENALITY = 2.0;
-    const MIN_PRESENCE_PENALITY = -2.0;
-    const MAX_FRENQUENCY_PENALITY = 2.0;
-    const MIN_FRENQUENCY_PENALITY = -2.0;
+    public const END_POINT = '/completions';
+    public const MAX_TOKENS = 4096;
+    public const MAX_LOGPROBS = 5;
+    public const MAX_TOP_P = 1;
+    public const MIN_TOP_P = 0;
+    public const MAX_TEMPERATURE = 1;
+    public const MIN_TEMPERATURE = 0;
+    public const MAX_N = 10;
+    public const MIN_N = 0;
+    public const MAX_PRESENCE_PENALITY = 2.0;
+    public const MIN_PRESENCE_PENALITY = -2.0;
+    public const MAX_FRENQUENCY_PENALITY = 2.0;
+    public const MIN_FRENQUENCY_PENALITY = -2.0;
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
     }
 
-    function create(
+    public function create(
         ModelEnum|string $model,
         string $prompt,
         ?string $suffix = null,
@@ -49,7 +49,6 @@ class Completion
         ?array $logit_bias = null,
         string $user = ''
     ): CompletionResponse {
-
         if (empty($model)) {
             throw new \Exception("Model can not be empty");
         }

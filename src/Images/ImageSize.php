@@ -1,6 +1,6 @@
 <?php
-namespace EasyGithDev\PHPOpenAI\Images;
 
+namespace EasyGithDev\PHPOpenAI\Images;
 
 enum ImageSize: string
 {

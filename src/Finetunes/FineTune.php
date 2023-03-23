@@ -8,20 +8,20 @@ use Exception;
 
 class FineTune
 {
-    const END_POINT = '/fine-tunes';
+    public const END_POINT = '/fine-tunes';
 
     /**
      * @param string $apiUrl
      * @param array $headers
      */
-    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
     }
 
     /**
      * @return CurlResponse
      */
-    function list(): CurlResponse
+    public function list(): CurlResponse
     {
         $response =  $this->curl
             ->setUrl(self::END_POINT)
@@ -32,7 +32,7 @@ class FineTune
         return $this->response->setInfos($response);
     }
 
-    function listEvents(string $fine_tune_id, bool $stream = false): CurlResponse
+    public function listEvents(string $fine_tune_id, bool $stream = false): CurlResponse
     {
         $response =  $this->curl
             ->setUrl(self::END_POINT . '/' . $fine_tune_id . '/events')
@@ -46,10 +46,10 @@ class FineTune
     /**
      * @param string $training_file
      * @param string $purpose
-     * 
+     *
      * @return CurlResponse
      */
-    function create(
+    public function create(
         string $training_file,
         string $validation_file = '',
         string $model = '',
@@ -62,7 +62,6 @@ class FineTune
         ?array $classification_betas = null,
         ?string $suffix = null
     ): CurlResponse {
-
         $payload =  [
             "training_file" => $training_file,
             // "n_epochs" => $n_epochs,
@@ -116,12 +115,11 @@ class FineTune
 
     /**
      * @param string $fine_tune_id
-     * 
+     *
      * @return CurlResponse
      */
-    function retrieve(string $fine_tune_id): CurlResponse
+    public function retrieve(string $fine_tune_id): CurlResponse
     {
-
         if (empty($fine_tune_id)) {
             throw new Exception("fine_tune_id can not be empty");
         }
@@ -135,7 +133,7 @@ class FineTune
         return $this->response->setInfos($response);
     }
 
-    function cancel(string $fine_tune_id): CurlResponse
+    public function cancel(string $fine_tune_id): CurlResponse
     {
         if (empty($fine_tune_id)) {
             throw new Exception("fine_tune_id can not be empty");

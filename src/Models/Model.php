@@ -8,19 +8,19 @@ use EasyGithDev\PHPOpenAI\Curl\Responses\ModelResponse;
 
 class Model
 {
-    const END_POINT = '/models';
+    public const END_POINT = '/models';
 
     /**
      * @param string $apiKey
      */
-    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
     }
 
     /**
      * @return CurlResponse
      */
-    function list(): ModelResponse
+    public function list(): ModelResponse
     {
         $response =  $this->curl
             ->setUrl(self::END_POINT)
@@ -34,10 +34,10 @@ class Model
 
     /**
      * @param string $model
-     * 
+     *
      * @return CurlResponse
      */
-    function retrieve(string $model): CurlResponse
+    public function retrieve(string $model): CurlResponse
     {
         $response =  $this->curl
             ->setUrl(self::END_POINT . "/$model")
@@ -49,7 +49,7 @@ class Model
         return $this->response->setInfos($response);
     }
 
-    function delete(string $model): CurlResponse
+    public function delete(string $model): CurlResponse
     {
         $response =  $this->curl
             ->setUrl(self::END_POINT . "/$model")

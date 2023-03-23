@@ -8,7 +8,7 @@ use EasyGithDev\PHPOpenAI\Curl\Responses\ModerationResponse;
 
 class Moderation
 {
-    const END_POINT = '/moderations';
+    public const END_POINT = '/moderations';
 
 
 
@@ -16,16 +16,16 @@ class Moderation
     /**
      * @param string $apiKey
      */
-    function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
     {
     }
 
     /**
      * @param string $input
-     * 
+     *
      * @return CurlResponse
      */
-    function create(string $input): ModerationResponse
+    public function create(string $input): ModerationResponse
     {
         if (empty($input)) {
             throw new \Exception("Input can not be empty");

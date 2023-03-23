@@ -7,23 +7,22 @@ use stdClass;
 
 class ModerationResponse extends CurlResponse
 {
-
-    function results(): array
+    public function results(): array
     {
         return $this->toObject()->results;
     }
 
-    function result(int $n): stdClass
+    public function result(int $n): stdClass
     {
         return $this->toObject()->results[$n];
     }
 
-    function categories(): stdClass
+    public function categories(): stdClass
     {
         return $this->result(0)->categories;
     }
 
-    function scores(): stdClass
+    public function scores(): stdClass
     {
         return $this->result(0)->category_scores;
     }

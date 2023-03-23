@@ -6,7 +6,7 @@ use stdClass;
 
 class ApiException extends \Exception
 {
-    function __construct(int $httpCode, stdClass $obj)
+    public function __construct(int $httpCode, stdClass $obj)
     {
         $message = 'Api error : ' . $httpCode . PHP_EOL .
             "message:" . $obj->message . PHP_EOL .
