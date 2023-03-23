@@ -12,7 +12,6 @@ class Chat
     const END_POINT = '/chat/completions';
     const MAX_PROMPT_CHARS = 1000;
     const MAX_TOKENS = 4096;
-    const MAX_LOGPROBS = 5;
     const MAX_TOP_P = 1;
     const MIN_TOP_P = 0;
     const MAX_TEMPERATURE = 1;
@@ -43,7 +42,7 @@ class Chat
         int $n = 1,
         bool $stream = false,
         string|array|null $stop = null,
-        int $max_tokens = 128,
+        int $max_tokens = 2048,
         int $presence_penalty = 0,
         int $frequency_penalty = 0,
         ?array $logit_bias = null,
