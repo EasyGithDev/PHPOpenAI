@@ -9,9 +9,20 @@ use EasyGithDev\PHPOpenAI\Curl\Responses\ChatResponse;
 
 class Chat
 {
-    const MAX_PROMPT_CHARS = 1000;
     const END_POINT = '/chat/completions';
-
+    const MAX_PROMPT_CHARS = 1000;
+    const MAX_TOKENS = 4096;
+    const MAX_LOGPROBS = 5;
+    const MAX_TOP_P = 1;
+    const MIN_TOP_P = 0;
+    const MAX_TEMPERATURE = 1;
+    const MIN_TEMPERATURE = 0;
+    const MAX_N = 10;
+    const MIN_N = 0;
+    const MAX_PRESENCE_PENALITY = 2.0;
+    const MIN_PRESENCE_PENALITY = -2.0;
+    const MAX_FRENQUENCY_PENALITY = 2.0;
+    const MIN_FRENQUENCY_PENALITY = -2.0;
 
 
 
@@ -25,7 +36,7 @@ class Chat
 
 
     function create(
-        ModelEnum $model,
+        ModelEnum|string $model,
         array $messages,
         float $temperature = 1.0,
         float $top_p = 1.0,
@@ -35,46 +46,74 @@ class Chat
         int $max_tokens = 128,
         int $presence_penalty = 0,
         int $frequency_penalty = 0,
-        $logit_bias = null,
+        ?array $logit_bias = null,
         string $user = ''
     ): ChatResponse {
 
-        if ($temperature < 0 or $temperature > 2) {
-            throw new \Exception("Temperature to use, between 0 and 2");
+        if (empty($model)) {
+            throw new \Exception("Model can not be empty");
         }
 
-        if ($top_p < 0 or $top_p > 2) {
-            throw new \Exception("Nucleus sampling to use, between 0 and 2");
+        if (!count($messages)) {
+            throw new \Exception("Messages can not be empty");
         }
 
-        if ($n < 1 or $n > 10) {
+        if ($max_tokens > self::MAX_TOKENS) {
+            throw new \Exception("Max tokens are " . self::MAX_TOKENS);
+        }
+
+        if ($temperature < self::MIN_TEMPERATURE or $temperature > self::MAX_TEMPERATURE) {
+            throw new \Exception("Temperature to use, between 0 and 1");
+        }
+
+        if ($top_p < self::MIN_TOP_P or $top_p > self::MAX_TOP_P) {
+            throw new \Exception("Nucleus sampling to use, between 0 and 1");
+        }
+
+        if ($n < self::MIN_N or $n > self::MAX_N) {
             throw new \Exception('$n is between 1 and 10');
         }
 
-        if ($presence_penalty < -2 or $presence_penalty > 2) {
-            throw new \Exception("Presence_penalty is a number between -2.0 and 2.0");
+        if ($presence_penalty < self::MIN_PRESENCE_PENALITY or $presence_penalty > self::MAX_PRESENCE_PENALITY) {
+            throw new \Exception("Presence_penalty is a number between 0 and 2.0");
         }
 
-        if ($frequency_penalty < -2 or $frequency_penalty > 2) {
-            throw new \Exception("Frequency_penalty is a number between -2.0 and 2.0");
+        if ($frequency_penalty < self::MIN_FRENQUENCY_PENALITY or $frequency_penalty > self::MAX_FRENQUENCY_PENALITY) {
+            throw new \Exception("Frequency_penalty is a number between 0 and 2.0");
         }
 
-        $msg = [];
-        foreach ($messages as $message) {
-            $msg[] =  $message->toArray();
-        }
+        $msg = array_map(function ($message) {
+            return $message->toArray();
+        }, $messages);
 
         $payload =       [
-            "model" => $model->value,
+            "model" => is_string($model) ? $model : $model->value,
             "messages" => $msg,
             "temperature" => $temperature,
-            "top_p" => $top_p,
-            "n" => $n,
-            "stream" => $stream,
             "max_tokens" => $max_tokens,
             "presence_penalty" => $presence_penalty,
             "frequency_penalty" => $frequency_penalty
         ];
+
+        if ($top_p < 1) {
+            $payload["top_p"] = $top_p;
+        }
+
+        if ($n > 1) {
+            $payload["n"] = $n;
+        }
+
+        if ($stream) {
+            $payload["stream"] = $stream;
+        }
+
+        if (!is_null($stop)) {
+            $payload["stop"] = is_array($stop) ? $stop : [$stop];
+        }
+
+        if (!is_null($logit_bias)) {
+            $payload["logit_bias"] =  $logit_bias;
+        }
 
         if (!empty($user)) {
             $payload["user"] = $user;
