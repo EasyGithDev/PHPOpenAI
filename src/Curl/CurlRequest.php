@@ -157,7 +157,9 @@ class CurlRequest
      */
     public function addHeaders(array $additionalHeader): self
     {
-        $this->headers = array_merge($this->headers, $additionalHeader);
+        if (!in_array($additionalHeader, $this->headers)) {
+            $this->headers = array_merge($this->headers, $additionalHeader);
+        }
 
         return $this;
     }
@@ -170,7 +172,7 @@ class CurlRequest
     public function setPayload(string|array $payload): self
     {
         $this->payload = $payload;
-        
+
         return $this;
     }
 
@@ -230,10 +232,11 @@ class CurlRequest
         return $this;
     }
 
-    public function appendToUrl(string $part): self
+    public function appendToUrl(string $part, bool $unic = true): self
     {
-        $this->baseUrl .= $part;
-
+        if ($unic && strpos($this->baseUrl, $part) === false) {
+            $this->baseUrl .= $part;
+        }
         return $this;
     }
 }

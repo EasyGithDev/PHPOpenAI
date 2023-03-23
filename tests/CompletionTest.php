@@ -7,27 +7,31 @@ use PHPUnit\Framework\TestCase;
 
 final class CompletionTest extends TestCase
 {
-    
-    protected $model;
-    
+
+    protected $client;
+
     function __construct()
     {
-        
+
         $configuration = new Configuration(getenv('OPENAI_API_KEY'));
         $openAIApi = new OpenAIApi($configuration);
-        $this->model = $openAIApi->Completion();
+        $this->client = $openAIApi->Completion();
 
         parent::__construct();
     }
 
     public function testCreate()
     {
-        $response = $this->model->create(
+        $response = $this->client->create(
             ModelEnum::TEXT_DAVINCI_003,
-            "Say this is a test",    
+            "Say this is a test",
+        );
+        $this->assertEquals(200, $response->getHttpCode());
+
+        $response = $this->client->create(
+            "text-davinci-003",
+            "Say this is a test",
         );
         $this->assertEquals(200, $response->getHttpCode());
     }
-
-   
 }
