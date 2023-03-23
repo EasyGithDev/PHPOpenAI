@@ -6,17 +6,17 @@ use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\EmbeddingResponse;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
+use EasyGithDev\PHPOpenAI\OpenAIModel;
 
-class Embedding
+class Embedding extends OpenAIModel
 {
     public const END_POINT = '/embeddings';
 
-    /**
-     * @param string $apiUrl
-     * @param array $headers
-     */
-    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected OpenAIApi $client)
     {
+        $this->request = new CurlRequest();
+        $this->response = new EmbeddingResponse();
     }
 
     /**
@@ -41,7 +41,8 @@ class Embedding
             $payload["user"] = $user;
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
@@ -50,7 +51,7 @@ class Embedding
             ->setHeaders(['Content-Type: application/json'])
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }

@@ -41,101 +41,78 @@ class OpenAIApi
     public function Model(): Model
     {
         return new Model(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl()),
-            new ModelResponse()
+            $this
         );
     }
 
     public function Completion(): Completion
     {
         return new Completion(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl()),
-            new CompletionResponse()
+            $this
         );
     }
 
     public function Edit(): Edit
     {
         return new Edit(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl()),
-            new EditResponse()
+            $this
         );
     }
 
     public function Chat(): Chat
     {
         return new Chat(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl()),
-            new ChatResponse()
+            $this
         );
     }
 
     public function Image(): Image
     {
         return new Image(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl())
-                ->setTimeout(30),
-            new ImageResponse()
+            $this
         );
     }
 
     public function Audio(): Audio
     {
         return new Audio(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl()),
-            new AudioResponse()
+            $this
         );
     }
 
     public function Moderation(): Moderation
     {
         return new Moderation(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl()),
-            new ModerationResponse()
+            $this
         );
     }
 
     public function File(): File
     {
         return new File(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl()),
-            new FileResponse()
+            $this
         );
     }
 
     public function FineTune(): FineTune
     {
         return new Finetune(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl()),
-            new CurlResponse()
+            $this
         );
     }
 
     public function Embedding(): Embedding
     {
         return new Embedding(
-            (new CurlRequest())
-                ->setBaseHeaders($this->configuration->getCurlHeaders())
-                ->setBaseUrl($this->configuration->getApiUrl()),
-            new EmbeddingResponse()
+            $this
         );
+    }
+
+    /**
+     * Get the value of configuration
+     */
+    public function getConfiguration(): Configuration
+    {
+        return $this->configuration;
     }
 }

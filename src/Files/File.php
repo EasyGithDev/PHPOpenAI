@@ -5,21 +5,22 @@ namespace EasyGithDev\PHPOpenAI\Files;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\FileResponse;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
+use EasyGithDev\PHPOpenAI\OpenAIModel;
 use Exception;
 
-class File
+class File extends OpenAIModel
 {
     public const END_POINT = '/files';
 
 
-
-
     /**
-     * @param string $apiUrl
-     * @param array $headers
+     * @param  protected
      */
-    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected OpenAIApi $client)
     {
+        $this->request = new CurlRequest();
+        $this->response = new FileResponse();
     }
 
     /**
@@ -27,11 +28,12 @@ class File
      */
     public function list(): FileResponse
     {
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -53,7 +55,8 @@ class File
             "purpose" => $purpose,
         ];
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
@@ -61,7 +64,7 @@ class File
             )
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -77,11 +80,12 @@ class File
             throw new Exception("file_id can not be empty");
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $file_id)
             ->setMethod(CurlRequest::CURL_DELETE)
             ->exec();
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -98,11 +102,12 @@ class File
             throw new Exception("file_id can not be empty");
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $file_id)
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -118,11 +123,12 @@ class File
             throw new Exception("file_id can not be empty");
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $file_id . '/content')
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }

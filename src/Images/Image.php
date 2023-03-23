@@ -5,9 +5,11 @@ namespace EasyGithDev\PHPOpenAI\Images;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ImageResponse;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
+use EasyGithDev\PHPOpenAI\OpenAIModel;
 use Exception;
 
-class Image
+class Image extends OpenAIModel
 {
     public const MAX_PROMPT_CHARS = 1000;
     public const END_POINT = '/images';
@@ -15,11 +17,12 @@ class Image
     public const EDIT_END_POINT = self::END_POINT . '/edits';
 
     /**
-     * @param string $apiUrl
-     * @param array $headers
+     * @param  protected
      */
-    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected OpenAIApi $client)
     {
+        $this->request = (new CurlRequest())->setTimeout(30);
+        $this->response = new ImageResponse();
     }
 
 
@@ -53,7 +56,8 @@ class Image
             $payload["user"] = $user;
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/generations')
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
@@ -62,7 +66,7 @@ class Image
             ->setHeaders(['Content-Type: application/json'])
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -94,13 +98,14 @@ class Image
             $payload["user"] = $user;
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::VARIATION_END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -151,13 +156,14 @@ class Image
             $payload["user"] = $user;
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::EDIT_END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }

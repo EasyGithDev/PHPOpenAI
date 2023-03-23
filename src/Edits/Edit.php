@@ -6,8 +6,10 @@ use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\EditResponse;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
+use EasyGithDev\PHPOpenAI\OpenAIModel;
 
-class Edit
+class Edit extends OpenAIModel
 {
     public const END_POINT = '/edits';
 
@@ -18,8 +20,10 @@ class Edit
      * @param string $apiUrl
      * @param array $headers
      */
-    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected OpenAIApi $client)
     {
+        $this->request = new CurlRequest();
+        $this->response = new EditResponse();
     }
 
     public function create(
@@ -59,7 +63,8 @@ class Edit
             "n" => $n,
         ];
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
@@ -68,7 +73,7 @@ class Edit
             ->setHeaders(['Content-Type: application/json'])
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }

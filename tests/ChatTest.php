@@ -43,4 +43,17 @@ final class ChatTest extends TestCase
 
         $this->assertEquals(200, $response->getHttpCode());
     }
+
+    public function testCreateFromString()
+    {
+
+        $response =  $this->client->Chat()->create(
+            "gpt-3.5-turbo",
+            [
+                new Message(Message::ROLE_USER, 'Hello!'),
+            ]
+        );
+
+        $this->assertEquals(200, $response->getHttpCode());
+    }
 }

@@ -6,18 +6,22 @@ use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\AudioResponse;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
+use EasyGithDev\PHPOpenAI\OpenAIModel;
 use Exception;
 
-class Audio
+class Audio extends OpenAIModel
 {
     public const END_POINT = '/audio';
 
+
     /**
-     * @param string $apiUrl
-     * @param array $headers
+     * @param  protected
      */
-    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected OpenAIApi $client)
     {
+        $this->request = new CurlRequest();
+        $this->response = new AudioResponse();
     }
 
     protected function extensionAvailable(string $filename): bool
@@ -62,13 +66,14 @@ class Audio
             $payload["language"] = $language->value;
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/transcriptions')
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -108,13 +113,14 @@ class Audio
             $payload["language"] = $language->value;
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/translations')
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }

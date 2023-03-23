@@ -4,9 +4,11 @@ namespace EasyGithDev\PHPOpenAI\Finetunes;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
+use EasyGithDev\PHPOpenAI\OpenAIModel;
 use Exception;
 
-class FineTune
+class FineTune extends OpenAIModel
 {
     public const END_POINT = '/fine-tunes';
 
@@ -14,8 +16,10 @@ class FineTune
      * @param string $apiUrl
      * @param array $headers
      */
-    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected OpenAIApi $client)
     {
+        $this->request = new CurlRequest();
+        $this->response = new CurlResponse();
     }
 
     /**
@@ -23,22 +27,24 @@ class FineTune
      */
     public function list(): CurlResponse
     {
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
 
     public function listEvents(string $fine_tune_id, bool $stream = false): CurlResponse
     {
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $fine_tune_id . '/events')
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -99,7 +105,8 @@ class FineTune
         if (!is_null($suffix)) {
             $payload['suffix'] = $suffix;
         }
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
@@ -108,7 +115,7 @@ class FineTune
             ->setHeaders(['Content-Type: application/json'])
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -124,11 +131,12 @@ class FineTune
             throw new Exception("fine_tune_id can not be empty");
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $fine_tune_id)
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
@@ -139,12 +147,13 @@ class FineTune
             throw new Exception("fine_tune_id can not be empty");
         }
 
-        $response =  $this->curl
+        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $fine_tune_id . '/cancel')
             ->setMethod(CurlRequest::CURL_POST)
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }

@@ -6,8 +6,10 @@ use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\CompletionResponse;
+use EasyGithDev\PHPOpenAI\OpenAIApi;
+use EasyGithDev\PHPOpenAI\OpenAIModel;
 
-class Completion
+class Completion extends OpenAIModel
 {
     public const END_POINT = '/completions';
     public const MAX_TOKENS = 4096;
@@ -24,11 +26,12 @@ class Completion
     public const MIN_FRENQUENCY_PENALITY = -2.0;
 
     /**
-     * @param string $apiUrl
-     * @param array $headers
+     * @param  protected
      */
-    public function __construct(protected CurlRequest $curl, protected CurlResponse $response)
+    public function __construct(protected OpenAIApi $client)
     {
+        $this->request = new CurlRequest();
+        $this->response = new CompletionResponse();
     }
 
     public function create(
@@ -134,7 +137,9 @@ class Completion
             $payload["user"] = $user;
         }
 
-        $response =  $this->curl
+        $response =  $this->request
+            ->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
@@ -143,7 +148,7 @@ class Completion
             ->setHeaders(['Content-Type: application/json'])
             ->exec();
 
-        $this->curl->close();
+        $this->request->close();
 
         return $this->response->setInfos($response);
     }
