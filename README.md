@@ -23,22 +23,6 @@ To install the project, you can install the package from packagist.org using the
 composer require easygithdev/phpopenai
 ```
 
-### Github install
-
-#### Clone the project
-
-To install the project, you can clone it from GitHub using the following Git command:
-
-```bash
-git clone git@github.com:EasyGithDev/PHPOpenAI.git
-```
-
-#### Install the project
-
-```bash
-composer install
-```
-
 ## Writing a first example
 
 To use the OpenAI API, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
@@ -90,11 +74,11 @@ $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Completion()->create(
 
 ### Second possibility
 
-You can create a file containing the key. By default, you should use the folder named "config" to place your file. However, you can modify this behavior as follows:
+You can create a file containing the key :
 
 ```php
 <?php
-Configuration::$_configDir = '/YOUR/PATH/TO/THE/FILE';
+$configFile = '/YOUR/PATH/TO/THE/FILE/key.php';
 ```
 
 The contents of the "key.php" file are as follows:
@@ -109,8 +93,8 @@ You can then use this variable as in the following example:
 ```php
 <?php
 $apiKey = '';
-if (file_exists(Configuration::$_configDir . '/key.php')) {
-    $apiKey = require Configuration::$_configDir . '/key.php';
+if (file_exists($configFile)) {
+    $apiKey = require $configFile;
 }
 
 $response = (new OpenAIApi($apiKey))->Completion()->create(
@@ -202,7 +186,8 @@ try {
 
 Integrating OpenAI into your application is now as simple as a few lines of code.
 
-You can find all the examples in the folder named "examples".
+You can find all the examples here :
+[https://github.com/EasyGithDev/PHPOpenAI-Examples](https://github.com/EasyGithDev/PHPOpenAI-Examples).
 
 ### Text Completion using ChatGPT
 
