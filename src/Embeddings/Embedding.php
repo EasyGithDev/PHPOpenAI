@@ -13,9 +13,13 @@ class Embedding extends OpenAIModel
 {
     public const END_POINT = '/embeddings';
 
-    public function __construct(protected OpenAIApi $client)
+    public function __construct(protected ?OpenAIApi $client = null)
     {
         $this->request = new CurlRequest();
+        if (!is_null($this->client)) {
+            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
+        }
         $this->response = new EmbeddingResponse();
     }
 
@@ -41,8 +45,7 @@ class Embedding extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+        $response =  $this->request
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(

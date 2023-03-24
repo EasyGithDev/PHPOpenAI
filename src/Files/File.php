@@ -17,9 +17,13 @@ class File extends OpenAIModel
     /**
      * @param  protected
      */
-    public function __construct(protected OpenAIApi $client)
+    public function __construct(protected ?OpenAIApi $client = null)
     {
         $this->request = new CurlRequest();
+        if (!is_null($this->client)) {
+            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
+        }
         $this->response = new FileResponse();
     }
 
@@ -29,7 +33,7 @@ class File extends OpenAIModel
     public function list(): FileResponse
     {
         $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->exec();
 
@@ -56,7 +60,7 @@ class File extends OpenAIModel
         ];
 
         $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
@@ -80,8 +84,7 @@ class File extends OpenAIModel
             throw new Exception("file_id can not be empty");
         }
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+        $response =  $this->request
             ->setUrl(self::END_POINT . '/' . $file_id)
             ->setMethod(CurlRequest::CURL_DELETE)
             ->exec();
@@ -103,7 +106,7 @@ class File extends OpenAIModel
         }
 
         $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $file_id)
             ->exec();
 
@@ -124,7 +127,7 @@ class File extends OpenAIModel
         }
 
         $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $file_id . '/content')
             ->exec();
 

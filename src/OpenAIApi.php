@@ -10,18 +10,6 @@ use EasyGithDev\PHPOpenAI\Models\Model;
 use EasyGithDev\PHPOpenAI\Moderations\Moderation;
 use EasyGithDev\PHPOpenAI\Audios\Audio;
 use EasyGithDev\PHPOpenAI\Chats\Chat;
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\AudioResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\ChatResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\CompletionResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\EditResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\EmbeddingResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\FileResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\ImageResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\ModelResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\ModerationResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\FineTuneResponse;
 use EasyGithDev\PHPOpenAI\Embeddings\Embedding;
 use EasyGithDev\PHPOpenAI\Finetunes\FineTune;
 
@@ -40,72 +28,52 @@ class OpenAIApi
 
     public function Model(): Model
     {
-        return new Model(
-            $this
-        );
+        return new Model($this);
     }
 
     public function Completion(): Completion
     {
-        return new Completion(
-            $this
-        );
+        return new Completion($this);
     }
 
     public function Edit(): Edit
     {
-        return new Edit(
-            $this
-        );
+        return new Edit($this);
     }
 
     public function Chat(): Chat
     {
-        return new Chat(
-            $this
-        );
+        return new Chat($this);
     }
 
     public function Image(): Image
     {
-        return new Image(
-            $this
-        );
+        return new Image($this);
     }
 
     public function Audio(): Audio
     {
-        return new Audio(
-            $this
-        );
+        return new Audio($this);
     }
 
     public function Moderation(): Moderation
     {
-        return new Moderation(
-            $this
-        );
+        return new Moderation($this);
     }
 
     public function File(): File
     {
-        return new File(
-            $this
-        );
+        return new File($this);
     }
 
     public function FineTune(): FineTune
     {
-        return new Finetune(
-            $this
-        );
+        return new Finetune($this);
     }
 
     public function Embedding(): Embedding
     {
-        return new Embedding(
-            $this
-        );
+        return new Embedding($this);
     }
 
     /**

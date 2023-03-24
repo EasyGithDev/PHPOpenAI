@@ -20,15 +20,20 @@ class Edit extends OpenAIModel
      * @param string $apiUrl
      * @param array $headers
      */
-    public function __construct(protected OpenAIApi $client)
+    public function __construct(protected ?OpenAIApi $client = null)
     {
         $this->request = new CurlRequest();
+        if (!is_null($this->client)) {
+            $this->request
+                ->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
+        }
         $this->response = new EditResponse();
     }
 
     public function create(
         string $instruction,
-        ModelEnum $model = ModelEnum::TEXT_DAVINCI_EDIT_001,
+        ModelEnum|string $model,
         string $input = '',
         float $temperature = 1.0,
         float $top_p = 1.0,
@@ -36,10 +41,6 @@ class Edit extends OpenAIModel
     ): EditResponse {
         if (empty($instruction)) {
             throw new \Exception("Instruction can not be empty");
-        }
-
-        if ($model != ModelEnum::TEXT_DAVINCI_EDIT_001 && $model != ModelEnum::CODE_DAVINCI_EDIT_001) {
-            throw new \Exception("text-davinci-edit-001 or code-davinci-edit-001 are supported");
         }
 
         if ($temperature < 0 or $temperature > 2) {
@@ -56,15 +57,14 @@ class Edit extends OpenAIModel
 
         $payload =  [
             "instruction" => $instruction,
-            "model" => $model->value,
+            "model" => is_string($model) ? $model : $model->value,
             "input" => $input,
             "temperature" => $temperature,
             "top_p" => $top_p,
             "n" => $n,
         ];
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+        $response =  $this->request
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(

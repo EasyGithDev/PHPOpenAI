@@ -14,13 +14,16 @@ class Audio extends OpenAIModel
 {
     public const END_POINT = '/audio';
 
-
     /**
      * @param  protected
      */
-    public function __construct(protected OpenAIApi $client)
+    public function __construct(protected ?OpenAIApi $client = null)
     {
         $this->request = new CurlRequest();
+        if (!is_null($this->client)) {
+            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
+        }
         $this->response = new AudioResponse();
     }
 
@@ -67,7 +70,7 @@ class Audio extends OpenAIModel
         }
 
         $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/transcriptions')
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
@@ -113,9 +116,7 @@ class Audio extends OpenAIModel
             $payload["language"] = $language->value;
         }
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
-            ->setUrl(self::END_POINT . '/translations')
+        $response =  $this->request->setUrl(self::END_POINT . '/translations')
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
             ->exec();

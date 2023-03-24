@@ -2,31 +2,30 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use PHPUnit\Framework\TestCase;
 
 final class EditTest extends TestCase
 {
-    
-    protected $model;
-    
+
+    protected $client;
+
     function __construct()
     {
-        
+
         $configuration = new Configuration(getenv('OPENAI_API_KEY'));
-        $openAIApi = new OpenAIApi($configuration);
-        $this->model = $openAIApi->Edit();
+        $this->client = new OpenAIApi($configuration);
 
         parent::__construct();
     }
 
     public function testCreate()
     {
-        $response = $this->model->create(
-            input: "What day of the wek is it?",
-            instruction: "Fix the spelling mistakes",
+        $response = $this->client->Edit()->create(
+            instruction:"What day of the wek is it?",
+            model:ModelEnum::CODE_DAVINCI_EDIT_001,
+            input:"Fix the spelling mistakes",
         );
         $this->assertEquals(200, $response->getHttpCode());
     }
-
-   
 }

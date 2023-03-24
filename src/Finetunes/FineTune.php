@@ -16,9 +16,14 @@ class FineTune extends OpenAIModel
      * @param string $apiUrl
      * @param array $headers
      */
-    public function __construct(protected OpenAIApi $client)
+    public function __construct(protected ?OpenAIApi $client = null)
     {
         $this->request = new CurlRequest();
+        if (!is_null($this->client)) {
+            $this->request
+                ->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
+        }
         $this->response = new CurlResponse();
     }
 
@@ -28,7 +33,7 @@ class FineTune extends OpenAIModel
     public function list(): CurlResponse
     {
         $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->exec();
 
@@ -40,7 +45,7 @@ class FineTune extends OpenAIModel
     public function listEvents(string $fine_tune_id, bool $stream = false): CurlResponse
     {
         $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $fine_tune_id . '/events')
             ->exec();
 
@@ -105,8 +110,7 @@ class FineTune extends OpenAIModel
         if (!is_null($suffix)) {
             $payload['suffix'] = $suffix;
         }
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+        $response =  $this->request
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
@@ -132,7 +136,7 @@ class FineTune extends OpenAIModel
         }
 
         $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $fine_tune_id)
             ->exec();
 
@@ -148,7 +152,7 @@ class FineTune extends OpenAIModel
         }
 
         $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT . '/' . $fine_tune_id . '/cancel')
             ->setMethod(CurlRequest::CURL_POST)
             ->exec();

@@ -28,10 +28,13 @@ class Completion extends OpenAIModel
     /**
      * @param  protected
      */
-    public function __construct(protected OpenAIApi $client)
+    public function __construct(protected ?OpenAIApi $client = null)
     {
         $this->request = new CurlRequest();
-        $this->response = new CompletionResponse();
+        if (!is_null($this->client)) {
+            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                    ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
+        }        $this->response = new CompletionResponse();
     }
 
     public function create(
@@ -138,8 +141,6 @@ class Completion extends OpenAIModel
         }
 
         $response =  $this->request
-            ->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
             ->setUrl(self::END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(

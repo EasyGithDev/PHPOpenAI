@@ -19,9 +19,14 @@ class Image extends OpenAIModel
     /**
      * @param  protected
      */
-    public function __construct(protected OpenAIApi $client)
+    public function __construct(protected ?OpenAIApi $client = null)
     {
         $this->request = (new CurlRequest())->setTimeout(30);
+        if (!is_null($this->client)) {
+            $this->request
+                ->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
+        }
         $this->response = new ImageResponse();
     }
 
@@ -56,8 +61,7 @@ class Image extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+        $response =  $this->request
             ->setUrl(self::END_POINT . '/generations')
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload(
@@ -98,8 +102,7 @@ class Image extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+        $response =  $this->request
             ->setUrl(self::VARIATION_END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
@@ -156,8 +159,7 @@ class Image extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
+        $response =  $this->request
             ->setUrl(self::EDIT_END_POINT)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($payload)
