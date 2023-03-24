@@ -1,6 +1,7 @@
 <?php
 
 use EasyGithDev\PHPOpenAI\Configuration;
+use EasyGithDev\PHPOpenAI\Models\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -11,12 +12,12 @@ if (file_exists(Configuration::$_configDir . '/key.php')) {
 }
 
 $response = (new OpenAIApi($apiKey))->Edit()->create(
-    input: "What day of the wek is it?",
-    instruction: "Fix the spelling mistakes",
+    "What day of the wek is it?",
+    ModelEnum::TEXT_DAVINCI_EDIT_001,
+    "Fix the spelling mistakes",
 );
 
 ?>
-
 <!doctype html>
 <html lang="en">
 

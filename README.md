@@ -235,8 +235,9 @@ $response = (new OpenAIApi($apiKey))->Completion()->create(
 
 ```php
 $response = (new OpenAIApi($apiKey))->Edit()->create(
-    input: "What day of the wek is it?",
-    instruction: "Fix the spelling mistakes",
+    "What day of the wek is it?",
+    ModelEnum::TEXT_DAVINCI_EDIT_001,
+    "Fix the spelling mistakes",
 );
 ```
 
