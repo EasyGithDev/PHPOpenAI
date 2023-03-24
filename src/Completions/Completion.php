@@ -51,7 +51,7 @@ class Completion extends OpenAIModel
         string|array|null $stop = null,
         float $presence_penalty = 0.0,
         float $frequency_penalty = 0.0,
-        ?int $best_of = 1,
+        int $best_of = 1,
         ?array $logit_bias = null,
         string $user = ''
     ): CompletionResponse {
@@ -128,7 +128,7 @@ class Completion extends OpenAIModel
             $payload["stop"] = is_array($stop) ? $stop : [$stop];
         }
 
-        if (!is_null($best_of)) {
+        if ($best_of > 1) {
             $payload["best_of"] = $best_of;
         }
 
