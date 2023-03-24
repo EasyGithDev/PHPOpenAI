@@ -95,6 +95,7 @@ class Completion extends OpenAIModel
             "model" => is_string($model) ? $model : $model->value,
             "prompt" => $prompt,
             "temperature" => $temperature,
+            "top_p" => $top_p,
             "max_tokens" => $max_tokens,
             "presence_penalty" => $presence_penalty,
             "frequency_penalty" => $frequency_penalty,
@@ -104,9 +105,9 @@ class Completion extends OpenAIModel
             $payload["suffix"] = $suffix;
         }
 
-        if ($top_p < 1) {
-            $payload["top_p"] = $top_p;
-        }
+        // if ($top_p < 1) {
+        //     $payload["top_p"] = $top_p;
+        // }
 
         if ($n > 1) {
             $payload["n"] = $n;
