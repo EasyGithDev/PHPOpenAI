@@ -32,9 +32,11 @@ class Completion extends OpenAIModel
     {
         $this->request = new CurlRequest();
         if (!is_null($this->client)) {
-            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                    ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }        $this->response = new CompletionResponse();
+            $this->request
+                ->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
+                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
+        }
+        $this->response = new CompletionResponse();
     }
 
     public function create(
@@ -53,8 +55,9 @@ class Completion extends OpenAIModel
         float $frequency_penalty = 0.0,
         int $best_of = 1,
         ?array $logit_bias = null,
-        string $user = ''
-    ): CompletionResponse {
+        string $user = '',
+        $callback = null
+    ): CurlResponse {
         if (empty($model)) {
             throw new \Exception("Model can not be empty");
         }
@@ -115,6 +118,16 @@ class Completion extends OpenAIModel
 
         if ($stream) {
             $payload["stream"] = $stream;
+            if (is_null($callback)) {
+                $callback = function ($ch, $data) {
+                    echo $data . PHP_EOL;
+                    echo PHP_EOL;
+                    ob_flush();
+                    flush();
+                    return mb_strlen($data);
+                };
+            }
+            $this->request->setCallback($callback);
         }
 
         if (!is_null($logprobs)) {

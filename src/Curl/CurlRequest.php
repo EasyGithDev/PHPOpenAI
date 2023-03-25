@@ -2,8 +2,6 @@
 
 namespace EasyGithDev\PHPOpenAI\Curl;
 
-use Exception;
-
 class CurlRequest
 {
     public const CURL_GET = 'GET';
@@ -22,6 +20,7 @@ class CurlRequest
     protected bool $returnTransfer = true;
     protected int $connecttimeout = 0;
     protected int $timeout = 10;
+    protected $callback = null;
 
     /**
      */
@@ -47,7 +46,7 @@ class CurlRequest
         $headers = array_merge($this->baseHeaders, $this->headers);
 
         if (empty($url)) {
-            throw new Exception('Url is required');
+            throw new \Exception('Url is required');
         }
 
         curl_setopt($this->ch, CURLOPT_URL, $url);
@@ -72,6 +71,10 @@ class CurlRequest
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, $this->returnTransfer);
         }
 
+        if (!is_null($this->callback)) {
+            curl_setopt($this->ch, CURLOPT_WRITEFUNCTION, $this->callback);
+        }
+
         curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, $this->connecttimeout);
         curl_setopt($this->ch, CURLOPT_TIMEOUT, $this->timeout); //timeout in seconds
     }
@@ -82,12 +85,6 @@ class CurlRequest
         curl_setopt($this->ch, CURLOPT_VERBOSE, 1);
         curl_setopt($this->ch, CURLOPT_STDERR, $fp);
 
-        return $this;
-    }
-
-    public function setMethod(string $method): self
-    {
-        $this->method = $method;
         return $this;
     }
 
@@ -129,6 +126,17 @@ class CurlRequest
         }
     }
 
+    public function setMethod(string $method): self
+    {
+        $this->method = $method;
+        return $this;
+    }
+
+    public function setCallback(callable $callback): self
+    {
+        $this->callback = $callback;
+        return $this;
+    }
 
     /**
      * Set the value of headers
