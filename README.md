@@ -216,6 +216,83 @@ $response = (new OpenAIApi($apiKey))->Completion()->create(
 
 [Learn more about text completion](https://platform.openai.com/docs/guides/completion).
 
+### Text Completion using stream
+
+The stream attribute in the OpenAI API is an optional parameter that you can use to control the data flow returned by the API. If you set this option to True, the API will return a response as a streaming data rather than a single response.
+
+This means that you can retrieve the results of the API as they become available, rather than waiting for the complete response before processing them. This option can be useful for applications that require real-time processing of large amounts of data.
+
+```php
+<?php
+header('Content-Type: text/event-stream');
+header('Cache-Control: no-cache');
+
+...
+
+(new OpenAIApi($apiKey))->Completion()->create(
+    model: "text-davinci-003",
+    prompt: "Translate this into 1. French, 2. Spanish and 3. Japanese:\n\nWhat rooms do you have available?\n\n1.",
+    temperature: 0.3,
+    max_tokens: 100,
+    top_p: 1.0,
+    frequency_penalty: 0.0,
+    presence_penalty: 0.0,
+    stream: true
+);
+```
+
+```html
+<html>
+
+<body>
+    <div id="result"></div>
+    <script>
+        function nl2br(str, replaceMode, isXhtml) {
+            var breakTag = (isXhtml) ? '<br />' : '<br>';
+            var replaceStr = (replaceMode) ? '$1' + breakTag : '$1' + breakTag + '$2';
+            return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
+        }
+
+        if (typeof (EventSource) !== 'undefined') {
+            console.info('Starting connection...');
+            var source = new EventSource('stream.php');
+            source.addEventListener('open', function (e) {
+                console.info('Connection was opened.');
+            }, false);
+
+            source.addEventListener('error', function (e) {
+                var txt;
+                switch (event.target.readyState) {
+                    // if reconnecting
+                    case EventSource.CONNECTING:
+                        txt = 'Reconnecting...';
+                        break;
+                    // if error was fatal
+                    case EventSource.CLOSED:
+                        txt = 'Connection failed. Will not retry.';
+                        break;
+                }
+                console.error('Connection error: ' + txt);
+            }, false);
+
+            source.addEventListener('message', function (e) {
+                if (e.data == "[DONE]") {
+                    source.close();
+                    return;
+                }
+                document.getElementById('result').innerHTML += nl2br(JSON.parse(e.data).choices[0].text);
+
+            }, false);
+        } else {
+            alert('Your browser does not support Server-sent events! Please upgrade it!');
+            console.error('Connection aborted');
+        }
+    </script>
+</body>
+
+</html>
+```
+
 ### Text Edit
 
 ```php
