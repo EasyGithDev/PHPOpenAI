@@ -19,12 +19,7 @@ class File extends OpenAIModel
      */
     public function __construct(protected ?OpenAIApi $client = null)
     {
-        $this->request = new CurlRequest();
-        if (!is_null($this->client)) {
-            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }
-        $this->response = new FileResponse();
+ 
     }
 
     /**

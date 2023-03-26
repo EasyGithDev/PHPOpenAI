@@ -2,7 +2,6 @@
 
 namespace EasyGithDev\PHPOpenAI\Images;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ImageResponse;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
@@ -13,6 +12,7 @@ class Image extends OpenAIModel
 {
     public const MAX_PROMPT_CHARS = 1000;
     public const END_POINT = '/images';
+    public const GENERATION_END_POINT = self::END_POINT . '/generations';
     public const VARIATION_END_POINT = self::END_POINT . '/variations';
     public const EDIT_END_POINT = self::END_POINT . '/edits';
 
@@ -21,13 +21,6 @@ class Image extends OpenAIModel
      */
     public function __construct(protected ?OpenAIApi $client = null)
     {
-        $this->request = (new CurlRequest())->setTimeout(30);
-        if (!is_null($this->client)) {
-            $this->request
-                ->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }
-        $this->response = new ImageResponse();
     }
 
 
@@ -40,7 +33,7 @@ class Image extends OpenAIModel
      *
      * @return CurlResponse
      */
-    public function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): ImageResponse
+    public function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): self
     {
         if (mb_strlen($prompt) > self::MAX_PROMPT_CHARS) {
             throw new \Exception("Max prompt is 1000 chars");
@@ -61,18 +54,13 @@ class Image extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $response =  $this->request
-            ->setUrl(self::END_POINT . '/generations')
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload(
-                json_encode($payload)
-            )
-            ->setHeaders(['Content-Type: application/json'])
-            ->exec();
+        $this->request = $this->client->post(
+            self::GENERATION_END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json']
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 
 
@@ -85,7 +73,7 @@ class Image extends OpenAIModel
      *
      * @return CurlResponse
      */
-    public function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): ImageResponse
+    public function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): self
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");
@@ -102,15 +90,12 @@ class Image extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $response =  $this->request
-            ->setUrl(self::VARIATION_END_POINT)
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload($payload)
-            ->exec();
+        $this->request = $this->client->post(
+            self::VARIATION_END_POINT,
+            $payload
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 
 
@@ -125,7 +110,7 @@ class Image extends OpenAIModel
      *
      * @return CurlResponse
      */
-    public function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): ImageResponse
+    public function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): self
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");
@@ -159,14 +144,11 @@ class Image extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $response =  $this->request
-            ->setUrl(self::EDIT_END_POINT)
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload($payload)
-            ->exec();
+        $this->request = $this->client->post(
+            self::EDIT_END_POINT,
+            $payload
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 }

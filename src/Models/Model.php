@@ -17,27 +17,18 @@ class Model extends OpenAIModel
      */
     public function __construct(protected ?OpenAIApi $client = null)
     {
-        $this->request = new CurlRequest();
-        if (!is_null($this->client)) {
-            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }
-        $this->response = new ModelResponse();
     }
 
     /**
      * @return CurlResponse
      */
-    public function list(): ModelResponse
+    public function list(): self
     {
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
-            ->setUrl(self::END_POINT)
-            ->exec();
+        $this->request = $this->client->get(
+            self::END_POINT,
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 
 
@@ -46,28 +37,23 @@ class Model extends OpenAIModel
      *
      * @return CurlResponse
      */
-    public function retrieve(string $model): CurlResponse
+    public function retrieve(string $model): self
     {
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
-            ->setUrl(self::END_POINT . "/$model")
-            ->setHeaders(['Content-Type: application/json'])
-            ->exec();
+        $this->request = $this->client->get(
+            self::END_POINT . "/$model",
+            null,
+            ['Content-Type: application/json']
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 
-    public function delete(string $model): CurlResponse
+    public function delete(string $model): self
     {
-        $response =  $this->request
-            ->setUrl(self::END_POINT . "/$model")
-            ->setMethod(CurlRequest::CURL_DELETE)
-            ->exec();
+        $this->request = $this->client->delete(
+            self::END_POINT . "/$model"
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 }

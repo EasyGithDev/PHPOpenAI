@@ -9,41 +9,27 @@ use PHPUnit\Framework\TestCase;
 
 final class AudioTest extends TestCase
 {
-    
-    protected $model;
-    
-    function __construct()
-    {
-        
-        $configuration = new Configuration(getenv('OPENAI_API_KEY'));
-        $openAIApi = new OpenAIApi($configuration);
-        $this->model = $openAIApi->Audio();
-
-        parent::__construct();
-    }
 
     public function testTranscription()
     {
 
-        $response = $this->model->transcription(
+        $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Audio()->transcription(
             __DIR__ . '/../assets/openai.mp3',
             ModelEnum::WHISPER_1,
             responseFormat: ResponseFormat::SRT
-        );
-        
+        )->getResponse();
+
         $this->assertEquals(200, $response->getHttpCode());
     }
 
     public function testTranslation()
     {
-        $response = $this->model->translation(
+        $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Audio()->translation(
             __DIR__ . '/../assets/openai_fr.mp3',
             ModelEnum::WHISPER_1,
             responseFormat: ResponseFormat::TEXT
-        );
-        
+        )->getResponse();
+
         $this->assertEquals(200, $response->getHttpCode());
     }
-
-   
 }

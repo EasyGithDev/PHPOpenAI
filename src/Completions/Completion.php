@@ -2,10 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Completions;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\CompletionResponse;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 use EasyGithDev\PHPOpenAI\OpenAIModel;
 
@@ -30,13 +27,6 @@ class Completion extends OpenAIModel
      */
     public function __construct(protected ?OpenAIApi $client = null)
     {
-        $this->request = new CurlRequest();
-        if (!is_null($this->client)) {
-            $this->request
-                ->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }
-        $this->response = new CompletionResponse();
     }
 
     public function create(
@@ -57,7 +47,7 @@ class Completion extends OpenAIModel
         ?array $logit_bias = null,
         string $user = '',
         $callback = null
-    ): CurlResponse {
+    ): self {
         if (empty($model)) {
             throw new \Exception("Model can not be empty");
         }
@@ -154,17 +144,12 @@ class Completion extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $response =  $this->request
-            ->setUrl(self::END_POINT)
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload(
-                json_encode($payload)
-            )
-            ->setHeaders(['Content-Type: application/json'])
-            ->exec();
+        $this->request = $this->client->post(
+            self::END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json']
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 }

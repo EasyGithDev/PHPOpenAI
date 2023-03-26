@@ -7,30 +7,14 @@ use PHPUnit\Framework\TestCase;
 
 final class EmbeddingTest extends TestCase
 {
-    
-    protected $model;
-    
-    function __construct()
-    {
-        
-        $configuration = new Configuration(getenv('OPENAI_API_KEY'));
-        $openAIApi = new OpenAIApi($configuration);
-        $this->model = $openAIApi->Embedding();
-
-        parent::__construct();
-    }
 
     public function testCreate()
     {
-
-        $response = $this->model->create(
+        $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Embedding()->create(
             ModelEnum::TEXT_EMBEDDING_ADA_002,
             "The food was delicious and the waiter...",
-        );
-        
+        )->getResponse();
+
         $this->assertEquals(200, $response->getHttpCode());
     }
-
-
-   
 }

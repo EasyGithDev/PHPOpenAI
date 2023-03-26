@@ -15,12 +15,6 @@ class Embedding extends OpenAIModel
 
     public function __construct(protected ?OpenAIApi $client = null)
     {
-        $this->request = new CurlRequest();
-        if (!is_null($this->client)) {
-            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }
-        $this->response = new EmbeddingResponse();
     }
 
     /**
@@ -30,7 +24,7 @@ class Embedding extends OpenAIModel
      *
      * @return CurlResponse
      */
-    public function create(ModelEnum $model, string|array $input, string $user = ''): EmbeddingResponse
+    public function create(ModelEnum $model, string|array $input, string $user = ''): self
     {
         if (empty($input)) {
             throw new \Exception("Input is required");
@@ -44,18 +38,12 @@ class Embedding extends OpenAIModel
         if (!empty($user)) {
             $payload["user"] = $user;
         }
+        $this->request = $this->client->post(
+            self::END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json']
+        );
 
-        $response =  $this->request
-            ->setUrl(self::END_POINT)
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload(
-                json_encode($payload)
-            )
-            ->setHeaders(['Content-Type: application/json'])
-            ->exec();
-
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 }

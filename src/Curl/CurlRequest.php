@@ -54,7 +54,9 @@ class CurlRequest
         switch ($this->method) {
             case self::CURL_POST:
                 curl_setopt($this->ch, CURLOPT_POST, true);
-                curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
+                if (!is_null($this->payload)) {
+                    curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
+                }
                 break;
             case self::CURL_DELETE:
             case self::CURL_PUT:
@@ -169,7 +171,7 @@ class CurlRequest
      *
      * @return  self
      */
-    public function setPayload(string|array $payload): self
+    public function setPayload(string|array|null $payload): self
     {
         $this->payload = $payload;
 

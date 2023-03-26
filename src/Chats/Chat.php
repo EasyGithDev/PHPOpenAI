@@ -30,13 +30,7 @@ class Chat extends OpenAIModel
      */
     public function __construct(protected ?OpenAIApi $client = null)
     {
-        $this->request = new CurlRequest();
-        if (!is_null($this->client)) {
-            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                    ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }        $this->response = new ChatResponse();
     }
-
 
     public function create(
         ModelEnum|string $model,
@@ -51,7 +45,7 @@ class Chat extends OpenAIModel
         int $frequency_penalty = 0,
         ?array $logit_bias = null,
         string $user = ''
-    ): ChatResponse {
+    ): self {
         if (empty($model)) {
             throw new \Exception("Model can not be empty");
         }
@@ -121,17 +115,12 @@ class Chat extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $response =  $this->request
-            ->setUrl(self::END_POINT)
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload(
-                json_encode($payload)
-            )
-            ->setHeaders(['Content-Type: application/json'])
-            ->exec();
+        $this->request = $this->client->post(
+            self::END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json']
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 }

@@ -17,12 +17,6 @@ class Moderation extends OpenAIModel
      */
     public function __construct(protected ?OpenAIApi $client = null)
     {
-        $this->request = new CurlRequest();
-        if (!is_null($this->client)) {
-            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }
-        $this->response = new ModerationResponse();
     }
 
     /**
@@ -30,7 +24,7 @@ class Moderation extends OpenAIModel
      *
      * @return CurlResponse
      */
-    public function create(string $input): ModerationResponse
+    public function create(string $input): self
     {
         if (empty($input)) {
             throw new \Exception("Input can not be empty");
@@ -40,17 +34,12 @@ class Moderation extends OpenAIModel
             "input" => $input,
         ];
 
-        $response =  $this->request
-            ->setUrl(self::END_POINT)
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload(
-                json_encode($payload)
-            )
-            ->setHeaders(['Content-Type: application/json'])
-            ->exec();
+        $this->request = $this->client->post(
+            self::END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json']
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 }

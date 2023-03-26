@@ -2,10 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Edits;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\EditResponse;
 use EasyGithDev\PHPOpenAI\OpenAIApi;
 use EasyGithDev\PHPOpenAI\OpenAIModel;
 
@@ -13,22 +10,12 @@ class Edit extends OpenAIModel
 {
     public const END_POINT = '/edits';
 
-
-
-
     /**
      * @param string $apiUrl
      * @param array $headers
      */
     public function __construct(protected ?OpenAIApi $client = null)
     {
-        $this->request = new CurlRequest();
-        if (!is_null($this->client)) {
-            $this->request
-                ->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }
-        $this->response = new EditResponse();
     }
 
     public function create(
@@ -38,7 +25,7 @@ class Edit extends OpenAIModel
         float $temperature = 1.0,
         float $top_p = 1.0,
         int $n = 1,
-    ): EditResponse {
+    ): self {
         if (empty($instruction)) {
             throw new \Exception("Instruction can not be empty");
         }
@@ -64,17 +51,12 @@ class Edit extends OpenAIModel
             "n" => $n,
         ];
 
-        $response =  $this->request
-            ->setUrl(self::END_POINT)
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload(
-                json_encode($payload)
-            )
-            ->setHeaders(['Content-Type: application/json'])
-            ->exec();
+        $this->request = $this->client->post(
+            self::END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json']
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 }

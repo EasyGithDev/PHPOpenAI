@@ -19,12 +19,6 @@ class Audio extends OpenAIModel
      */
     public function __construct(protected ?OpenAIApi $client = null)
     {
-        $this->request = new CurlRequest();
-        if (!is_null($this->client)) {
-            $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-                ->setBaseUrl($this->client->getConfiguration()->getApiUrl());
-        }
-        $this->response = new AudioResponse();
     }
 
     protected function extensionAvailable(string $filename): bool
@@ -40,7 +34,7 @@ class Audio extends OpenAIModel
         ResponseFormat $responseFormat = ResponseFormat::JSON,
         float $temperature = 0,
         Language $language = Language::ENGLISH
-    ): AudioResponse {
+    ): self {
         if (!file_exists($audioFile)) {
             throw new Exception("Unable to locate file: $audioFile");
         }
@@ -69,16 +63,12 @@ class Audio extends OpenAIModel
             $payload["language"] = $language->value;
         }
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
-            ->setUrl(self::END_POINT . '/transcriptions')
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload($payload)
-            ->exec();
+        $this->request = $this->client->post(
+            self::END_POINT . '/transcriptions',
+            $payload
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 
     public function translation(
@@ -87,7 +77,7 @@ class Audio extends OpenAIModel
         string $prompt = '',
         ResponseFormat $responseFormat = ResponseFormat::JSON,
         float $temperature = 0
-    ): AudioResponse {
+    ): self {
         if (!file_exists($audioFile)) {
             throw new Exception("Unable to locate file: $audioFile");
         }
@@ -116,13 +106,11 @@ class Audio extends OpenAIModel
             $payload["language"] = $language->value;
         }
 
-        $response =  $this->request->setUrl(self::END_POINT . '/translations')
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload($payload)
-            ->exec();
+        $this->request = $this->client->post(
+            self::END_POINT . '/translations',
+            $payload
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 }

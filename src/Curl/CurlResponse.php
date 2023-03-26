@@ -20,6 +20,18 @@ class CurlResponse implements JsonSerializable
         return $this->infos['output']['curlinfo']['http_code'];
     }
 
+    public function getStatusCode(): int
+    {
+        return $this->infos['output']['curlinfo']['http_code'];
+    }
+
+    public function getReasonPhrase(): string
+    {
+        return '';
+    }
+    public function getHeaderLine() : string {
+        return '';
+    }
     /**
      * Get the input payload
      * @return string
@@ -33,6 +45,11 @@ class CurlResponse implements JsonSerializable
      * Get the value of buffer
      */
     public function getBuffer(): string
+    {
+        return $this->infos['output']['buffer'];
+    }
+
+    public function getBody(): string
     {
         return $this->infos['output']['buffer'];
     }
