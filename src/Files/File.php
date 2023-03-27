@@ -19,31 +19,19 @@ class File extends OpenAIModel
      */
     public function __construct(protected ?OpenAIApi $client = null)
     {
- 
     }
 
-    /**
-     * @return CurlResponse
-     */
-    public function list(): FileResponse
+    public function list(): self
     {
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
-            ->setUrl(self::END_POINT)
-            ->exec();
+        $this->request = $this->client->get(
+            self::END_POINT
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 
-    /**
-     * @param string $file
-     * @param string $purpose
-     *
-     * @return CurlResponse
-     */
-    public function create(string $file, string $purpose): FileResponse
+
+    public function create(string $file, string $purpose): self
     {
         if (!file_exists($file)) {
             throw new Exception("Unable to locate file: $file");
@@ -54,80 +42,55 @@ class File extends OpenAIModel
             "purpose" => $purpose,
         ];
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
-            ->setUrl(self::END_POINT)
-            ->setMethod(CurlRequest::CURL_POST)
-            ->setPayload(
-                $payload
-            )
-            ->exec();
+        $this->request = $this->client->post(
+            self::END_POINT,
+            $payload
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 
-    /**
-     * @param string $file_id
-     *
-     * @return CurlResponse
-     */
-    public function delete(string $file_id): FileResponse
+
+    public function delete(string $file_id): self
     {
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");
         }
 
-        $response =  $this->request
-            ->setUrl(self::END_POINT . '/' . $file_id)
-            ->setMethod(CurlRequest::CURL_DELETE)
-            ->exec();
-        $this->request->close();
+        $this->request = $this->client->delete(
+            self::END_POINT . '/' . $file_id
 
-        return $this->response->setInfos($response);
+        );
+
+        return $this;
     }
 
 
-    /**
-     * @param string $file_id
-     *
-     * @return CurlResponse
-     */
-    public function retrieve(string $file_id): FileResponse
+
+    public function retrieve(string $file_id): self
     {
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");
         }
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
-            ->setUrl(self::END_POINT . '/' . $file_id)
-            ->exec();
+        $this->request = $this->client->get(
+            self::END_POINT . '/' . $file_id
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 
-    /**
-     * @param string $file_id
-     *
-     * @return CurlResponse
-     */
-    public function download(string $file_id): FileResponse
+
+    public function download(string $file_id): self
     {
         if (empty($file_id)) {
             throw new Exception("file_id can not be empty");
         }
 
-        $response =  $this->request->setBaseHeaders($this->client->getConfiguration()->getCurlHeaders())
-            ->setBaseUrl($this->client->getConfiguration()->getApiUrl())
-            ->setUrl(self::END_POINT . '/' . $file_id . '/content')
-            ->exec();
+        $this->request = $this->client->get(
+            self::END_POINT . '/' . $file_id . '/content'
+        );
 
-        $this->request->close();
-
-        return $this->response->setInfos($response);
+        return $this;
     }
 }

@@ -5,6 +5,7 @@ namespace EasyGithDev\PHPOpenAI;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
+use stdClass;
 
 abstract class OpenAIModel
 {
@@ -17,23 +18,14 @@ abstract class OpenAIModel
      * 
      * @return array
      */
-    private function parseResponse(CurlResponse $response): array
+    private function parseResponse(CurlResponse $response): string
     {
         $contentType = \strtolower($response->getHeaderLine('Content-Type'));
         if (substr($contentType, 0, 16) !== 'application/json' && \strlen($contentType) !== 0) {
             throw new ClientException(\sprintf('Unsupported content type: %s', $contentType));
         }
 
-        $body = (string) $response->getBody();
-        $body = \strlen($body) === 0 ? '[]' : $body;
-        $data = (array) \json_decode($body, true);
-
-        if (\json_last_error()) {
-            throw new ClientException(
-                'Failed to parse JSON response body: ' . \json_last_error_msg()
-            );
-        }
-        return $data;
+        return (string) $response->getBody();
     }
 
     /**
@@ -72,18 +64,20 @@ abstract class OpenAIModel
         return $this->response;
     }
 
-   
-    public function toModel(): mixed
-    {
-      
-    }
-
     /**
      * @return array
      */
     public function toArray(): array
     {
-        return $this->parseResponse($this->getResponse());
+        return json_decode($this->parseResponse($this->getResponse()), true);
+    }
+
+    /**
+     * @return stdClass
+     */
+    public function toObject(): stdClass
+    {
+        return json_decode($this->parseResponse($this->getResponse()));
     }
 
 }
