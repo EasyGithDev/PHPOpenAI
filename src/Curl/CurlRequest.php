@@ -114,7 +114,6 @@ class CurlRequest
                 'buffer' => $buffer
             ]
         ];
-
         return $infos;
     }
 

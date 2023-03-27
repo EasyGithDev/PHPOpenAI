@@ -45,8 +45,7 @@ class Completion extends OpenAIModel
         float $frequency_penalty = 0.0,
         int $best_of = 1,
         ?array $logit_bias = null,
-        string $user = '',
-        $callback = null
+        string $user = ''
     ): self {
         if (empty($model)) {
             throw new \Exception("Model can not be empty");
@@ -108,16 +107,6 @@ class Completion extends OpenAIModel
 
         if ($stream) {
             $payload["stream"] = $stream;
-            if (is_null($callback)) {
-                $callback = function ($ch, $data) {
-                    echo $data . PHP_EOL;
-                    echo PHP_EOL;
-                    ob_flush();
-                    flush();
-                    return mb_strlen($data);
-                };
-            }
-            $this->request->setCallback($callback);
         }
 
         if (!is_null($logprobs)) {
@@ -144,7 +133,11 @@ class Completion extends OpenAIModel
             $payload["user"] = $user;
         }
 
-        $this->request = $this->client->post(
+        $this->request = (!$stream) ? $this->client->post(
+            self::END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json']
+        ) : $this->client->stream(
             self::END_POINT,
             json_encode($payload),
             ['Content-Type: application/json']

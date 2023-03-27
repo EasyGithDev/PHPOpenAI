@@ -29,9 +29,12 @@ class CurlResponse implements JsonSerializable
     {
         return '';
     }
-    public function getHeaderLine() : string {
-        return '';
+
+    public function getHeaderLine(): string
+    {
+        $this->infos['output']['curlinfo']['content_type'];
     }
+
     /**
      * Get the input payload
      * @return string

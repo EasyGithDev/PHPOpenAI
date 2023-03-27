@@ -104,15 +104,15 @@ class OpenAIApi
             ->setHeaders($headers);
     }
 
-   /**
-    * @param string $path
-    * @param null $body
-    * @param array $headers
-    * @param array $params
-    * 
-    * @return CurlRequest
-    */
-   public function post(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
+    /**
+     * @param string $path
+     * @param null $body
+     * @param array $headers
+     * @param array $params
+     * 
+     * @return CurlRequest
+     */
+    public function post(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         return (new CurlRequest())
             ->setBaseHeaders($this->getConfiguration()->getCurlHeaders())
@@ -123,15 +123,15 @@ class OpenAIApi
             ->setHeaders($headers);
     }
 
-   /**
-    * @param string $path
-    * @param null $body
-    * @param array $headers
-    * @param array $params
-    * 
-    * @return RequestInterface
-    */
-   public function put(string $path, $body = null, array $headers = [], array $params = []): RequestInterface
+    /**
+     * @param string $path
+     * @param null $body
+     * @param array $headers
+     * @param array $params
+     * 
+     * @return RequestInterface
+     */
+    public function put(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         return (new CurlRequest())
             ->setBaseHeaders($this->getConfiguration()->getCurlHeaders())
@@ -160,6 +160,21 @@ class OpenAIApi
             ->setMethod(CurlRequest::CURL_DELETE)
             ->setPayload($body)
             ->setHeaders($headers);
+    }
+
+    public function stream(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
+    {
+        $request = $this->post($path, $body,  $headers,  $params);
+
+        $callback = function ($ch, $data) {
+            echo $data . PHP_EOL;
+            echo PHP_EOL;
+            ob_flush();
+            flush();
+            return mb_strlen($data);
+        };
+
+        return $request->setCallback($callback);
     }
 
     /**
