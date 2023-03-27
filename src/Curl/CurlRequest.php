@@ -97,7 +97,7 @@ class CurlRequest
     {
         $this->prepare();
 
-        $buffer = curl_exec($this->ch);
+        $body = curl_exec($this->ch);
 
         if (curl_errno($this->ch)) {
             throw new \Exception('CurlRequest error : ' . curl_error($this->ch));
@@ -105,16 +105,10 @@ class CurlRequest
 
         $curlinfo = curl_getinfo($this->ch);
 
-        $infos = [
-            'input' => [
-                'payload' => $this->payload
-            ],
-            'output' => [
-                'curlinfo' => $curlinfo,
-                'buffer' => $buffer
-            ]
+        return [
+            'curlinfo' => $curlinfo,
+            'body' => $body
         ];
-        return $infos;
     }
 
     /**

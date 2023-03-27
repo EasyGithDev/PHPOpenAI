@@ -14,21 +14,6 @@ abstract class OpenAIModel
     protected ?OpenAIApi $client = null;
 
     /**
-     * @param CurlResponse $response
-     * 
-     * @return array
-     */
-    private function parseResponse(CurlResponse $response): string
-    {
-        $contentType = \strtolower($response->getHeaderLine('Content-Type'));
-        if (substr($contentType, 0, 16) !== 'application/json' && \strlen($contentType) !== 0) {
-            throw new ClientException(\sprintf('Unsupported content type: %s', $contentType));
-        }
-
-        return (string) $response->getBody();
-    }
-
-    /**
      * @param CurlRequest $request
      * 
      * @return void
@@ -69,7 +54,7 @@ abstract class OpenAIModel
      */
     public function toArray(): array
     {
-        return json_decode($this->parseResponse($this->getResponse()), true);
+        return $this->getResponse()->throwable()->toArray();
     }
 
     /**
@@ -77,7 +62,6 @@ abstract class OpenAIModel
      */
     public function toObject(): stdClass
     {
-        return json_decode($this->parseResponse($this->getResponse()));
+        return $this->getResponse()->throwable()->toObject();
     }
-
 }

@@ -15,6 +15,6 @@ final class EmbeddingTest extends TestCase
             "The food was delicious and the waiter...",
         )->getResponse();
 
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }

@@ -19,7 +19,7 @@ final class AudioTest extends TestCase
             responseFormat: ResponseFormat::SRT
         )->getResponse();
 
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testTranslation()
@@ -30,6 +30,6 @@ final class AudioTest extends TestCase
             responseFormat: ResponseFormat::TEXT
         )->getResponse();
 
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }

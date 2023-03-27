@@ -16,7 +16,7 @@ final class ImageTest extends TestCase
             size: ImageSize::is256,
         )->getResponse();
 
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testVariation()
@@ -27,7 +27,7 @@ final class ImageTest extends TestCase
             size: ImageSize::is256
         )->getResponse();
 
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testEdit()
@@ -39,6 +39,6 @@ final class ImageTest extends TestCase
             size: ImageSize::is256,
         )->getResponse();
 
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }

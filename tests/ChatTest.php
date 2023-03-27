@@ -19,6 +19,6 @@ final class ChatTest extends TestCase
             ]
         )->getResponse();
 
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }

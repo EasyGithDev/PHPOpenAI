@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Curl;
 
 use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use JsonSerializable;
 use stdClass;
 
@@ -10,14 +11,6 @@ class CurlResponse implements JsonSerializable
 {
     public function __construct(protected ?array $infos = null)
     {
-    }
-
-    /**
-     * Get the value of httpCode
-     */
-    public function getHttpCode(): int
-    {
-        return $this->infos['output']['curlinfo']['http_code'];
     }
 
     public function getStatusCode(): int
@@ -32,24 +25,7 @@ class CurlResponse implements JsonSerializable
 
     public function getHeaderLine(): string
     {
-        $this->infos['output']['curlinfo']['content_type'];
-    }
-
-    /**
-     * Get the input payload
-     * @return string
-     */
-    public function getPayload(): string|array|null
-    {
-        return $this->infos['input']['payload'];
-    }
-
-    /**
-     * Get the value of buffer
-     */
-    public function getBuffer(): string
-    {
-        return $this->infos['output']['buffer'];
+        return $this->infos['output']['curlinfo']['content_type'];
     }
 
     public function getBody(): string
@@ -112,9 +88,18 @@ class CurlResponse implements JsonSerializable
     /**
      * @return bool
      */
-    public function isOk(): bool
+    public function isStatusOk(): bool
     {
-        return ($this->getHttpCode() == 200);
+        return ($this->getStatusCode() == 200);
+    }
+
+    public function isContentTypeOk(): bool
+    {
+        $contentType = mb_strtolower($this->getHeaderLine('Content-Type'));
+        if (substr($contentType, 0, 16) !== 'application/json' && mb_strlen($contentType) !== 0) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -122,13 +107,16 @@ class CurlResponse implements JsonSerializable
      */
     public function throwable(): self
     {
-        if (!$this->isOk()) {
-            throw new ApiException($this->getHttpCode(), $this->getError());
+        if (!$this->isStatusOk()) {
+            throw new ApiException($this->getStatusCode(), $this->getError());
+        }
+        if (!$this->isContentTypeOk()) {
+            throw new ClientException(\sprintf('Unsupported content type: %s', $this->getHeaderLine('Content-Type')));
         }
         return $this;
     }
 
-    public function getError(): stdClass
+    protected function getError(): stdClass
     {
         if (!isset($this->toObject()->error)) {
             $err = new stdClass();

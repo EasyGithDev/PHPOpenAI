@@ -11,7 +11,7 @@ final class FineTuneTest extends TestCase
     {
         $response =  (new OpenAIApi(getenv('OPENAI_API_KEY')))->FineTune()
             ->list()->getResponse();
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testCreate()
@@ -25,7 +25,7 @@ final class FineTuneTest extends TestCase
 
         $response =  (new OpenAIApi(getenv('OPENAI_API_KEY')))->FineTune()
             ->create($file_id)->getResponse();
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
         return $response->toObject()->id;
     }
 
@@ -37,7 +37,7 @@ final class FineTuneTest extends TestCase
         $this->assertStringStartsWith('ft-', $fine_tune_id);
         $response =  (new OpenAIApi(getenv('OPENAI_API_KEY')))->FineTune()
             ->retrieve($fine_tune_id)->getResponse();
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
         return $fine_tune_id;
     }
 
@@ -49,7 +49,7 @@ final class FineTuneTest extends TestCase
         $this->assertStringStartsWith('ft-', $fine_tune_id);
         $response =  (new OpenAIApi(getenv('OPENAI_API_KEY')))->FineTune()
             ->listEvents($fine_tune_id)->getResponse();;
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
         return $fine_tune_id;
     }
 
@@ -61,7 +61,7 @@ final class FineTuneTest extends TestCase
         $this->assertStringStartsWith('ft-', $fine_tune_id);
         $response =  (new OpenAIApi(getenv('OPENAI_API_KEY')))->FineTune()
             ->cancel($fine_tune_id)->getResponse();
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
         return $fine_tune_id;
     }
 }

@@ -11,7 +11,7 @@ final class FileTest extends TestCase
     {
         $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->File()->list()->getResponse();
 
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testUpload(): string
@@ -20,7 +20,7 @@ final class FileTest extends TestCase
             __DIR__ . '/../assets/mydata.jsonl',
             'fine-tune',
         )->getResponse();
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
         return $response->toObject()->id;
     }
 
@@ -31,7 +31,7 @@ final class FileTest extends TestCase
     {
         $this->assertStringStartsWith('file-', $file_id);
         $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->File()->retrieve($file_id)->getResponse();
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
         return $file_id;
     }
 
@@ -45,6 +45,6 @@ final class FileTest extends TestCase
 
         $this->assertStringStartsWith('file-', $file_id);
         $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->File()->delete($file_id)->getResponse();
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }

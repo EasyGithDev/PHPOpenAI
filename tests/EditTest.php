@@ -15,6 +15,6 @@ final class EditTest extends TestCase
             input: "Fix the spelling mistakes",
         )->getResponse();
 
-        $this->assertEquals(200, $response->getHttpCode());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }
