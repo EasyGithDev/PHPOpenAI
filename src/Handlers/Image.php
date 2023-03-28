@@ -1,14 +1,15 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Images;
+namespace EasyGithDev\PHPOpenAI\Handlers;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\ImageResponse;
-use EasyGithDev\PHPOpenAI\OpenAIApi;
-use EasyGithDev\PHPOpenAI\OpenAIModel;
+use EasyGithDev\PHPOpenAI\Helpers\ImageResponseEnum;
+use EasyGithDev\PHPOpenAI\Helpers\ImageSizeEnum;
+use EasyGithDev\PHPOpenAI\OpenAIClient;
+use EasyGithDev\PHPOpenAI\OpenAIHandler;
 use Exception;
 
-class Image extends OpenAIModel
+class Image extends OpenAIHandler
 {
     public const MAX_PROMPT_CHARS = 1000;
     public const END_POINT = '/images';
@@ -19,7 +20,7 @@ class Image extends OpenAIModel
     /**
      * @param  protected
      */
-    public function __construct(protected ?OpenAIApi $client = null)
+    public function __construct(protected ?OpenAIClient $client = null)
     {
     }
 
@@ -27,13 +28,13 @@ class Image extends OpenAIModel
     /**
      * @param string $prompt
      * @param int $n
-     * @param ImageSize $size
-     * @param ResponseFormat $response_format
+     * @param ImageSizeEnum $size
+     * @param ImageResponseEnum $response_format
      * @param string $user
      *
      * @return CurlResponse
      */
-    public function create(string $prompt, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): self
+    public function create(string $prompt, int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
         if (mb_strlen($prompt) > self::MAX_PROMPT_CHARS) {
             throw new \Exception("Max prompt is 1000 chars");
@@ -67,13 +68,13 @@ class Image extends OpenAIModel
     /**
      * @param string $image
      * @param int $n
-     * @param ImageSize $size
-     * @param ResponseFormat $response_format
+     * @param ImageSizeEnum $size
+     * @param ImageResponseEnum $response_format
      * @param string $user
      *
      * @return CurlResponse
      */
-    public function createVariation(string $image, int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): self
+    public function createVariation(string $image, int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");
@@ -104,13 +105,13 @@ class Image extends OpenAIModel
      * @param string $prompt
      * @param string $mask
      * @param int $n
-     * @param ImageSize $size
-     * @param ResponseFormat $response_format
+     * @param ImageSizeEnum $size
+     * @param ImageResponseEnum $response_format
      * @param string $user
      *
      * @return CurlResponse
      */
-    public function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSize $size = ImageSize::is1024, ResponseFormat $response_format = ResponseFormat::URL, string $user = ''): self
+    public function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
         if (!file_exists($image)) {
             throw new Exception("Unable to locate file: $image");

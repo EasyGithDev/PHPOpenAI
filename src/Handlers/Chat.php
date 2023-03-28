@@ -1,15 +1,12 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Chats;
+namespace EasyGithDev\PHPOpenAI\Handlers;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
-use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\ChatResponse;
-use EasyGithDev\PHPOpenAI\OpenAIApi;
-use EasyGithDev\PHPOpenAI\OpenAIModel;
+use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
+use EasyGithDev\PHPOpenAI\OpenAIClient;
+use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
-class Chat extends OpenAIModel
+class Chat extends OpenAIHandler
 {
     public const END_POINT = '/chat/completions';
     public const MAX_PROMPT_CHARS = 1000;
@@ -28,7 +25,7 @@ class Chat extends OpenAIModel
     /**
      * @param  protected
      */
-    public function __construct(protected ?OpenAIApi $client = null)
+    public function __construct(protected ?OpenAIClient $client = null)
     {
     }
 

@@ -1,21 +1,21 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Models;
+namespace EasyGithDev\PHPOpenAI\Handlers;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Curl\Responses\ModelResponse;
-use EasyGithDev\PHPOpenAI\OpenAIApi;
-use EasyGithDev\PHPOpenAI\OpenAIModel;
+use EasyGithDev\PHPOpenAI\OpenAIClient;
+use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
-class Model extends OpenAIModel
+class Model extends OpenAIHandler
 {
     public const END_POINT = '/models';
 
     /**
      * @param  protected
      */
-    public function __construct(protected ?OpenAIApi $client = null)
+    public function __construct(protected ?OpenAIClient $client = null)
     {
     }
 

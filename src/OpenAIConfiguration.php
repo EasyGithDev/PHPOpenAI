@@ -4,7 +4,7 @@ namespace EasyGithDev\PHPOpenAI;
 
 use Exception;
 
-class Configuration
+class OpenAIConfiguration
 {
     public static $_configDir = __DIR__ . '/../config';
     protected string $apiUrl = 'https://api.openai.com/v1';
@@ -45,9 +45,9 @@ class Configuration
         }, $headers);
     }
 
-    public static function defaultConfiguration(string $apiKey): Configuration
+    public static function defaultConfiguration(string $apiKey): OpenAIConfiguration
     {
-        return new Configuration($apiKey);
+        return new OpenAIConfiguration($apiKey);
     }
 
     /**

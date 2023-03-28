@@ -1,23 +1,22 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Audios;
+namespace EasyGithDev\PHPOpenAI\Handlers;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
-use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\AudioResponse;
-use EasyGithDev\PHPOpenAI\OpenAIApi;
-use EasyGithDev\PHPOpenAI\OpenAIModel;
+use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
+use EasyGithDev\PHPOpenAI\Helpers\AudioResponseEnum;
+use EasyGithDev\PHPOpenAI\Helpers\LanguageEnum;
+use EasyGithDev\PHPOpenAI\OpenAIClient;
+use EasyGithDev\PHPOpenAI\OpenAIHandler;
 use Exception;
 
-class Audio extends OpenAIModel
+class Audio extends OpenAIHandler
 {
     public const END_POINT = '/audio';
 
     /**
      * @param  protected
      */
-    public function __construct(protected ?OpenAIApi $client = null)
+    public function __construct(protected ?OpenAIClient $client = null)
     {
     }
 
@@ -31,9 +30,9 @@ class Audio extends OpenAIModel
         string $audioFile,
         ModelEnum $model = ModelEnum::WHISPER_1,
         string $prompt = '',
-        ResponseFormat $responseFormat = ResponseFormat::JSON,
+        AudioResponseEnum $audioResponse = AudioResponseEnum::JSON,
         float $temperature = 0,
-        Language $language = Language::ENGLISH
+        LanguageEnum $language = LanguageEnum::ENGLISH
     ): self {
         if (!file_exists($audioFile)) {
             throw new Exception("Unable to locate file: $audioFile");
@@ -55,12 +54,12 @@ class Audio extends OpenAIModel
             "file" => curl_file_create($audioFile),
             "model" => $model->value,
             "prompt" => $prompt,
-            "response_format" => $responseFormat->value,
+            "response_format" => $audioResponse->value,
             "temperature" => $temperature,
         ];
 
         if (!empty($language)) {
-            $payload["language"] = $language->value;
+            $payload["LanguageEnum"] = $language->value;
         }
 
         $this->request = $this->client->post(
@@ -75,7 +74,7 @@ class Audio extends OpenAIModel
         string $audioFile,
         ModelEnum $model = ModelEnum::WHISPER_1,
         string $prompt = '',
-        ResponseFormat $responseFormat = ResponseFormat::JSON,
+        AudioResponseEnum $audioResponse = AudioResponseEnum::JSON,
         float $temperature = 0
     ): self {
         if (!file_exists($audioFile)) {
@@ -98,12 +97,12 @@ class Audio extends OpenAIModel
             "file" => curl_file_create($audioFile),
             "model" => $model->value,
             "prompt" => $prompt,
-            "response_format" => $responseFormat->value,
+            "response_format" => $audioResponse->value,
             "temperature" => $temperature,
         ];
 
         if (!empty($language)) {
-            $payload["language"] = $language->value;
+            $payload["LanguageEnum"] = $language->value;
         }
 
         $this->request = $this->client->post(

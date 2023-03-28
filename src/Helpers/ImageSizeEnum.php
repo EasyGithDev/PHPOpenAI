@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Images;
+namespace EasyGithDev\PHPOpenAI\Helpers;
 
-enum ImageSize: string
+enum ImageSizeEnum: string
 {
     case is256 = '256x256';
     case is512 = '512x512';

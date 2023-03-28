@@ -1,14 +1,12 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Finetunes;
+namespace EasyGithDev\PHPOpenAI\Handlers;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\OpenAIApi;
-use EasyGithDev\PHPOpenAI\OpenAIModel;
+use EasyGithDev\PHPOpenAI\OpenAIClient;
+use EasyGithDev\PHPOpenAI\OpenAIHandler;
 use Exception;
 
-class FineTune extends OpenAIModel
+class FineTune extends OpenAIHandler
 {
     public const END_POINT = '/fine-tunes';
 
@@ -16,7 +14,7 @@ class FineTune extends OpenAIModel
      * @param string $apiUrl
      * @param array $headers
      */
-    public function __construct(protected ?OpenAIApi $client = null)
+    public function __construct(protected ?OpenAIClient $client = null)
     {
     }
 
@@ -35,7 +33,7 @@ class FineTune extends OpenAIModel
     /**
      * @param string $fine_tune_id
      * @param bool $stream
-     * 
+     *
      * @return self
      */
     public function listEvents(string $fine_tune_id, bool $stream = false): self
@@ -113,10 +111,10 @@ class FineTune extends OpenAIModel
         return $this;
     }
 
-   
+
     /**
      * @param string $fine_tune_id
-     * 
+     *
      * @return self
      */
     public function retrieve(string $fine_tune_id): self
@@ -134,7 +132,7 @@ class FineTune extends OpenAIModel
 
     /**
      * @param string $fine_tune_id
-     * 
+     *
      * @return self
      */
     public function cancel(string $fine_tune_id): self

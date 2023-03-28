@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Audios;
+namespace EasyGithDev\PHPOpenAI\Helpers;
 
-enum ResponseFormat: string
+enum AudioResponseEnum: string
 {
     case JSON =  'json';
     case TEXT = 'text';

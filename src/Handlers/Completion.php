@@ -1,12 +1,12 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Completions;
+namespace EasyGithDev\PHPOpenAI\Handlers;
 
-use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\OpenAIApi;
-use EasyGithDev\PHPOpenAI\OpenAIModel;
+use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
+use EasyGithDev\PHPOpenAI\OpenAIClient;
+use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
-class Completion extends OpenAIModel
+class Completion extends OpenAIHandler
 {
     public const END_POINT = '/completions';
     public const MAX_TOKENS = 4096;
@@ -25,7 +25,7 @@ class Completion extends OpenAIModel
     /**
      * @param  protected
      */
-    public function __construct(protected ?OpenAIApi $client = null)
+    public function __construct(protected ?OpenAIClient $client = null)
     {
     }
 

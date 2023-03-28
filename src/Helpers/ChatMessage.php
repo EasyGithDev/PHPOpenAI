@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Chats;
+namespace EasyGithDev\PHPOpenAI\Helpers;
 
-class Message
+class ChatMessage
 {
     public const ROLE_USER = 'user';
     public const ROLE_SYSTEM = 'system';

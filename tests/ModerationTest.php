@@ -9,7 +9,7 @@ final class ModerationTest extends TestCase
 
     public function testCreate()
     {
-        $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Moderation()->create(
+        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Moderation()->create(
             "I want to kill them.",
         )->getResponse();
 

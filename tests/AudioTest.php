@@ -2,9 +2,8 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
-use EasyGithDev\PHPOpenAI\Audios\ResponseFormat;
-use EasyGithDev\PHPOpenAI\Chats\Message;
-use EasyGithDev\PHPOpenAI\Models\ModelEnum;
+use EasyGithDev\PHPOpenAI\Helpers\AudioResponseEnum;
+use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use PHPUnit\Framework\TestCase;
 
 final class AudioTest extends TestCase
@@ -13,10 +12,10 @@ final class AudioTest extends TestCase
     public function testTranscription()
     {
 
-        $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Audio()->transcription(
+        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->transcription(
             __DIR__ . '/../assets/openai.mp3',
             ModelEnum::WHISPER_1,
-            responseFormat: ResponseFormat::SRT
+            audioResponse: AudioResponseEnum::SRT
         )->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -24,10 +23,10 @@ final class AudioTest extends TestCase
 
     public function testTranslation()
     {
-        $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Audio()->translation(
+        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->translation(
             __DIR__ . '/../assets/openai_fr.mp3',
             ModelEnum::WHISPER_1,
-            responseFormat: ResponseFormat::TEXT
+            audioResponse: AudioResponseEnum::TEXT
         )->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());

@@ -1,15 +1,12 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Files;
+namespace EasyGithDev\PHPOpenAI\Handlers;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\FileResponse;
-use EasyGithDev\PHPOpenAI\OpenAIApi;
-use EasyGithDev\PHPOpenAI\OpenAIModel;
+use EasyGithDev\PHPOpenAI\OpenAIClient;
+use EasyGithDev\PHPOpenAI\OpenAIHandler;
 use Exception;
 
-class File extends OpenAIModel
+class File extends OpenAIHandler
 {
     public const END_POINT = '/files';
 
@@ -17,7 +14,7 @@ class File extends OpenAIModel
     /**
      * @param  protected
      */
-    public function __construct(protected ?OpenAIApi $client = null)
+    public function __construct(protected ?OpenAIClient $client = null)
     {
     }
 
@@ -59,7 +56,6 @@ class File extends OpenAIModel
 
         $this->request = $this->client->delete(
             self::END_POINT . '/' . $file_id
-
         );
 
         return $this;

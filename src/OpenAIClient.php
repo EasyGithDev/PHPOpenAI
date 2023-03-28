@@ -2,27 +2,27 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
-use EasyGithDev\PHPOpenAI\Completions\Completion;
-use EasyGithDev\PHPOpenAI\Edits\Edit;
-use EasyGithDev\PHPOpenAI\Files\File;
-use EasyGithDev\PHPOpenAI\Images\Image;
-use EasyGithDev\PHPOpenAI\Models\Model;
-use EasyGithDev\PHPOpenAI\Moderations\Moderation;
-use EasyGithDev\PHPOpenAI\Audios\Audio;
-use EasyGithDev\PHPOpenAI\Chats\Chat;
+use EasyGithDev\PHPOpenAI\Handlers\Completion;
+use EasyGithDev\PHPOpenAI\Handlers\Edit;
+use EasyGithDev\PHPOpenAI\Handlers\File;
+use EasyGithDev\PHPOpenAI\Handlers\Image;
+use EasyGithDev\PHPOpenAI\Handlers\Model;
+use EasyGithDev\PHPOpenAI\Handlers\Moderation;
+use EasyGithDev\PHPOpenAI\Handlers\Audio;
+use EasyGithDev\PHPOpenAI\Handlers\Chat;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Embeddings\Embedding;
-use EasyGithDev\PHPOpenAI\Finetunes\FineTune;
+use EasyGithDev\PHPOpenAI\Handlers\Embedding;
+use EasyGithDev\PHPOpenAI\Handlers\FineTune;
 
-class OpenAIApi
+class OpenAIClient
 {
-    protected ?Configuration $configuration = null;
+    protected ?OpenAIConfiguration $configuration = null;
 
-    public function __construct(Configuration|string $var)
+    public function __construct(OpenAIConfiguration|string $var)
     {
         if (is_string($var)) {
-            $this->configuration = Configuration::defaultConfiguration($var);
+            $this->configuration = OpenAIConfiguration::defaultConfiguration($var);
         } else {
             $this->configuration = $var;
         }
@@ -81,7 +81,7 @@ class OpenAIApi
     /**
      * Get the value of configuration
      */
-    public function getConfiguration(): Configuration
+    public function getConfiguration(): OpenAIConfiguration
     {
         return $this->configuration;
     }
@@ -91,7 +91,7 @@ class OpenAIApi
      * @param null $body
      * @param array $headers
      * @param array $params
-     * 
+     *
      * @return CurlRequest
      */
     public function get(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
@@ -109,7 +109,7 @@ class OpenAIApi
      * @param null $body
      * @param array $headers
      * @param array $params
-     * 
+     *
      * @return CurlRequest
      */
     public function post(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
@@ -128,7 +128,7 @@ class OpenAIApi
      * @param null $body
      * @param array $headers
      * @param array $params
-     * 
+     *
      * @return RequestInterface
      */
     public function put(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
@@ -148,7 +148,7 @@ class OpenAIApi
      * @param null $body
      * @param array $headers
      * @param array $params
-     * 
+     *
      * @return CurlRequest
      */
     public function delete(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
@@ -164,7 +164,7 @@ class OpenAIApi
 
     public function stream(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
-        $request = $this->post($path, $body,  $headers,  $params);
+        $request = $this->post($path, $body, $headers, $params);
 
         $callback = function ($ch, $data) {
             echo $data . PHP_EOL;
@@ -179,13 +179,13 @@ class OpenAIApi
 
     /**
      * @param CurlRequest $request
-     * 
+     *
      * @return CurlResponse
      */
-    function sendRequest(CurlRequest $request): CurlResponse
+    public function sendRequest(CurlRequest $request): CurlResponse
     {
         $response = $request->exec();
         $request->close();
-        return (new CurlResponse())->setInfos($response);
+        return new CurlResponse($response);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Models;
+namespace EasyGithDev\PHPOpenAI\Helpers;
 
 enum ModelEnum: string
 {

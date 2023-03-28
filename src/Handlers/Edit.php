@@ -1,12 +1,12 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Edits;
+namespace EasyGithDev\PHPOpenAI\Handlers;
 
-use EasyGithDev\PHPOpenAI\Models\ModelEnum;
-use EasyGithDev\PHPOpenAI\OpenAIApi;
-use EasyGithDev\PHPOpenAI\OpenAIModel;
+use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
+use EasyGithDev\PHPOpenAI\OpenAIClient;
+use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
-class Edit extends OpenAIModel
+class Edit extends OpenAIHandler
 {
     public const END_POINT = '/edits';
 
@@ -14,7 +14,7 @@ class Edit extends OpenAIModel
      * @param string $apiUrl
      * @param array $headers
      */
-    public function __construct(protected ?OpenAIApi $client = null)
+    public function __construct(protected ?OpenAIClient $client = null)
     {
     }
 

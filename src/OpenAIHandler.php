@@ -7,15 +7,15 @@ use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use stdClass;
 
-abstract class OpenAIModel
+abstract class OpenAIHandler
 {
     protected ?CurlRequest $request = null;
     protected ?CurlResponse $response = null;
-    protected ?OpenAIApi $client = null;
+    protected ?OpenAIClient $client = null;
 
     /**
      * @param CurlRequest $request
-     * 
+     *
      * @return void
      */
     public function setRequest(CurlRequest $request): void

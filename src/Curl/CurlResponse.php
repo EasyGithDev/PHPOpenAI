@@ -15,7 +15,7 @@ class CurlResponse implements JsonSerializable
 
     public function getStatusCode(): int
     {
-        return $this->infos['output']['curlinfo']['http_code'];
+        return $this->infos['curlinfo']['http_code'];
     }
 
     public function getReasonPhrase(): string
@@ -25,39 +25,39 @@ class CurlResponse implements JsonSerializable
 
     public function getHeaderLine(): string
     {
-        return $this->infos['output']['curlinfo']['content_type'];
+        return $this->infos['curlinfo']['content_type'];
     }
 
     public function getBody(): string
     {
-        return $this->infos['output']['buffer'];
+        return $this->infos['body'];
     }
 
     /**
-     * Return output buffer as a string
+     * Return output body as a string
      * @return string
      */
     public function __toString(): string
     {
-        return $this->infos['output']['buffer'];
+        return $this->infos['body'];
     }
 
     /**
-     * Return output buffer as an associative array
+     * Return output body as an associative array
      * @return array
      */
     public function toArray(): array
     {
-        return json_decode($this->infos['output']['buffer'], true);
+        return json_decode($this->infos['body'], true);
     }
 
     /**
-     * Return output buffer as an object
+     * Return output body as an object
      * @return stdClass
      */
     public function toObject(): stdClass
     {
-        return json_decode($this->infos['output']['buffer']);
+        return json_decode($this->infos['body']);
     }
 
     /**
@@ -120,7 +120,7 @@ class CurlResponse implements JsonSerializable
     {
         if (!isset($this->toObject()->error)) {
             $err = new stdClass();
-            $err->message = $this->infos['output']['buffer'];
+            $err->message = $this->infos['body'];
             $err->type = '';
             $err->param = '';
             $err->code = '';

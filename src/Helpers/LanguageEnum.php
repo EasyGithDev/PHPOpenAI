@@ -1,8 +1,8 @@
 <?php
 
-namespace EasyGithDev\PHPOpenAI\Audios;
+namespace EasyGithDev\PHPOpenAI\Helpers;
 
-enum Language: string
+enum LanguageEnum: string
 {
     case ABKHAZ = "ab";
     case AFAR = "aa";
