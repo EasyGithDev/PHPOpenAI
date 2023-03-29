@@ -24,6 +24,10 @@ class Embedding extends OpenAIHandler
      */
     public function create(ModelEnum|string $model, string|array $input, string $user = ''): self
     {
+        if (empty($model)) {
+            throw new \Exception("Model can not be empty");
+        }
+
         if (empty($input)) {
             throw new \Exception("Input is required");
         }

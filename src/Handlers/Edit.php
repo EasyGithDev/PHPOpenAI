@@ -26,6 +26,11 @@ class Edit extends OpenAIHandler
         float $top_p = 1.0,
         int $n = 1,
     ): self {
+
+        if (empty($model)) {
+            throw new \Exception("Input is required");
+        }
+
         if (empty($instruction)) {
             throw new \Exception("Instruction can not be empty");
         }
