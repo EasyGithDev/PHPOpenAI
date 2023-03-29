@@ -10,6 +10,8 @@ class FineTune extends OpenAIHandler
 {
     public const END_POINT = '/fine-tunes';
 
+    use Stream;
+
     /**
      * @param string $apiUrl
      * @param array $headers
@@ -38,8 +40,15 @@ class FineTune extends OpenAIHandler
      */
     public function listEvents(string $fine_tune_id, bool $stream = false): self
     {
+        $params = [];
+        if ($stream) {
+            $params['callback'] = $this->getCallback();
+            $params['stream'] = $stream;
+        }
+
         $this->request = $this->client->get(
-            self::END_POINT . '/' . $fine_tune_id . '/events'
+            self::END_POINT . '/' . $fine_tune_id . '/events',
+            params: $params
         );
 
         return $this;
