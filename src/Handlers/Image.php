@@ -58,7 +58,8 @@ class Image extends OpenAIHandler
         $this->request = $this->client->post(
             self::GENERATION_END_POINT,
             json_encode($payload),
-            ['Content-Type: application/json']
+            ['Content-Type: application/json'],
+            ['timeout' => 60]
         );
 
         return $this;
@@ -93,7 +94,8 @@ class Image extends OpenAIHandler
 
         $this->request = $this->client->post(
             self::VARIATION_END_POINT,
-            $payload
+            $payload,
+            params:['timeout' => 60]
         );
 
         return $this;
@@ -147,7 +149,8 @@ class Image extends OpenAIHandler
 
         $this->request = $this->client->post(
             self::EDIT_END_POINT,
-            $payload
+            $payload,
+            params:['timeout' => 60]
         );
 
         return $this;

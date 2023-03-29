@@ -132,6 +132,10 @@ class OpenAIClient
             $request->setCallback($params['callback']);
         }
 
+        if (isset($params['timeout']) && $params['timeout']) {
+            $request->setTimeout($params['timeout']);
+        }
+
         return $request;
     }
 
