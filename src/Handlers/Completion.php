@@ -22,6 +22,8 @@ class Completion extends OpenAIHandler
     public const MAX_FRENQUENCY_PENALITY = 2.0;
     public const MIN_FRENQUENCY_PENALITY = -2.0;
 
+    use Stream;
+
     /**
      * @param  protected
      */
@@ -83,6 +85,8 @@ class Completion extends OpenAIHandler
             throw new \Exception("Frequency_penalty is a number between 0 and 2.0");
         }
 
+        $params = [];
+
         $payload =  [
             "model" => is_string($model) ? $model : $model->value,
             "prompt" => $prompt,
@@ -107,6 +111,7 @@ class Completion extends OpenAIHandler
 
         if ($stream) {
             $payload["stream"] = $stream;
+            $params['callback'] = $this->getCallback();
         }
 
         if (!is_null($logprobs)) {
@@ -133,17 +138,12 @@ class Completion extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->request = (!$stream) ?
-            $this->client->post(
-                self::END_POINT,
-                json_encode($payload),
-                ['Content-Type: application/json']
-            ) :
-            $this->client->stream(
-                self::END_POINT,
-                json_encode($payload),
-                ['Content-Type: application/json']
-            );
+        $this->request = $this->client->post(
+            self::END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json'],
+            $params
+        );
 
         return $this;
     }

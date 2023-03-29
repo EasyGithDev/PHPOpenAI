@@ -96,12 +96,18 @@ class OpenAIClient
      */
     public function get(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
-        return (new CurlRequest())
+        $request = (new CurlRequest())
             ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_GET)
             ->setHeaders($headers);
+
+        if (isset($params['stream']) && $params['stream']) {
+            $request->setCallback($params['callback']);
+        }
+
+        return $request;
     }
 
     /**
@@ -114,13 +120,19 @@ class OpenAIClient
      */
     public function post(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
-        return (new CurlRequest())
+        $request = (new CurlRequest())
             ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($body)
             ->setHeaders($headers);
+
+        if (isset($params['stream']) && $params['stream']) {
+            $request->setCallback($params['callback']);
+        }
+
+        return $request;
     }
 
     /**
@@ -160,21 +172,6 @@ class OpenAIClient
             ->setMethod(CurlRequest::CURL_DELETE)
             ->setPayload($body)
             ->setHeaders($headers);
-    }
-
-    public function stream(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
-    {
-        $request = $this->post($path, $body, $headers, $params);
-
-        $callback = function ($ch, $data) {
-            echo $data . PHP_EOL;
-            echo PHP_EOL;
-            ob_flush();
-            flush();
-            return mb_strlen($data);
-        };
-
-        return $request->setCallback($callback);
     }
 
     /**

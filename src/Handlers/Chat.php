@@ -23,6 +23,8 @@ class Chat extends OpenAIHandler
     public const MAX_FRENQUENCY_PENALITY = 2.0;
     public const MIN_FRENQUENCY_PENALITY = -2.0;
 
+use Stream;
+
     /**
      * @param  protected
      */
@@ -82,6 +84,7 @@ class Chat extends OpenAIHandler
             }, $messages);
         }
 
+        $params=[];
         $payload =       [
             "model" => is_string($model) ? $model : $model->value,
             "messages" => $messages,
@@ -101,6 +104,7 @@ class Chat extends OpenAIHandler
 
         if ($stream) {
             $payload["stream"] = $stream;
+            $params['callback'] = $this->getCallback();
         }
 
         if (!is_null($stop)) {
@@ -115,17 +119,12 @@ class Chat extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->request = (!$stream) ?
-            $this->client->post(
-                self::END_POINT,
-                json_encode($payload),
-                ['Content-Type: application/json']
-            ) :
-            $this->client->stream(
-                self::END_POINT,
-                json_encode($payload),
-                ['Content-Type: application/json']
-            );
+        $this->request = $this->client->post(
+            self::END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json'],
+            $params
+        );
 
         return $this;
     }
