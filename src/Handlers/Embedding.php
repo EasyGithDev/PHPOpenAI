@@ -11,7 +11,7 @@ class Embedding extends OpenAIHandler
 {
     public const END_POINT = '/embeddings';
 
-    public function __construct(protected ?OpenAIClient $client = null)
+    public function __construct(protected OpenAIClient $client)
     {
     }
 

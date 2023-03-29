@@ -26,7 +26,7 @@ class Chat extends OpenAIHandler
     /**
      * @param  protected
      */
-    public function __construct(protected ?OpenAIClient $client = null)
+    public function __construct(protected OpenAIClient $client)
     {
     }
 

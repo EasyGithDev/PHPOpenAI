@@ -14,7 +14,7 @@ class FineTune extends OpenAIHandler
      * @param string $apiUrl
      * @param array $headers
      */
-    public function __construct(protected ?OpenAIClient $client = null)
+    public function __construct(protected OpenAIClient $client)
     {
     }
 

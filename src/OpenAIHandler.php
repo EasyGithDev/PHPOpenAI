@@ -11,7 +11,7 @@ abstract class OpenAIHandler
 {
     protected ?CurlRequest $request = null;
     protected ?CurlResponse $response = null;
-    protected ?OpenAIClient $client = null;
+    protected OpenAIClient $client;
 
     /**
      * @param CurlRequest $request
