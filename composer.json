@@ -1,5 +1,5 @@
 {
-    "name": "easygithdev/phpopenai",
+    "name": "easygithdev/php-openai",
     "description": "PHPOpenAI is a wrapper to access OpenAI API",
     "keywords": [
         "php",
@@ -14,7 +14,7 @@
         "whisper",
         "api",
         "curl",
-        "phpopenai",
+        "php-openai",
         "easygithdev"
     ],
     "license": "MIT",

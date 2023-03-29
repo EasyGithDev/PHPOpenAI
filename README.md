@@ -20,7 +20,7 @@ The project uses Composer to manage dependencies. If you haven't already install
 To install the project, you can install the package from packagist.org using the following command:
 
 ```bash
-composer require easygithdev/phpopenai
+composer require easygithdev/php-openai
 ```
 
 ## Writing a first example
