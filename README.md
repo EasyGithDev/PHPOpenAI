@@ -125,7 +125,7 @@ echo '<pre>', print_r($response->toArray(), true), '</pre>';
 echo '<pre>', print_r($response->toObject(), true), '</pre>';
 ```
 
-Or you can use the methods of the handler object.
+Or you can use the methods of the Handler object.
 
 ```php
 <?php
@@ -149,9 +149,25 @@ echo '<pre>', print_r($response, true), '</pre>';
 
 ## Manage the errors
 
-Sometimes, the API returns errors. Therefore, it is necessary to be able to identify what caused the problem. To handle this difficulty, you have two options. 
+Sometimes, the API returns errors. Therefore, it is necessary to be able to identify what caused the problem. To handle this difficulty, you have many options. 
 
-Either you receive the response and check that an error has occurred using the isStatusOk() method. 
+If you are using a Handler object with toObject or toArray method, just use a try-catch.
+
+```php
+try {
+    $response = (new OpenAIClient('BAD KEY'))
+        ->Completion()
+        ->create(
+            ModelEnum::TEXT_DAVINCI_003,
+            "Say this is a test",
+        )
+        ->toObject();
+} catch (Throwable $t) {
+    echo nl2br($t->getMessage());
+    die;
+}
+```
+If you are using the CurlResponse object, you can check that an error has occurred using the isStatusOk() and isContentTypeOk()  method. 
 
 ```php
 
@@ -199,7 +215,7 @@ $response = (new OpenAIClient($apiKey))->Chat()->create(
         new ChatMessage(ChatMessage::ROLE_ASSISTANT, "The Los Angeles Dodgers won the World Series in 2020."),
         new ChatMessage(ChatMessage::ROLE_USER, "Where was it played?"),
     ]
-)->getResponse();
+)->toObject();
 ```
 
 [Learn more about chat completion](https://platform.openai.com/docs/guides/chat).
@@ -210,7 +226,7 @@ $response = (new OpenAIClient($apiKey))->Chat()->create(
 $response = (new OpenAIClient($apiKey))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
-)->getResponse();
+)->toObject();
 ```
 
 [Learn more about text completion](https://platform.openai.com/docs/guides/completion).
@@ -299,7 +315,7 @@ $response = (new OpenAIClient($apiKey))->Edit()->create(
     "What day of the wek is it?",
     ModelEnum::TEXT_DAVINCI_EDIT_001,
     "Fix the spelling mistakes",
-)->getResponse();
+)->toObject();
 ```
 
 [Learn more about text edit](https://platform.openai.com/docs/guides/code/editing-code).
@@ -357,7 +373,7 @@ $response = (new OpenAIClient($apiKey))->Image()->create(
 $response = (new OpenAIClient($apiKey))->Embedding()->create(
     ModelEnum::TEXT_EMBEDDING_ADA_002,
     "The food was delicious and the waiter...",
-)->getResponse();
+)->toObject();
 ```
 
 [Learn more about embedding](https://platform.openai.com/docs/guides/embeddings).
@@ -369,7 +385,7 @@ $response = (new OpenAIClient($apiKey))->Audio()->transcription(
     __DIR__ . '/../../assets/openai.mp3',
     ModelEnum::WHISPER_1,
     audioResponse: AudioResponseEnum::SRT
-)->getResponse();
+)->toObject();
 ```
 
 [Learn more about audio transcription](https://platform.openai.com/docs/guides/speech-to-text).
@@ -381,7 +397,7 @@ $response = (new OpenAIClient($apiKey))->Audio()->translation(
     __DIR__ . '/../../assets/openai_fr.mp3',
     ModelEnum::WHISPER_1,
     audioResponse: AudioResponseEnum::TEXT
-)->getResponse();
+)->toObject();
 ```
 
 [Learn more about audio translation](https://platform.openai.com/docs/guides/speech-to-text/translations).
@@ -392,7 +408,7 @@ $response = (new OpenAIClient($apiKey))->Audio()->translation(
 $response = (new OpenAIClient($apiKey))
     ->Model()
     ->list()
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/models).
@@ -403,7 +419,7 @@ $response = (new OpenAIClient($apiKey))
 $response = (new OpenAIClient($apiKey))
     ->Model()
     ->retrieve('text-davinci-001')
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/models/retrieve).
@@ -415,7 +431,7 @@ $response = (new OpenAIClient($apiKey))
     ->Model()
     ->delete(
         $_POST['model']
-    )->getResponse();
+    )->toObject();
 ```
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/fine-tunes/delete-model).
@@ -427,7 +443,7 @@ $response = (new OpenAIClient($apiKey))
 $response = (new OpenAIApi($apiKey))
     ->File()
     ->list()
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about file](https://platform.openai.com/docs/api-reference/files/list).
@@ -441,7 +457,7 @@ $response = (new OpenAIApi($apiKey))
         __DIR__ . '/../../assets/mydata.jsonl',
         'fine-tune',
     )
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about file](https://platform.openai.com/docs/api-reference/files/upload).
@@ -452,7 +468,7 @@ $response = (new OpenAIApi($apiKey))
 $response = (new OpenAIApi($apiKey))
     ->File()
     ->delete('file-xxxx')
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about file](https://platform.openai.com/docs/api-reference/files/delete).
@@ -463,7 +479,7 @@ $response = (new OpenAIApi($apiKey))
 $response = (new OpenAIApi($apiKey))
     ->File()
     ->retrieve('file-xxxx')
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve).
@@ -474,7 +490,7 @@ $response = (new OpenAIApi($apiKey))
 $response = (new OpenAIApi($apiKey))
     ->File()
     ->download('file-xxxx')
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about model](https://platform.openai.com/docs/api-reference/files/retrieve-content).
@@ -486,7 +502,7 @@ $response = (new OpenAIApi($apiKey))
 $response = (new OpenAIApi($apiKey))
     ->FineTune()
     ->list()
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/list).
@@ -499,7 +515,7 @@ $response = (new OpenAIApi($apiKey))
         ->create(
             'file-xxxx'
         )
-        ->getResponse();
+        ->toObject();
 ```
 
 [Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/create).
@@ -510,7 +526,7 @@ $response = (new OpenAIApi($apiKey))
 $response = (new OpenAIApi($apiKey))
     ->FineTune()
     ->retrieve('ft-xxx')
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/retrieve).
@@ -521,7 +537,7 @@ $response = (new OpenAIApi($apiKey))
 $response = (new OpenAIApi($apiKey))
     ->FineTune()
     ->listEvents('ft-xxx')
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/events).
@@ -532,7 +548,7 @@ $response = (new OpenAIApi($apiKey))
 $response = (new OpenAIApi($apiKey))
     ->FineTune()
     ->Cancel('ft-xxx')
-    ->getResponse();
+    ->toObject();
 ```
 
 [Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/cancel).
