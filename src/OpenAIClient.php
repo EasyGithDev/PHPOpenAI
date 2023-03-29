@@ -97,7 +97,7 @@ class OpenAIClient
     public function get(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         return (new CurlRequest())
-            ->setBaseHeaders($this->getConfiguration()->getCurlHeaders())
+            ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_GET)
@@ -115,7 +115,7 @@ class OpenAIClient
     public function post(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         return (new CurlRequest())
-            ->setBaseHeaders($this->getConfiguration()->getCurlHeaders())
+            ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_POST)
@@ -134,7 +134,7 @@ class OpenAIClient
     public function put(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         return (new CurlRequest())
-            ->setBaseHeaders($this->getConfiguration()->getCurlHeaders())
+            ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_PUT)
@@ -154,7 +154,7 @@ class OpenAIClient
     public function delete(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         return (new CurlRequest())
-            ->setBaseHeaders($this->getConfiguration()->getCurlHeaders())
+            ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_DELETE)

@@ -90,8 +90,9 @@ class CurlRequest
         return $this;
     }
 
+
     /**
-     * @return CurlResponse
+     * @return array
      */
     public function exec(): array
     {

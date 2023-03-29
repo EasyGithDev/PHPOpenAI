@@ -133,15 +133,17 @@ class Completion extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->request = (!$stream) ? $this->client->post(
-            self::END_POINT,
-            json_encode($payload),
-            ['Content-Type: application/json']
-        ) : $this->client->stream(
-            self::END_POINT,
-            json_encode($payload),
-            ['Content-Type: application/json']
-        );
+        $this->request = (!$stream) ?
+            $this->client->post(
+                self::END_POINT,
+                json_encode($payload),
+                ['Content-Type: application/json']
+            ) :
+            $this->client->stream(
+                self::END_POINT,
+                json_encode($payload),
+                ['Content-Type: application/json']
+            );
 
         return $this;
     }

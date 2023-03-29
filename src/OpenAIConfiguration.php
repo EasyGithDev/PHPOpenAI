@@ -6,7 +6,6 @@ use Exception;
 
 class OpenAIConfiguration
 {
-    public static $_configDir = __DIR__ . '/../config';
     protected string $apiUrl = 'https://api.openai.com/v1';
     protected array $headers = [];
 
@@ -18,36 +17,22 @@ class OpenAIConfiguration
             throw new Exception('apiKey can not be empty');
         }
 
-        $this->setHeader(['Authorization' => "Bearer $apiKey"]);
+        $this->addHeader("Authorization: Bearer $apiKey");
 
         if (!empty($organization)) {
-            $this->setHeader(['OpenAI-Organization' => $organization]);
+            $this->addHeader("OpenAI-Organization: $organization");
         }
-    }
-
-    public function setHeader(array $header): self
-    {
-        $this->headers[] = $header;
-        return $this;
-    }
-
-    public function getCurlHeaders(?array $additionalHeader = null): array
-    {
-        $headers = $this->headers;
-
-        if (!is_null($additionalHeader)) {
-            $headers = array_merge($headers, $additionalHeader);
-        }
-
-        return array_map(function (array $value): string {
-            $k = array_key_first($value);
-            return $k . ': ' . $value[$k];
-        }, $headers);
     }
 
     public static function defaultConfiguration(string $apiKey): OpenAIConfiguration
     {
         return new OpenAIConfiguration($apiKey);
+    }
+
+    public function addHeader(string $header): self
+    {
+        $this->headers[] = $header;
+        return $this;
     }
 
     /**
@@ -66,6 +51,26 @@ class OpenAIConfiguration
     public function setApiUrl($apiUrl): self
     {
         $this->apiUrl = $apiUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of headers
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Set the value of headers
+     *
+     * @return  self
+     */
+    public function setHeaders($headers)
+    {
+        $this->headers = $headers;
 
         return $this;
     }

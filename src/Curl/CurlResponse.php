@@ -9,7 +9,7 @@ use stdClass;
 
 class CurlResponse implements JsonSerializable
 {
-    public function __construct(protected ?array $infos = null)
+    public function __construct(protected array $infos)
     {
     }
 
@@ -66,18 +66,6 @@ class CurlResponse implements JsonSerializable
     public function getInfos(): array
     {
         return $this->infos;
-    }
-
-    /**
-     * Set the value of infos
-     *
-     * @return  self
-     */
-    public function setInfos($infos): self
-    {
-        $this->infos = $infos;
-
-        return $this;
     }
 
     public function jsonSerialize(): array
