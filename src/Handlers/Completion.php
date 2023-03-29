@@ -112,6 +112,7 @@ class Completion extends OpenAIHandler
         if ($stream) {
             $payload["stream"] = $stream;
             $params['callback'] = $this->getCallback();
+            $params['stream'] = $stream;
         }
 
         if (!is_null($logprobs)) {
