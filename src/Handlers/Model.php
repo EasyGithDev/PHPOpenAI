@@ -20,7 +20,7 @@ class Model extends OpenAIHandler
     }
 
     /**
-     * @return CurlResponse
+     * @return self
      */
     public function list(): self
     {
@@ -31,11 +31,10 @@ class Model extends OpenAIHandler
         return $this;
     }
 
-
     /**
      * @param string $model
-     *
-     * @return CurlResponse
+     * 
+     * @return self
      */
     public function retrieve(string $model): self
     {
@@ -48,6 +47,11 @@ class Model extends OpenAIHandler
         return $this;
     }
 
+    /**
+     * @param string $model
+     * 
+     * @return self
+     */
     public function delete(string $model): self
     {
         $this->request = $this->client->delete(
