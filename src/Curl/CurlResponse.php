@@ -4,10 +4,8 @@ namespace EasyGithDev\PHPOpenAI\Curl;
 
 use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
-use JsonSerializable;
-use stdClass;
 
-class CurlResponse implements JsonSerializable
+class CurlResponse implements \JsonSerializable
 {
     public function __construct(protected array $infos)
     {
@@ -48,16 +46,32 @@ class CurlResponse implements JsonSerializable
      */
     public function toArray(): array
     {
-        return json_decode($this->infos['body'], true);
+        $body = json_decode($this->infos['body'], true);
+
+        if (\json_last_error()) {
+            throw new ClientException(
+                'Failed to parse JSON response body: ' . \json_last_error_msg()
+            );
+        }
+
+        return $body;
     }
 
     /**
      * Return output body as an object
      * @return stdClass
      */
-    public function toObject(): stdClass
+    public function toObject(): \stdClass
     {
-        return json_decode($this->infos['body']);
+        $body = json_decode($this->infos['body']);
+
+        if (\json_last_error()) {
+            throw new ClientException(
+                'Failed to parse JSON response body: ' . \json_last_error_msg()
+            );
+        }
+
+        return $body;
     }
 
     /**
@@ -78,6 +92,7 @@ class CurlResponse implements JsonSerializable
      */
     public function isStatusOk(): bool
     {
+
         return ($this->getStatusCode() == 200);
     }
 
@@ -104,16 +119,19 @@ class CurlResponse implements JsonSerializable
         return $this;
     }
 
-    protected function getError(): stdClass
+    protected function getError(): \stdClass
     {
-        if (!isset($this->toObject()->error)) {
-            $err = new stdClass();
+        $body = json_decode($this->infos['body']);
+
+        if (\json_last_error()) {
+            $err = new \stdClass();
             $err->message = $this->infos['body'];
             $err->type = '';
             $err->param = '';
             $err->code = '';
             return $err;
         }
-        return $this->toObject()->error;
+
+        return $body->error;
     }
 }
