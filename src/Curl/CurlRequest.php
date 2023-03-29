@@ -100,7 +100,7 @@ class CurlRequest
         $body = curl_exec($this->ch);
 
         if (curl_errno($this->ch)) {
-            throw new \Exception('CurlRequest error : ' . curl_error($this->ch));
+            throw new \RuntimeException('CurlRequest error : ' . curl_error($this->ch));
         }
 
         $curlinfo = curl_getinfo($this->ch);
