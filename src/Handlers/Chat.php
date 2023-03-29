@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Helpers\ChatMessage;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
@@ -75,13 +76,15 @@ class Chat extends OpenAIHandler
             throw new \Exception("Frequency_penalty is a number between 0 and 2.0");
         }
 
-        $msg = array_map(function ($message) {
-            return $message->toArray();
-        }, $messages);
+        if (is_a($messages[0], ChatMessage::class)) {
+            $messages = array_map(function ($message) {
+                return $message->toArray();
+            }, $messages);
+        }
 
         $payload =       [
             "model" => is_string($model) ? $model : $model->value,
-            "messages" => $msg,
+            "messages" => $messages,
             "temperature" => $temperature,
             "max_tokens" => $max_tokens,
             "presence_penalty" => $presence_penalty,
@@ -112,7 +115,11 @@ class Chat extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->request = $this->client->post(
+        $this->request = (!$stream) ? $this->client->post(
+            self::END_POINT,
+            json_encode($payload),
+            ['Content-Type: application/json']
+        ) : $this->client->stream(
             self::END_POINT,
             json_encode($payload),
             ['Content-Type: application/json']
