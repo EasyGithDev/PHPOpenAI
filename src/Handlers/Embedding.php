@@ -22,14 +22,14 @@ class Embedding extends OpenAIHandler
      *
      * @return CurlResponse
      */
-    public function create(ModelEnum $model, string|array $input, string $user = ''): self
+    public function create(ModelEnum|string $model, string|array $input, string $user = ''): self
     {
         if (empty($input)) {
             throw new \Exception("Input is required");
         }
 
         $payload =  [
-            "model" => $model->value,
+            "model" => is_string($model) ? $model : $model->value,
             "input" => $input,
         ];
 
