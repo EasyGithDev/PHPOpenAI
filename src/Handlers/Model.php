@@ -33,7 +33,7 @@ class Model extends OpenAIHandler
 
     /**
      * @param string $model
-     * 
+     *
      * @return self
      */
     public function retrieve(string $model): self
@@ -49,7 +49,7 @@ class Model extends OpenAIHandler
 
     /**
      * @param string $model
-     * 
+     *
      * @return self
      */
     public function delete(string $model): self
