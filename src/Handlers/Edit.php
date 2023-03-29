@@ -10,9 +10,9 @@ class Edit extends OpenAIHandler
 {
     public const END_POINT = '/edits';
 
+    
     /**
-     * @param string $apiUrl
-     * @param array $headers
+     * @param  protected
      */
     public function __construct(protected OpenAIClient $client)
     {
