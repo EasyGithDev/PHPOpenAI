@@ -3,7 +3,6 @@
 namespace EasyGithDev\PHPOpenAI\Curl;
 
 use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
-use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 
 class CurlResponse implements \JsonSerializable
 {
@@ -49,7 +48,7 @@ class CurlResponse implements \JsonSerializable
         $body = json_decode($this->infos['body'], true);
 
         if (\json_last_error()) {
-            throw new ClientException(
+            throw new ApiException(
                 'Failed to parse JSON response body: ' . \json_last_error_msg()
             );
         }
@@ -66,7 +65,7 @@ class CurlResponse implements \JsonSerializable
         $body = json_decode($this->infos['body']);
 
         if (\json_last_error()) {
-            throw new ClientException(
+            throw new ApiException(
                 'Failed to parse JSON response body: ' . \json_last_error_msg()
             );
         }
@@ -92,7 +91,6 @@ class CurlResponse implements \JsonSerializable
      */
     public function isStatusOk(): bool
     {
-
         return ($this->getStatusCode() == 200);
     }
 
@@ -111,27 +109,36 @@ class CurlResponse implements \JsonSerializable
     public function throwable(): self
     {
         if (!$this->isStatusOk()) {
-            throw new ApiException($this->getStatusCode(), $this->getError());
+            throw new ApiException($this->getError());
         }
         if (!$this->isContentTypeOk()) {
-            throw new ClientException(\sprintf('Unsupported content type: %s', $this->getHeaderLine('Content-Type')));
+            throw new ApiException(\sprintf('Unsupported content type: %s', $this->getHeaderLine('Content-Type')));
         }
         return $this;
     }
 
-    protected function getError(): \stdClass
+    protected function getError(): string
     {
-        $body = json_decode($this->infos['body']);
+        $body = json_decode($this->getBody());
 
         if (\json_last_error()) {
-            $err = new \stdClass();
-            $err->message = $this->infos['body'];
-            $err->type = '';
-            $err->param = '';
-            $err->code = '';
-            return $err;
+            return \sprintf(
+                'status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n',
+                $this->getStatusCode(),
+                $this->getBody(),
+                '',
+                '',
+                '',
+            );
         }
 
-        return $body->error;
+        return \sprintf(
+            'status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n',
+            $this->getStatusCode(),
+            $body->error->message,
+            $body->error->type,
+            $body->error->param,
+            $body->error->code,
+        );
     }
 }
