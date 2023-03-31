@@ -18,7 +18,8 @@ final class ChatTest extends TestCase
                 ModelEnum::GPT_3_5_TURBO,
                 [
                     new ChatMessage(ChatMessage::ROLE_USER, 'Hello!'),
-                ]
+                ],
+                user: 'phpunit'
             )->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());

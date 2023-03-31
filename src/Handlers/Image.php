@@ -24,15 +24,14 @@ class Image extends OpenAIHandler
     {
     }
 
-
     /**
      * @param string $prompt
      * @param int $n
      * @param ImageSizeEnum $size
      * @param ImageResponseEnum $response_format
      * @param string $user
-     *
-     * @return CurlResponse
+     * 
+     * @return self
      */
     public function create(string $prompt, int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
@@ -66,14 +65,15 @@ class Image extends OpenAIHandler
     }
 
 
+
     /**
      * @param string $image
      * @param int $n
      * @param ImageSizeEnum $size
      * @param ImageResponseEnum $response_format
      * @param string $user
-     *
-     * @return CurlResponse
+     * 
+     * @return self
      */
     public function createVariation(string $image, int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
@@ -95,11 +95,12 @@ class Image extends OpenAIHandler
         $this->request = $this->client->post(
             self::VARIATION_END_POINT,
             $payload,
-            params:['timeout' => 60]
+            params: ['timeout' => 60]
         );
 
         return $this;
     }
+
 
 
     /**
@@ -110,8 +111,8 @@ class Image extends OpenAIHandler
      * @param ImageSizeEnum $size
      * @param ImageResponseEnum $response_format
      * @param string $user
-     *
-     * @return CurlResponse
+     * 
+     * @return self
      */
     public function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
@@ -150,7 +151,7 @@ class Image extends OpenAIHandler
         $this->request = $this->client->post(
             self::EDIT_END_POINT,
             $payload,
-            params:['timeout' => 60]
+            params: ['timeout' => 60]
         );
 
         return $this;

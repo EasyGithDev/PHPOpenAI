@@ -20,8 +20,8 @@ class Moderation extends OpenAIHandler
 
     /**
      * @param string $input
-     *
-     * @return CurlResponse
+     * 
+     * @return self
      */
     public function create(string $input): self
     {

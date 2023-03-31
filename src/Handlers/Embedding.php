@@ -17,11 +17,11 @@ class Embedding extends OpenAIHandler
     }
 
     /**
-     * @param ModelEnum $model
+     * @param ModelEnum|string $model
      * @param string|array $input
      * @param string $user
-     *
-     * @return CurlResponse
+     * 
+     * @return self
      */
     public function create(ModelEnum|string $model, string|array $input, string $user = ''): self
     {

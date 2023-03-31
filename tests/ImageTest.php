@@ -10,10 +10,13 @@ final class ImageTest extends TestCase
 
     public function testCreate()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Image()->create(
+        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        ->Image()
+        ->create(
             "a rabbit inside a beautiful garden, 32 bit isometric",
             n: 1,
             size: ImageSizeEnum::is256,
+            user: 'phpunit'
         )->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -26,7 +29,8 @@ final class ImageTest extends TestCase
             ->createVariation(
                 __DIR__ . '/../assets/image_variation_original.png',
                 n: 1,
-                size: ImageSizeEnum::is256
+                size: ImageSizeEnum::is256,
+                user: 'phpunit'
             )->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -41,6 +45,7 @@ final class ImageTest extends TestCase
                 mask: __DIR__ . '/../assets/image_edit_mask2.png',
                 prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
                 size: ImageSizeEnum::is256,
+                user: 'phpunit'
             )
             ->getResponse();
 

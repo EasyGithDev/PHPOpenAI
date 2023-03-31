@@ -13,6 +13,7 @@ final class EmbeddingTest extends TestCase
         $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Embedding()->create(
             ModelEnum::TEXT_EMBEDDING_ADA_002,
             "The food was delicious and the waiter...",
+            user: 'phpunit'
         )->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
