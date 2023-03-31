@@ -74,8 +74,8 @@ class FineTune extends OpenAIHandler
     ): self {
         $payload =  [
             "training_file" => $training_file,
-            // "n_epochs" => $n_epochs,
-            // "compute_classification_metrics" => $compute_classification_metrics,
+            "n_epochs" => $n_epochs,
+            "compute_classification_metrics" => $compute_classification_metrics,
         ];
 
         if (!empty($validation_file)) {
