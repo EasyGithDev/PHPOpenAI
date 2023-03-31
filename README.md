@@ -65,6 +65,18 @@ You can use an environment variable to store your key. You can then use this var
 export OPENAI_API_KEY="sk-xxxxxxxxxxx"
 ```
 
+You can put the variable in Apache configuration file  :
+
+```conf
+<VirtualHost hostname:80>
+   ...
+   SetEnv OPENAI_API_KEY sk-xxxxxxxxxxx
+   ...
+</VirtualHost>
+```
+
+And then restart the service
+
 ```php
 <?php
 $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Completion()->create(
@@ -99,6 +111,18 @@ if (file_exists($configFile)) {
 }
 
 $response = (new OpenAIApi($apiKey))->Completion()->create(
+    ModelEnum::TEXT_DAVINCI_003,
+    "Say this is a test",
+);
+```
+
+### Third possibility
+
+Just use a string !!!
+
+```php
+<?php
+$response = (new OpenAIApi('sk-xxxxxxxxxxx'))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
 );
@@ -151,7 +175,7 @@ echo '<pre>', print_r($response, true), '</pre>';
 
 Sometimes, the API returns errors. Therefore, it is necessary to be able to identify what caused the problem. To handle this difficulty, you have many options. 
 
-If you are using a Handler object with toObject or toArray method, just use a try-catch.
+If you are using a Handler object with toObject() or toArray() methods, just use a try-catch.
 
 ```php
 try {
@@ -201,7 +225,8 @@ try {
 
 Integrating OpenAI into your application is now as simple as a few lines of code.
 
-You can find all the examples here :
+You can find all codes here:
+
 [https://github.com/EasyGithDev/PHPOpenAI-Examples](https://github.com/EasyGithDev/PHPOpenAI-Examples).
 
 ### Text Completion using ChatGPT
