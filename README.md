@@ -348,6 +348,11 @@ $response = (new OpenAIClient($apiKey))->Image()->create(
     <div> <?= displayUrl($image->url) ?> </div>
 <?php endforeach; ?>
 ```
+
+![rabit-32bits](https://user-images.githubusercontent.com/3519890/229202939-4d9290cb-e1fe-4860-b6d6-14bf41d5322b.png)
+
+
+
 [Learn more about image generation](https://platform.openai.com/docs/guides/images).
 
 ### Image Variation Using DALL·E
@@ -359,6 +364,9 @@ $response = (new OpenAIClient($apiKey))->Image()->create(
         size: ImageSizeEnum::is256
     )->toObject();
 ```
+
+![variation-1](https://user-images.githubusercontent.com/3519890/229203659-0c61bb77-c19e-4840-ad4d-6b22f0179260.png)
+
 
 [Learn more about image variation](https://platform.openai.com/docs/guides/images/variations).
 
@@ -372,6 +380,9 @@ $response = (new OpenAIClient($apiKey))->Image()->create(
         size: ImageSizeEnum::is512,
     )->toObject();
 ```
+
+![img-edit](https://user-images.githubusercontent.com/3519890/229203979-baf001e9-f72d-4741-a1c8-e8fa48c8c8e3.png)
+
 
 [Learn more about image edit](https://platform.openai.com/docs/guides/images/edits).
 
