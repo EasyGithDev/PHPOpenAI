@@ -21,11 +21,7 @@ class OpenAIClient
 
     public function __construct(OpenAIConfiguration|string $var)
     {
-        if (is_string($var)) {
-            $this->configuration = OpenAIConfiguration::defaultConfiguration($var);
-        } else {
-            $this->configuration = $var;
-        }
+        $this->configuration = (is_string($var)) ? OpenAIConfiguration::Configuration($var) : $var;
     }
 
     public function Model(): Model

@@ -9,10 +9,12 @@ class OpenAIConfiguration
     protected string $apiUrl = 'https://api.openai.com/v1';
     protected array $headers = [];
 
-    public function __construct(
-        string $apiKey,
-        string $organization = ''
-    ) {
+    /**
+     * @param string $apiKey
+     * @param string $organization
+     */
+    public function __construct(string $apiKey, string $organization = '')
+    {
         if (empty($apiKey)) {
             throw new Exception('apiKey can not be empty');
         }
@@ -24,15 +26,15 @@ class OpenAIConfiguration
         }
     }
 
-    public static function defaultConfiguration(string $apiKey): OpenAIConfiguration
+    /**
+     * @param string $apiKey
+     * @param string $organization
+     * 
+     * @return OpenAIConfiguration
+     */
+    public static function Configuration(string $apiKey, string $organization = ''): OpenAIConfiguration
     {
-        return new OpenAIConfiguration($apiKey);
-    }
-
-    public function addHeader(string $header): self
-    {
-        $this->headers[] = $header;
-        return $this;
+        return new OpenAIConfiguration($apiKey, $organization);
     }
 
     /**
@@ -72,6 +74,17 @@ class OpenAIConfiguration
     {
         $this->headers = $headers;
 
+        return $this;
+    }
+
+    /**
+     * @param string $header
+     * 
+     * @return self
+     */
+    public function addHeader(string $header): self
+    {
+        $this->headers[] = $header;
         return $this;
     }
 }
