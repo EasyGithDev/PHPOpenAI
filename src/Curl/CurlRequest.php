@@ -21,6 +21,8 @@ class CurlRequest
     protected int $connecttimeout = 0;
     protected int $timeout = 10;
     protected $callback = null;
+    protected bool $followLocation = true;
+    protected int $maxRedirect = 10;
 
     /**
      */
@@ -51,18 +53,11 @@ class CurlRequest
 
         curl_setopt($this->ch, CURLOPT_URL, $url);
 
-        switch ($this->method) {
-            case self::CURL_POST:
-                curl_setopt($this->ch, CURLOPT_POST, true);
-                if (!is_null($this->payload)) {
-                    curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
-                }
-                break;
-            case self::CURL_DELETE:
-            case self::CURL_PUT:
-            case self::CURL_PATCH:
-                curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $this->method);
-                break;
+        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $this->method);
+
+        if (!is_null($this->payload)) {
+            curl_setopt($this->ch, CURLOPT_POST, true);
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
         }
 
         if (count($headers)) {
@@ -77,6 +72,10 @@ class CurlRequest
             curl_setopt($this->ch, CURLOPT_WRITEFUNCTION, $this->callback);
         }
 
+        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, $this->followLocation);
+        curl_setopt($this->ch, CURLOPT_MAXREDIRS, $this->maxRedirect);
+
+
         curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, $this->connecttimeout);
         curl_setopt($this->ch, CURLOPT_TIMEOUT, $this->timeout); //timeout in seconds
     }
@@ -89,7 +88,6 @@ class CurlRequest
 
         return $this;
     }
-
 
     /**
      * @return array
@@ -256,6 +254,30 @@ class CurlRequest
     public function setBaseHeaders($baseHeaders): self
     {
         $this->baseHeaders = $baseHeaders;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of followLocation
+     *
+     * @return  self
+     */
+    public function setFollowLocation($followLocation): self
+    {
+        $this->followLocation = $followLocation;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of maxRedirect
+     *
+     * @return  self
+     */
+    public function setMaxRedirect($maxRedirect): self
+    {
+        $this->maxRedirect = $maxRedirect;
 
         return $this;
     }
