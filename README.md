@@ -105,10 +105,11 @@ You can then use this variable as in the following example:
 
 ```php
 <?php
-$apiKey = '';
-if (file_exists($configFile)) {
-    $apiKey = require $configFile;
+if (!file_exists($configFile)) {
+    throw new \Exception("Unable to locate file: $configFile");
 }
+
+$apiKey = require $configFile;
 
 $response = (new OpenAIApi($apiKey))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
