@@ -237,6 +237,14 @@ The stream attribute in the OpenAI API is an optional parameter that you can use
 
 This means that you can retrieve the results of the API as they become available, rather than waiting for the complete response before processing them. This option can be useful for applications that require real-time processing of large amounts of data.
 
+
+<p>
+
+https://user-images.githubusercontent.com/3519890/229144053-d32e6416-0980-44ea-97b7-b2d4a2d26a5d.mp4
+
+</p>
+
+
 ```php
 <?php
 header('Content-Type: text/event-stream');
