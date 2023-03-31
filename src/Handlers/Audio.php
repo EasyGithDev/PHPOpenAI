@@ -2,12 +2,12 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\Helpers\AudioResponseEnum;
 use EasyGithDev\PHPOpenAI\Helpers\LanguageEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
-use Exception;
 
 class Audio extends OpenAIHandler
 {
@@ -35,19 +35,19 @@ class Audio extends OpenAIHandler
         LanguageEnum $language = LanguageEnum::ENGLISH
     ): self {
         if (!file_exists($audioFile)) {
-            throw new Exception("Unable to locate file: $audioFile");
+            throw new ClientException("Unable to locate file: $audioFile");
         }
 
         if (!$this->extensionAvailable($audioFile)) {
-            throw new Exception("Use one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm");
+            throw new ClientException("Use one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm");
         }
 
         if ($model != ModelEnum::WHISPER_1) {
-            throw new \Exception("Only whisper-1 is currently available.");
+            throw new ClientException("Only whisper-1 is currently available.");
         }
 
         if ($temperature < 0 or $temperature > 1) {
-            throw new \Exception("Temperature to use, between 0 and 1");
+            throw new ClientException("Temperature to use, between 0 and 1");
         }
 
         $payload = [
@@ -78,19 +78,19 @@ class Audio extends OpenAIHandler
         float $temperature = 0
     ): self {
         if (!file_exists($audioFile)) {
-            throw new Exception("Unable to locate file: $audioFile");
+            throw new ClientException("Unable to locate file: $audioFile");
         }
 
         if (!$this->extensionAvailable($audioFile)) {
-            throw new Exception("Use one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm");
+            throw new ClientException("Use one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm");
         }
 
         if ($model != ModelEnum::WHISPER_1) {
-            throw new \Exception("Only whisper-1 is currently available.");
+            throw new ClientException("Only whisper-1 is currently available.");
         }
 
         if ($temperature < 0 or $temperature > 1) {
-            throw new \Exception("Temperature to use, between 0 and 1");
+            throw new ClientException("Temperature to use, between 0 and 1");
         }
 
         $payload = [

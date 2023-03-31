@@ -2,7 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
-use Exception;
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 
 class OpenAIConfiguration
 {
@@ -16,7 +16,7 @@ class OpenAIConfiguration
     public function __construct(string $apiKey, string $organization = '')
     {
         if (empty($apiKey)) {
-            throw new Exception('apiKey can not be empty');
+            throw new ClientException('apiKey can not be empty');
         }
 
         $this->addHeader("Authorization: Bearer $apiKey");

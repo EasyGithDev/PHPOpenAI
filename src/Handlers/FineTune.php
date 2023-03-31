@@ -2,9 +2,9 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
-use Exception;
 
 class FineTune extends OpenAIHandler
 {
@@ -128,7 +128,7 @@ class FineTune extends OpenAIHandler
     public function retrieve(string $fine_tune_id): self
     {
         if (empty($fine_tune_id)) {
-            throw new Exception("fine_tune_id can not be empty");
+            throw new ClientException("fine_tune_id can not be empty");
         }
 
         $this->request = $this->client->get(
@@ -146,7 +146,7 @@ class FineTune extends OpenAIHandler
     public function cancel(string $fine_tune_id): self
     {
         if (empty($fine_tune_id)) {
-            throw new Exception("fine_tune_id can not be empty");
+            throw new ClientException("fine_tune_id can not be empty");
         }
 
         $this->request = $this->client->post(

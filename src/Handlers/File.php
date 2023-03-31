@@ -2,9 +2,9 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
-use Exception;
 
 class File extends OpenAIHandler
 {
@@ -31,7 +31,7 @@ class File extends OpenAIHandler
     public function create(string $file, string $purpose): self
     {
         if (!file_exists($file)) {
-            throw new Exception("Unable to locate file: $file");
+            throw new ClientException("Unable to locate file: $file");
         }
 
         $payload =  [
@@ -51,7 +51,7 @@ class File extends OpenAIHandler
     public function delete(string $file_id): self
     {
         if (empty($file_id)) {
-            throw new Exception("file_id can not be empty");
+            throw new ClientException("file_id can not be empty");
         }
 
         $this->request = $this->client->delete(
@@ -66,7 +66,7 @@ class File extends OpenAIHandler
     public function retrieve(string $file_id): self
     {
         if (empty($file_id)) {
-            throw new Exception("file_id can not be empty");
+            throw new ClientException("file_id can not be empty");
         }
 
         $this->request = $this->client->get(
@@ -80,7 +80,7 @@ class File extends OpenAIHandler
     public function download(string $file_id): self
     {
         if (empty($file_id)) {
-            throw new Exception("file_id can not be empty");
+            throw new ClientException("file_id can not be empty");
         }
 
         $this->request = $this->client->get(

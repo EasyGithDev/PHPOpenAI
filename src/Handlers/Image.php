@@ -3,11 +3,11 @@
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ImageResponseEnum;
 use EasyGithDev\PHPOpenAI\Helpers\ImageSizeEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
-use Exception;
 
 class Image extends OpenAIHandler
 {
@@ -37,11 +37,11 @@ class Image extends OpenAIHandler
     public function create(string $prompt, int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
         if (mb_strlen($prompt) > self::MAX_PROMPT_CHARS) {
-            throw new \Exception("Max prompt is 1000 chars");
+            throw new ClientException("Max prompt is 1000 chars");
         }
 
         if ($n < 1 or $n > 10) {
-            throw new \Exception('$n is between 1 and 10');
+            throw new ClientException('$n is between 1 and 10');
         }
 
         $payload = [
@@ -78,7 +78,7 @@ class Image extends OpenAIHandler
     public function createVariation(string $image, int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
         if (!file_exists($image)) {
-            throw new Exception("Unable to locate file: $image");
+            throw new ClientException("Unable to locate file: $image");
         }
 
         $payload = [
@@ -116,19 +116,19 @@ class Image extends OpenAIHandler
     public function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
         if (!file_exists($image)) {
-            throw new Exception("Unable to locate file: $image");
+            throw new ClientException("Unable to locate file: $image");
         }
 
         if (!empty($mask) && !file_exists($mask)) {
-            throw new Exception("Unable to locate mask: $mask");
+            throw new ClientException("Unable to locate mask: $mask");
         }
 
         if (mb_strlen($prompt) > 1000) {
-            throw new \Exception("Prompt max char is : 1000");
+            throw new ClientException("Prompt max char is : 1000");
         }
 
         if ($n < 1 or $n > 10) {
-            throw new \Exception('$n is between 1 and 10');
+            throw new ClientException('$n is between 1 and 10');
         }
 
         $payload = [

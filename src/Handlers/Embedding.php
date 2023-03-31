@@ -4,6 +4,7 @@ namespace EasyGithDev\PHPOpenAI\Handlers;
 
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
@@ -25,11 +26,11 @@ class Embedding extends OpenAIHandler
     public function create(ModelEnum|string $model, string|array $input, string $user = ''): self
     {
         if (empty($model)) {
-            throw new \Exception("Model can not be empty");
+            throw new ClientException("Model can not be empty");
         }
 
         if (empty($input)) {
-            throw new \Exception("Input is required");
+            throw new ClientException("Input is required");
         }
 
         $payload =  [

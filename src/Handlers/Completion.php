@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
@@ -50,39 +51,39 @@ class Completion extends OpenAIHandler
         string $user = ''
     ): self {
         if (empty($model)) {
-            throw new \Exception("Model can not be empty");
+            throw new ClientException("Model can not be empty");
         }
 
         if (empty($prompt)) {
-            throw new \Exception("Prompt can not be empty");
+            throw new ClientException("Prompt can not be empty");
         }
 
         if ($max_tokens > self::MAX_TOKENS) {
-            throw new \Exception("Max tokens are " . self::MAX_TOKENS);
+            throw new ClientException("Max tokens are " . self::MAX_TOKENS);
         }
 
         if ($temperature < self::MIN_TEMPERATURE or $temperature > self::MAX_TEMPERATURE) {
-            throw new \Exception("Temperature to use, between 0 and 1");
+            throw new ClientException("Temperature to use, between 0 and 1");
         }
 
         if ($top_p < self::MIN_TOP_P or $top_p > self::MAX_TOP_P) {
-            throw new \Exception("Nucleus sampling to use, between 0 and 1");
+            throw new ClientException("Nucleus sampling to use, between 0 and 1");
         }
 
         if ($n < self::MIN_N or $n > self::MAX_N) {
-            throw new \Exception('$n is between 1 and 10');
+            throw new ClientException('$n is between 1 and 10');
         }
 
         if ($logprobs > self::MAX_LOGPROBS) {
-            throw new \Exception('Maximum for logprobs is 5');
+            throw new ClientException('Maximum for logprobs is 5');
         }
 
         if ($presence_penalty < self::MIN_PRESENCE_PENALITY or $presence_penalty > self::MAX_PRESENCE_PENALITY) {
-            throw new \Exception("Presence_penalty is a number between 0 and 2.0");
+            throw new ClientException("Presence_penalty is a number between 0 and 2.0");
         }
 
         if ($frequency_penalty < self::MIN_FRENQUENCY_PENALITY or $frequency_penalty > self::MAX_FRENQUENCY_PENALITY) {
-            throw new \Exception("Frequency_penalty is a number between 0 and 2.0");
+            throw new ClientException("Frequency_penalty is a number between 0 and 2.0");
         }
 
         $params = [];

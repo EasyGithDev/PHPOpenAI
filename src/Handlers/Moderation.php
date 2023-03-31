@@ -2,9 +2,8 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\ModerationResponse;
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
@@ -27,7 +26,7 @@ class Moderation extends OpenAIHandler
     public function create(string $input): self
     {
         if (empty($input)) {
-            throw new \Exception("Input can not be empty");
+            throw new ClientException("Input can not be empty");
         }
 
         $payload =  [
