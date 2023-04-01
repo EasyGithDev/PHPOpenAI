@@ -1,8 +1,8 @@
 # PHPOpenAI
 
-Welcome to the GitHub project page for "PHPOpenAI", a project that enables the use of the OpenAI API in PHP.
+Welcome to the GitHub project page for `PHPOpenAI`, a project that enables the use of the OpenAI API in PHP. `PHPOpenAI` is an community-maintained library.
 
-The project is written in PHP and can be used to easily integrate the OpenAI API into your existing PHP project. The OpenAI API provides natural language processing tools for text classification, image generation and named entity recognition.
+The project is written in PHP and can be used to easily integrate the `OpenAI API` into your existing PHP project. The OpenAI API provides natural language processing tools for text classification, image generation and named entity recognition.
 
 ## System Requirements
 
@@ -25,7 +25,11 @@ composer require easygithdev/php-openai
 
 ## Writing a first example
 
-To use the OpenAI API, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
+To use the `OpenAI API`, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
+
+
+[To obtain your key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
+
 
 Here's an example code that shows you how to use the OpenAI API in PHP:
 
@@ -35,6 +39,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
+
+$apiKey = getenv('OPENAI_API_KEY');
 
 $response = (new OpenAIClient($apiKey))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
@@ -75,7 +81,9 @@ You can put the variable in Apache configuration file  :
 </VirtualHost>
 ```
 
-And then restart the service
+And then restart the service.
+
+Now, you can use the environment variable by calling the `getenv()` function of PHP.
 
 ```php
 <?php
@@ -106,7 +114,7 @@ You can then use this variable as in the following example:
 ```php
 <?php
 if (!file_exists($configFile)) {
-    throw new \Exception("Unable to locate file: $configFile");
+    throw new \Exception("Unable to locate the configuration file");
 }
 
 $apiKey = require $configFile;
@@ -117,21 +125,9 @@ $response = (new OpenAIApi($apiKey))->Completion()->create(
 );
 ```
 
-### Third possibility
-
-Just use a string !!!
-
-```php
-<?php
-$response = (new OpenAIApi('sk-xxxxxxxxxxx'))->Completion()->create(
-    ModelEnum::TEXT_DAVINCI_003,
-    "Say this is a test",
-);
-```
-
 ## Manage the reponses
 
-The API returns responses in JSON format. To facilitate access to the different information, this response is encapsulated in an object named CurlResponse. You can then call the different methods of this object to access the data.
+The API returns responses in JSON format. To facilitate access to the different information, this response is encapsulated in an object named `CurlResponse`. You can then call the different methods of this object to access the data.
 
 ```php
 <?php
@@ -176,7 +172,7 @@ echo '<pre>', print_r($response, true), '</pre>';
 
 Sometimes, the API returns errors. Therefore, it is necessary to be able to identify what caused the problem. To handle this difficulty, you have many options. 
 
-If you are using a Handler object with toObject() or toArray() methods, just use a try-catch.
+If you are using a Handler object with `toObject()` or `toArray()` methods, just use a `try-catch` structure.
 
 ```php
 try {
@@ -192,7 +188,8 @@ try {
     die;
 }
 ```
-If you are using the CurlResponse object, you can check that an error has occurred using the isStatusOk() and isContentTypeOk()  method. 
+
+If you are using the `CurlResponse` object, you can check that an error has occurred using the `isStatusOk()` and isContentTypeOk()` methods. 
 
 ```php
 
@@ -206,7 +203,7 @@ if (!$response->isStatusOk() or !$response->isContentTypeOk()) {
 }
 ```
 
-Or, you use a try-catch structure by using the throwable() method of the CurlResponse object.
+Or, you use a `try-catch` structure by using the `throwable()` method of the `CurlResponse` object.
 
 ```php
 try {
