@@ -20,20 +20,29 @@ class Audio extends OpenAIHandler
     {
     }
 
+    /**
+     * @param string $filename
+     *
+     * @return bool
+     */
     protected function extensionAvailable(string $filename): bool
     {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
         return in_array($ext, ['mp3', 'mp4', 'mpeg', 'mpga', 'm4a', 'wav', 'webm']);
     }
 
-    public function transcription(
-        string $audioFile,
-        ModelEnum $model = ModelEnum::WHISPER_1,
-        string $prompt = '',
-        AudioResponseEnum $audioResponse = AudioResponseEnum::JSON,
-        float $temperature = 0,
-        LanguageEnum $language = LanguageEnum::ENGLISH
-    ): self {
+    /**
+     * @param string $audioFile
+     * @param ModelEnum $model
+     * @param string $prompt
+     * @param AudioResponseEnum $audioResponse
+     * @param float $temperature
+     * @param LanguageEnum $language
+     *
+     * @return self
+     */
+    public function transcription(string $audioFile, ModelEnum $model = ModelEnum::WHISPER_1, string $prompt = '', AudioResponseEnum $audioResponse = AudioResponseEnum::JSON, float $temperature = 0, LanguageEnum $language = LanguageEnum::ENGLISH): self
+    {
         if (!file_exists($audioFile)) {
             throw new ClientException("Unable to locate file: $audioFile");
         }
@@ -70,13 +79,17 @@ class Audio extends OpenAIHandler
         return $this;
     }
 
-    public function translation(
-        string $audioFile,
-        ModelEnum $model = ModelEnum::WHISPER_1,
-        string $prompt = '',
-        AudioResponseEnum $audioResponse = AudioResponseEnum::JSON,
-        float $temperature = 0
-    ): self {
+    /**
+     * @param string $audioFile
+     * @param ModelEnum $model
+     * @param string $prompt
+     * @param AudioResponseEnum $audioResponse
+     * @param float $temperature
+     *
+     * @return self
+     */
+    public function translation(string $audioFile, ModelEnum $model = ModelEnum::WHISPER_1, string $prompt = '', AudioResponseEnum $audioResponse = AudioResponseEnum::JSON, float $temperature = 0): self
+    {
         if (!file_exists($audioFile)) {
             throw new ClientException("Unable to locate file: $audioFile");
         }

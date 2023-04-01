@@ -2,6 +2,11 @@
 
 namespace EasyGithDev\PHPOpenAI\Curl;
 
+use Closure;
+
+/**
+ * [Description CurlRequest]
+ */
 class CurlRequest
 {
     public const CURL_GET = 'GET';
@@ -10,18 +15,69 @@ class CurlRequest
     public const CURL_DELETE = 'DELETE';
     public const CURL_PATCH = 'PATCH';
 
+    /**
+     * @var \CurlHandle|null|null
+     */
     protected ?\CurlHandle $ch = null;
+
+    /**
+     * @var string
+     */
     protected string $baseUrl = '';
+
+    /**
+     * @var string
+     */
     protected string $url = '';
+
+    /**
+     * @var array
+     */
     protected array $baseHeaders = [];
+
+    /**
+     * @var array
+     */
     protected array $headers = [];
+
+    /**
+     * @var string|array|null
+     */
     protected string|array|null $payload = null;
+
+    /**
+     * @var string
+     */
     protected string $method = self::CURL_GET;
+
+    /**
+     * @var bool
+     */
     protected bool $returnTransfer = true;
+
+    /**
+     * @var int
+     */
     protected int $connecttimeout = 0;
+
+    /**
+     * @var int
+     */
     protected int $timeout = 10;
-    protected $callback = null;
+
+    /**
+     * @var null
+     */
+    protected ?Closure $callback = null;
+
+    /**
+     * @var bool
+     */
     protected bool $followLocation = true;
+
+    /**
+     * @var int
+     */
     protected int $maxRedirect = 10;
 
     /**
@@ -80,6 +136,11 @@ class CurlRequest
         curl_setopt($this->ch, CURLOPT_TIMEOUT, $this->timeout); //timeout in seconds
     }
 
+    /**
+     * @param string $filename
+     *
+     * @return self
+     */
     public function verboseEnabled(string $filename): self
     {
         $fp = fopen($filename, 'w');
@@ -120,13 +181,23 @@ class CurlRequest
         }
     }
 
+    /**
+     * @param string $method
+     *
+     * @return self
+     */
     public function setMethod(string $method): self
     {
         $this->method = $method;
         return $this;
     }
 
-    public function setCallback(callable $callback): self
+    /**
+     * @param Closure $callback
+     *
+     * @return self
+     */
+    public function setCallback(Closure $callback): self
     {
         $this->callback = $callback;
         return $this;
@@ -135,7 +206,9 @@ class CurlRequest
     /**
      * Set the value of headers
      *
-     * @return  self
+     * @param array $headers
+     *
+     * @return self
      */
     public function setHeaders(array $headers): self
     {
@@ -143,6 +216,7 @@ class CurlRequest
 
         return $this;
     }
+
 
     /**
      * @param array $additionalHeader
@@ -160,8 +234,9 @@ class CurlRequest
 
     /**
      * Set the value of payload
+     * @param string|array|null $payload
      *
-     * @return  self
+     * @return self
      */
     public function setPayload(string|array|null $payload): self
     {
@@ -173,7 +248,9 @@ class CurlRequest
     /**
      * Set the value of returnTransfer
      *
-     * @return  self
+     * @param bool $returnTransfer
+     *
+     * @return self
      */
     public function setReturnTransfer(bool $returnTransfer): self
     {
@@ -208,6 +285,7 @@ class CurlRequest
 
     /**
      * Get the value of baseUrl
+     * @return string
      */
     public function getBaseUrl(): string
     {
@@ -217,7 +295,9 @@ class CurlRequest
     /**
      * Set the value of baseUrl
      *
-     * @return  self
+     * @param string $baseUrl
+     *
+     * @return self
      */
     public function setBaseUrl(string $baseUrl): self
     {
@@ -228,6 +308,7 @@ class CurlRequest
 
     /**
      * Get the value of url
+     * @return string
      */
     public function getUrl(): string
     {
@@ -236,10 +317,11 @@ class CurlRequest
 
     /**
      * Set the value of url
+     * @param string $url
      *
-     * @return  self
+     * @return self
      */
-    public function setUrl($url): self
+    public function setUrl(string $url): self
     {
         $this->url = $url;
 
@@ -248,10 +330,11 @@ class CurlRequest
 
     /**
      * Set the value of baseHeaders
+     * @param array $baseHeaders
      *
-     * @return  self
+     * @return self
      */
-    public function setBaseHeaders($baseHeaders): self
+    public function setBaseHeaders(array $baseHeaders): self
     {
         $this->baseHeaders = $baseHeaders;
 
@@ -261,9 +344,11 @@ class CurlRequest
     /**
      * Set the value of followLocation
      *
-     * @return  self
+     * @param bool $followLocation
+     *
+     * @return self
      */
-    public function setFollowLocation($followLocation): self
+    public function setFollowLocation(bool $followLocation): self
     {
         $this->followLocation = $followLocation;
 
@@ -272,10 +357,11 @@ class CurlRequest
 
     /**
      * Set the value of maxRedirect
+     * @param int $maxRedirect
      *
-     * @return  self
+     * @return self
      */
-    public function setMaxRedirect($maxRedirect): self
+    public function setMaxRedirect(int $maxRedirect): self
     {
         $this->maxRedirect = $maxRedirect;
 

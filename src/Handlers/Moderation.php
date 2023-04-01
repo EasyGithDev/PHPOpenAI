@@ -2,11 +2,13 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
+/**
+ * [Description Moderation]
+ */
 class Moderation extends OpenAIHandler
 {
     public const END_POINT = '/moderations';
@@ -20,7 +22,7 @@ class Moderation extends OpenAIHandler
 
     /**
      * @param string $input
-     * 
+     *
      * @return self
      */
     public function create(string $input): self

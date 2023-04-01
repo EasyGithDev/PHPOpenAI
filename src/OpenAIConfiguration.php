@@ -4,9 +4,19 @@ namespace EasyGithDev\PHPOpenAI;
 
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 
+/**
+ * [Description OpenAIConfiguration]
+ */
 class OpenAIConfiguration
 {
+    /**
+     * @var string
+     */
     protected string $apiUrl = 'https://api.openai.com/v1';
+
+    /**
+     * @var array
+     */
     protected array $headers = [];
 
     /**
@@ -29,7 +39,7 @@ class OpenAIConfiguration
     /**
      * @param string $apiKey
      * @param string $organization
-     * 
+     *
      * @return OpenAIConfiguration
      */
     public static function Configuration(string $apiKey, string $organization = ''): OpenAIConfiguration
@@ -79,7 +89,7 @@ class OpenAIConfiguration
 
     /**
      * @param string $header
-     * 
+     *
      * @return self
      */
     public function addHeader(string $header): self

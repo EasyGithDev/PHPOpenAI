@@ -2,12 +2,12 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
-use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Curl\Responses\ModelResponse;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
+/**
+ * [Description Model]
+ */
 class Model extends OpenAIHandler
 {
     public const END_POINT = '/models';

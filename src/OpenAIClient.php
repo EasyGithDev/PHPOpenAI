@@ -15,60 +15,96 @@ use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Handlers\Embedding;
 use EasyGithDev\PHPOpenAI\Handlers\FineTune;
 
+/**
+ * [Description OpenAIClient]
+ */
 class OpenAIClient
 {
     protected ?OpenAIConfiguration $configuration = null;
 
+    /**
+     * @param OpenAIConfiguration|string $var
+     */
     public function __construct(OpenAIConfiguration|string $var)
     {
         $this->configuration = (is_string($var)) ? OpenAIConfiguration::Configuration($var) : $var;
     }
 
+    /**
+     * @return Model
+     */
     public function Model(): Model
     {
         return new Model($this);
     }
 
+    /**
+     * @return Completion
+     */
     public function Completion(): Completion
     {
         return new Completion($this);
     }
 
+    /**
+     * @return Edit
+     */
     public function Edit(): Edit
     {
         return new Edit($this);
     }
 
+    /**
+     * @return Chat
+     */
     public function Chat(): Chat
     {
         return new Chat($this);
     }
 
+    /**
+     * @return Image
+     */
     public function Image(): Image
     {
         return new Image($this);
     }
 
+    /**
+     * @return Audio
+     */
     public function Audio(): Audio
     {
         return new Audio($this);
     }
 
+    /**
+     * @return Moderation
+     */
     public function Moderation(): Moderation
     {
         return new Moderation($this);
     }
 
+    /**
+     * @return File
+     */
     public function File(): File
     {
         return new File($this);
     }
 
+    /**
+     * @return FineTune
+     */
     public function FineTune(): FineTune
     {
         return new Finetune($this);
     }
 
+    /**
+     * @return Embedding
+     */
     public function Embedding(): Embedding
     {
         return new Embedding($this);

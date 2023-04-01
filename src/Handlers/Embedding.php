@@ -3,11 +3,13 @@
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
-use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
+/**
+ * [Description Embedding]
+ */
 class Embedding extends OpenAIHandler
 {
     public const END_POINT = '/embeddings';
@@ -20,7 +22,7 @@ class Embedding extends OpenAIHandler
      * @param ModelEnum|string $model
      * @param string|array $input
      * @param string $user
-     * 
+     *
      * @return self
      */
     public function create(ModelEnum|string $model, string|array $input, string $user = ''): self

@@ -10,6 +10,7 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
 class Chat extends OpenAIHandler
 {
+    use Stream;
     public const END_POINT = '/chat/completions';
     public const MAX_PROMPT_CHARS = 1000;
     public const MAX_TOKENS = 4096;
@@ -24,8 +25,6 @@ class Chat extends OpenAIHandler
     public const MAX_FRENQUENCY_PENALITY = 2.0;
     public const MIN_FRENQUENCY_PENALITY = -2.0;
 
-use Stream;
-
     /**
      * @param  protected
      */
@@ -33,20 +32,24 @@ use Stream;
     {
     }
 
-    public function create(
-        ModelEnum|string $model,
-        array $messages,
-        float $temperature = 1.0,
-        float $top_p = 1.0,
-        int $n = 1,
-        bool $stream = false,
-        string|array|null $stop = null,
-        int $max_tokens = 2048,
-        int $presence_penalty = 0,
-        int $frequency_penalty = 0,
-        ?array $logit_bias = null,
-        string $user = ''
-    ): self {
+    /**
+     * @param ModelEnum|string $model
+     * @param array $messages
+     * @param float $temperature
+     * @param float $top_p
+     * @param int $n
+     * @param bool $stream
+     * @param string|array|null|null $stop
+     * @param int $max_tokens
+     * @param int $presence_penalty
+     * @param int $frequency_penalty
+     * @param array|null $logit_bias
+     * @param string $user
+     *
+     * @return self
+     */
+    public function create(ModelEnum|string $model, array $messages, float $temperature = 1.0, float $top_p = 1.0, int $n = 1, bool $stream = false, string|array|null $stop = null, int $max_tokens = 2048, int $presence_penalty = 0, int $frequency_penalty = 0, ?array $logit_bias = null, string $user = ''): self
+    {
         if (empty($model)) {
             throw new ClientException("Model can not be empty");
         }
@@ -85,7 +88,7 @@ use Stream;
             }, $messages);
         }
 
-        $params=[];
+        $params = [];
         $payload =       [
             "model" => is_string($model) ? $model : $model->value,
             "messages" => $messages,

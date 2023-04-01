@@ -6,11 +6,13 @@ use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
+/**
+ * [Description FineTune]
+ */
 class FineTune extends OpenAIHandler
 {
-    public const END_POINT = '/fine-tunes';
-
     use Stream;
+    public const END_POINT = '/fine-tunes';
 
     /**
      * @param  protected
@@ -55,23 +57,21 @@ class FineTune extends OpenAIHandler
 
     /**
      * @param string $training_file
-     * @param string $purpose
+     * @param string $validation_file
+     * @param string $model
+     * @param int $n_epochs
+     * @param int|null $batch_size
+     * @param int|null $learning_rate_multiplier
+     * @param bool $compute_classification_metrics
+     * @param int|null $classification_n_classes
+     * @param string|null $classification_positive_class
+     * @param array|null $classification_betas
+     * @param string|null $suffix
      *
      * @return self
      */
-    public function create(
-        string $training_file,
-        string $validation_file = '',
-        string $model = '',
-        int $n_epochs = 4,
-        ?int $batch_size = null,
-        ?int $learning_rate_multiplier = null,
-        bool $compute_classification_metrics = false,
-        ?int $classification_n_classes = null,
-        ?string $classification_positive_class = null,
-        ?array $classification_betas = null,
-        ?string $suffix = null
-    ): self {
+    public function create(string $training_file, string $validation_file = '', string $model = '', int $n_epochs = 4, ?int $batch_size = null, ?int $learning_rate_multiplier = null, bool $compute_classification_metrics = false, ?int $classification_n_classes = null, ?string $classification_positive_class = null, ?array $classification_betas = null, ?string $suffix = null): self
+    {
         $payload =  [
             "training_file" => $training_file,
             "n_epochs" => $n_epochs,

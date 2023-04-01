@@ -9,6 +9,7 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
 class Completion extends OpenAIHandler
 {
+    use Stream;
     public const END_POINT = '/completions';
     public const MAX_TOKENS = 4096;
     public const MAX_LOGPROBS = 5;
@@ -23,8 +24,6 @@ class Completion extends OpenAIHandler
     public const MAX_FRENQUENCY_PENALITY = 2.0;
     public const MIN_FRENQUENCY_PENALITY = -2.0;
 
-    use Stream;
-
     /**
      * @param  protected
      */
@@ -32,24 +31,28 @@ class Completion extends OpenAIHandler
     {
     }
 
-    public function create(
-        ModelEnum|string $model,
-        string $prompt,
-        ?string $suffix = null,
-        int $max_tokens = 16,
-        float $temperature = 1.0,
-        float $top_p = 1.0,
-        int $n = 1,
-        bool $stream = false,
-        ?int $logprobs = null,
-        bool $echo  = false,
-        string|array|null $stop = null,
-        float $presence_penalty = 0.0,
-        float $frequency_penalty = 0.0,
-        int $best_of = 1,
-        ?array $logit_bias = null,
-        string $user = ''
-    ): self {
+    /**
+     * @param ModelEnum|string $model
+     * @param string $prompt
+     * @param string|null $suffix
+     * @param int $max_tokens
+     * @param float $temperature
+     * @param float $top_p
+     * @param int $n
+     * @param bool $stream
+     * @param int|null $logprobs
+     * @param bool $echo
+     * @param string|array|null|null $stop
+     * @param float $presence_penalty
+     * @param float $frequency_penalty
+     * @param int $best_of
+     * @param array|null $logit_bias
+     * @param string $user
+     *
+     * @return self
+     */
+    public function create(ModelEnum|string $model, string $prompt, ?string $suffix = null, int $max_tokens = 16, float $temperature = 1.0, float $top_p = 1.0, int $n = 1, bool $stream = false, ?int $logprobs = null, bool $echo  = false, string|array|null $stop = null, float $presence_penalty = 0.0, float $frequency_penalty = 0.0, int $best_of = 1, ?array $logit_bias = null, string $user = ''): self
+    {
         if (empty($model)) {
             throw new ClientException("Model can not be empty");
         }

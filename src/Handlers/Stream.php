@@ -2,12 +2,22 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use Closure;
+
+/**
+ * [Description Stream]
+ */
 trait Stream
 {
+    /**
+     * @var null
+     */
+    protected ?Closure $callback = null;
 
-    protected $callback = null;
-
-    public function default()
+    /**
+     * @return Closure
+     */
+    public function default(): Closure
     {
         return function ($ch, $data) {
             echo $data . PHP_EOL;
@@ -20,18 +30,20 @@ trait Stream
 
     /**
      * Get the value of callback
+     * @return Closure
      */
-    public function getCallback()
+    public function getCallback(): Closure
     {
         return $this->callback ?? $this->default();
     }
 
     /**
      * Set the value of callback
+     * @param Closure $callback
      *
-     * @return  self
+     * @return self
      */
-    public function setCallback($callback)
+    public function setCallback(Closure $callback): self
     {
         $this->callback = $callback;
 

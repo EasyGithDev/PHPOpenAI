@@ -4,27 +4,45 @@ namespace EasyGithDev\PHPOpenAI\Curl;
 
 use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 
+/**
+ * [Description CurlResponse]
+ */
 class CurlResponse implements \JsonSerializable
 {
+    /**
+     * @param  protected
+     */
     public function __construct(protected array $infos)
     {
     }
 
+    /**
+     * @return int
+     */
     public function getStatusCode(): int
     {
         return $this->infos['curlinfo']['http_code'];
     }
 
+    /**
+     * @return string
+     */
     public function getReasonPhrase(): string
     {
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderLine(): string
     {
         return $this->infos['curlinfo']['content_type'];
     }
 
+    /**
+     * @return string
+     */
     public function getBody(): string
     {
         return $this->infos['body'];
@@ -81,6 +99,9 @@ class CurlResponse implements \JsonSerializable
         return $this->infos;
     }
 
+    /**
+     * @return array
+     */
     public function jsonSerialize(): array
     {
         return $this->infos;
@@ -94,6 +115,9 @@ class CurlResponse implements \JsonSerializable
         return ($this->getStatusCode() == 200);
     }
 
+    /**
+     * @return bool
+     */
     public function isContentTypeOk(): bool
     {
         $contentType = mb_strtolower($this->getHeaderLine('Content-Type'));
@@ -117,6 +141,9 @@ class CurlResponse implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function getError(): string
     {
         $body = json_decode($this->getBody());

@@ -7,11 +7,14 @@ use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
+/**
+ * [Description Edit]
+ */
 class Edit extends OpenAIHandler
 {
     public const END_POINT = '/edits';
 
-    
+
     /**
      * @param  protected
      */
@@ -19,14 +22,19 @@ class Edit extends OpenAIHandler
     {
     }
 
-    public function create(
-        string $instruction,
-        ModelEnum|string $model,
-        string $input = '',
-        float $temperature = 1.0,
-        float $top_p = 1.0,
-        int $n = 1,
-    ): self {
+    /**
+     * @param string $instruction
+     * @param ModelEnum|string $model
+     * @param string $input
+     * @param float $temperature
+     * @param float $top_p
+     * @param int $n
+     * @param mixed
+     *
+     * @return self
+     */
+    public function create(string $instruction, ModelEnum|string $model, string $input = '', float $temperature = 1.0, float $top_p = 1.0, int $n = 1): self
+    {
         if (empty($model)) {
             throw new ClientException("Input is required");
         }

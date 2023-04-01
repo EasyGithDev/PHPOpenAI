@@ -6,6 +6,9 @@ use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
+/**
+ * [Description File]
+ */
 class File extends OpenAIHandler
 {
     public const END_POINT = '/files';
@@ -28,6 +31,12 @@ class File extends OpenAIHandler
     }
 
 
+    /**
+     * @param string $file
+     * @param string $purpose
+     *
+     * @return self
+     */
     public function create(string $file, string $purpose): self
     {
         if (!file_exists($file)) {
@@ -48,6 +57,11 @@ class File extends OpenAIHandler
     }
 
 
+    /**
+     * @param string $file_id
+     *
+     * @return self
+     */
     public function delete(string $file_id): self
     {
         if (empty($file_id)) {
@@ -63,6 +77,11 @@ class File extends OpenAIHandler
 
 
 
+    /**
+     * @param string $file_id
+     *
+     * @return self
+     */
     public function retrieve(string $file_id): self
     {
         if (empty($file_id)) {
@@ -77,6 +96,11 @@ class File extends OpenAIHandler
     }
 
 
+    /**
+     * @param string $file_id
+     *
+     * @return self
+     */
     public function download(string $file_id): self
     {
         if (empty($file_id)) {

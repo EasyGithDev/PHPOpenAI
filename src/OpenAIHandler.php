@@ -5,12 +5,25 @@ namespace EasyGithDev\PHPOpenAI;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
-use stdClass;
 
+/**
+ * [Description OpenAIHandler]
+ */
 abstract class OpenAIHandler
 {
+    /**
+     * @var CurlRequest|null|null
+     */
     protected ?CurlRequest $request = null;
+
+    /**
+     * @var CurlResponse|null|null
+     */
     protected ?CurlResponse $response = null;
+
+    /**
+     * @var OpenAIClient
+     */
     protected OpenAIClient $client;
 
     /**
@@ -57,10 +70,11 @@ abstract class OpenAIHandler
         return $this->getResponse()->throwable()->toArray();
     }
 
+
     /**
-     * @return stdClass
+     * @return \stdClass
      */
-    public function toObject(): stdClass
+    public function toObject(): \stdClass
     {
         return $this->getResponse()->throwable()->toObject();
     }
