@@ -28,7 +28,7 @@ composer require easygithdev/php-openai
 To use the `OpenAI API`, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
 
 
-[To obtain your key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
+[To obtain your key:](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
 
 
 Here's an example code that shows you how to use the OpenAI API in PHP:
@@ -73,7 +73,7 @@ export OPENAI_API_KEY="sk-xxxxxxxxxxx"
 
 You can put the variable in Apache configuration file  :
 
-```conf
+```
 <VirtualHost hostname:80>
    ...
    SetEnv OPENAI_API_KEY sk-xxxxxxxxxxx
@@ -106,7 +106,7 @@ The contents of the "key.php" file are as follows:
 
 ```php
 <?php
-return 'API_KEY';
+return 'sk-xxxxxxxxxxx';
 ```
 
 You can then use this variable as in the following example:
@@ -139,10 +139,10 @@ $response = (new OpenAIClient($apiKey))->Completion()->create(
 // Response as a string
 echo $response;
 
-// Response as associative array
+// Response as an associative array
 echo '<pre>', print_r($response->toArray(), true), '</pre>';
 
-// Response as stClass object
+// Response as a stClass object
 echo '<pre>', print_r($response->toObject(), true), '</pre>';
 ```
 
@@ -156,7 +156,7 @@ $response = (new OpenAIClient($apiKey))->Completion()->create(
     "Say this is a test",
 )->toObject();
 
-// Response as stClass object
+// Response as a stClass object
 echo '<pre>', print_r($response, true), '</pre>';
 
 $response = (new OpenAIClient($apiKey))->Completion()->create(
@@ -164,7 +164,7 @@ $response = (new OpenAIClient($apiKey))->Completion()->create(
     "Say this is a test",
 )->toArray();
 
-// Response as associative array
+// Response as an associative array
 echo '<pre>', print_r($response, true), '</pre>';
 ```
 
@@ -189,7 +189,7 @@ try {
 }
 ```
 
-If you are using the `CurlResponse` object, you can check that an error has occurred using the `isStatusOk()` and isContentTypeOk()` methods. 
+If you are using the `CurlResponse` object, you can check that an error has occurred using the `isStatusOk()` and `isContentTypeOk()` methods. 
 
 ```php
 
@@ -203,7 +203,7 @@ if (!$response->isStatusOk() or !$response->isContentTypeOk()) {
 }
 ```
 
-Or, you use a `try-catch` structure by using the `throwable()` method of the `CurlResponse` object.
+Or, you can use a `try-catch` structure by using the `throwable()` method of the `CurlResponse` object.
 
 ```php
 try {
@@ -211,8 +211,8 @@ try {
         ModelEnum::TEXT_DAVINCI_003,
         "Say this is a test",
     )->throwable();
-} catch (ApiException $e) {
-    echo nl2br($e->getMessage());
+} catch (Throwable $t) {
+    echo nl2br($t->getMessage());
     die;
 }
 ```
