@@ -27,8 +27,8 @@ composer require easygithdev/php-openai
 
 To use the `OpenAI API`, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
 
-
-[To obtain your key:](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
+To find out how to get your key, go to the following address:
+[https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
 
 
 Here's an example code that shows you how to use the OpenAI API in PHP:
