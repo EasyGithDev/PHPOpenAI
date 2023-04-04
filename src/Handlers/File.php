@@ -23,9 +23,9 @@ class File extends OpenAIHandler
 
     public function list(): self
     {
-        $this->request = $this->client->get(
+        $this->setRequest($this->client->get(
             self::END_POINT
-        );
+        ));
 
         return $this;
     }
@@ -48,10 +48,10 @@ class File extends OpenAIHandler
             "purpose" => $purpose,
         ];
 
-        $this->request = $this->client->post(
+        $this->setRequest($this->client->post(
             self::END_POINT,
             $payload
-        );
+        ));
 
         return $this;
     }
@@ -68,9 +68,9 @@ class File extends OpenAIHandler
             throw new ClientException("file_id can not be empty");
         }
 
-        $this->request = $this->client->delete(
+        $this->setRequest($this->client->delete(
             self::END_POINT . '/' . $file_id
-        );
+        ));
 
         return $this;
     }
@@ -88,9 +88,9 @@ class File extends OpenAIHandler
             throw new ClientException("file_id can not be empty");
         }
 
-        $this->request = $this->client->get(
+        $this->setRequest($this->client->get(
             self::END_POINT . '/' . $file_id
-        );
+        ));
 
         return $this;
     }
@@ -107,9 +107,9 @@ class File extends OpenAIHandler
             throw new ClientException("file_id can not be empty");
         }
 
-        $this->request = $this->client->get(
+        $this->setRequest($this->client->get(
             self::END_POINT . '/' . $file_id . '/content'
-        );
+        ));
 
         return $this;
     }

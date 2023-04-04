@@ -26,9 +26,9 @@ class FineTune extends OpenAIHandler
      */
     public function list(): self
     {
-        $this->request = $this->client->get(
+        $this->setRequest($this->client->get(
             self::END_POINT
-        );
+        ));
 
         return $this;
     }
@@ -47,10 +47,10 @@ class FineTune extends OpenAIHandler
             $params['stream'] = $stream;
         }
 
-        $this->request = $this->client->get(
+        $this->setRequest($this->client->get(
             self::END_POINT . '/' . $fine_tune_id . '/events',
             params: $params
-        );
+        ));
 
         return $this;
     }
@@ -110,11 +110,11 @@ class FineTune extends OpenAIHandler
             $payload['suffix'] = $suffix;
         }
 
-        $this->request = $this->client->post(
+        $this->setRequest($this->client->post(
             self::END_POINT,
             json_encode($payload),
             ['Content-Type: application/json']
-        );
+        ));
 
         return $this;
     }
@@ -131,9 +131,9 @@ class FineTune extends OpenAIHandler
             throw new ClientException("fine_tune_id can not be empty");
         }
 
-        $this->request = $this->client->get(
+        $this->setRequest($this->client->get(
             self::END_POINT . '/' . $fine_tune_id
-        );
+        ));
 
         return $this;
     }
@@ -149,9 +149,9 @@ class FineTune extends OpenAIHandler
             throw new ClientException("fine_tune_id can not be empty");
         }
 
-        $this->request = $this->client->post(
+        $this->setRequest($this->client->post(
             self::END_POINT . '/' . $fine_tune_id . '/cancel'
-        );
+        ));
 
         return $this;
     }

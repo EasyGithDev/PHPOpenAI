@@ -71,10 +71,10 @@ class Audio extends OpenAIHandler
             $payload["LanguageEnum"] = $language->value;
         }
 
-        $this->request = $this->client->post(
+        $this->setRequest($this->client->post(
             self::END_POINT . '/transcriptions',
             $payload
-        );
+        ));
 
         return $this;
     }
@@ -118,10 +118,10 @@ class Audio extends OpenAIHandler
             $payload["LanguageEnum"] = $language->value;
         }
 
-        $this->request = $this->client->post(
+        $this->setRequest($this->client->post(
             self::END_POINT . '/translations',
             $payload
-        );
+        ));
 
         return $this;
     }

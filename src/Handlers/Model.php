@@ -24,9 +24,9 @@ class Model extends OpenAIHandler
      */
     public function list(): self
     {
-        $this->request = $this->client->get(
+        $this->setRequest($this->client->get(
             self::END_POINT,
-        );
+        ));
 
         return $this;
     }
@@ -38,11 +38,11 @@ class Model extends OpenAIHandler
      */
     public function retrieve(string $model): self
     {
-        $this->request = $this->client->get(
+        $this->setRequest($this->client->get(
             self::END_POINT . "/$model",
             null,
             ['Content-Type: application/json']
-        );
+        ));
 
         return $this;
     }
@@ -54,9 +54,9 @@ class Model extends OpenAIHandler
      */
     public function delete(string $model): self
     {
-        $this->request = $this->client->delete(
+        $this->setRequest($this->client->delete(
             self::END_POINT . "/$model"
-        );
+        ));
 
         return $this;
     }

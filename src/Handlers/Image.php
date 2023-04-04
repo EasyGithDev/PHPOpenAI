@@ -56,12 +56,12 @@ class Image extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->request = $this->client->post(
+        $this->setRequest($this->client->post(
             self::GENERATION_END_POINT,
             json_encode($payload),
             ['Content-Type: application/json'],
             ['timeout' => 60]
-        );
+        ));
 
         return $this;
     }
@@ -94,11 +94,11 @@ class Image extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->request = $this->client->post(
+        $this->setRequest($this->client->post(
             self::VARIATION_END_POINT,
             $payload,
             params: ['timeout' => 60]
-        );
+        ));
 
         return $this;
     }
@@ -150,11 +150,11 @@ class Image extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->request = $this->client->post(
+        $this->setRequest($this->client->post(
             self::EDIT_END_POINT,
             $payload,
             params: ['timeout' => 60]
-        );
+        ));
 
         return $this;
     }

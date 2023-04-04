@@ -124,12 +124,12 @@ class Chat extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->request = $this->client->post(
+        $this->setRequest($this->client->post(
             self::END_POINT,
             json_encode($payload),
             ['Content-Type: application/json'],
             $params
-        );
+        ));
 
         return $this;
     }
