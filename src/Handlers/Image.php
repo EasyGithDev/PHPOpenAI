@@ -26,16 +26,17 @@ class Image extends OpenAIHandler
     {
     }
 
+   
     /**
      * @param string $prompt
      * @param int $n
-     * @param ImageSizeEnum $size
-     * @param ImageResponseEnum $response_format
+     * @param ImageSizeEnum|string $size
+     * @param ImageResponseEnum|string $response_format
      * @param string $user
-     *
+     * 
      * @return self
      */
-    public function create(string $prompt, int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
+    public function create(string $prompt, int $n = 1, ImageSizeEnum|string $size = ImageSizeEnum::is1024, ImageResponseEnum|string $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
         if (mb_strlen($prompt) > self::MAX_PROMPT_CHARS) {
             throw new ClientException("Max prompt is 1000 chars");
@@ -46,10 +47,10 @@ class Image extends OpenAIHandler
         }
 
         $payload = [
-            "prompt" => "$prompt",
+            "prompt" => $prompt,
             "n" => $n,
-            "size" => $size,
-            "response_format" => $response_format,
+            "size" => is_string($size) ? $size : $size->value,
+            "response_format" => is_string($response_format) ? $response_format : $response_format->value,
         ];
 
         if (!empty($user)) {
@@ -66,18 +67,16 @@ class Image extends OpenAIHandler
         return $this;
     }
 
-
-
     /**
      * @param string $image
      * @param int $n
-     * @param ImageSizeEnum $size
-     * @param ImageResponseEnum $response_format
+     * @param ImageSizeEnum|string $size
+     * @param ImageResponseEnum|string $response_format
      * @param string $user
-     *
+     * 
      * @return self
      */
-    public function createVariation(string $image, int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
+    public function createVariation(string $image, int $n = 1, ImageSizeEnum|string $size = ImageSizeEnum::is1024, ImageResponseEnum|string $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
         if (!file_exists($image)) {
             throw new ClientException("Unable to locate file: $image");
@@ -86,8 +85,8 @@ class Image extends OpenAIHandler
         $payload = [
             "image" => curl_file_create($image),
             "n" => $n,
-            "size" => $size->value,
-            "response_format" => $response_format->value,
+            "size" => is_string($size) ? $size : $size->value,
+            "response_format" => is_string($response_format) ? $response_format : $response_format->value,
         ];
 
         if (!empty($user)) {
@@ -103,20 +102,18 @@ class Image extends OpenAIHandler
         return $this;
     }
 
-
-
     /**
      * @param string $image
      * @param string $prompt
      * @param string $mask
      * @param int $n
-     * @param ImageSizeEnum $size
-     * @param ImageResponseEnum $response_format
+     * @param ImageSizeEnum|string $size
+     * @param ImageResponseEnum|string $response_format
      * @param string $user
-     *
+     * 
      * @return self
      */
-    public function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSizeEnum $size = ImageSizeEnum::is1024, ImageResponseEnum $response_format = ImageResponseEnum::URL, string $user = ''): self
+    public function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSizeEnum|string $size = ImageSizeEnum::is1024, ImageResponseEnum|string $response_format = ImageResponseEnum::URL, string $user = ''): self
     {
         if (!file_exists($image)) {
             throw new ClientException("Unable to locate file: $image");
@@ -138,8 +135,8 @@ class Image extends OpenAIHandler
             "image" => curl_file_create($image),
             "prompt" => $prompt,
             "n" => $n,
-            "size" => $size->value,
-            "response_format" => $response_format->value,
+            "size" => is_string($size) ? $size : $size->value,
+            "response_format" => is_string($response_format) ? $response_format : $response_format->value,
         ];
 
         if (!empty($mask)) {

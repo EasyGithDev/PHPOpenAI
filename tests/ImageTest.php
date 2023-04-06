@@ -11,13 +11,29 @@ final class ImageTest extends TestCase
     public function testCreate()
     {
         $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
-        ->Image()
-        ->create(
-            "a rabbit inside a beautiful garden, 32 bit isometric",
-            n: 1,
-            size: ImageSizeEnum::is256,
-            user: 'phpunit'
-        )->getResponse();
+            ->Image()
+            ->create(
+                "a rabbit inside a beautiful garden, 32 bit isometric",
+                n: 1,
+                size: ImageSizeEnum::is256,
+                response_format: 'url',
+                user: 'phpunit'
+            )->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testCreateWithString()
+    {
+        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+            ->Image()
+            ->create(
+                "a rabbit inside a beautiful garden, 32 bit isometric",
+                n: 1,
+                size: '256x256',
+                response_format: 'url',
+                user: 'phpunit'
+            )->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
     }

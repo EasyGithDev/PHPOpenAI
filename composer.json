@@ -39,6 +39,7 @@
     },
     "scripts": {
         "test": "./vendor/phpunit/phpunit/phpunit",
+        "test-filter": "./vendor/phpunit/phpunit/phpunit --filter",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     }
 }
