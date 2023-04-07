@@ -125,4 +125,23 @@ class Audio extends OpenAIHandler
 
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return ['text' => $this->getResponse()->getBody()];
+    }
+
+
+    /**
+     * @return \stdClass
+     */
+    public function toObject(): \stdClass
+    {
+        $obj = new \stdClass;
+        $obj->text = $this->getResponse()->getBody();
+        return $obj;
+    }
 }
