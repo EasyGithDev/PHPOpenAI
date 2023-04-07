@@ -20,7 +20,8 @@ final class ImageTest extends TestCase
                 user: 'phpunit'
             )->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 
     public function testCreateWithString()
@@ -35,7 +36,8 @@ final class ImageTest extends TestCase
                 user: 'phpunit'
             )->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 
     public function testVariation()
@@ -49,7 +51,8 @@ final class ImageTest extends TestCase
                 user: 'phpunit'
             )->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 
     public function testEdit()
@@ -65,6 +68,7 @@ final class ImageTest extends TestCase
             )
             ->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 }

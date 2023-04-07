@@ -13,7 +13,8 @@ final class FineTuneTest extends TestCase
             ->FineTune()
             ->list()
             ->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 
     public function testCreate()
@@ -30,7 +31,8 @@ final class FineTuneTest extends TestCase
             ->create($file_id)
             ->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
         return $response->toObject()->id;
     }
 
@@ -45,7 +47,8 @@ final class FineTuneTest extends TestCase
             ->retrieve($fine_tune_id)
             ->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
         return $fine_tune_id;
     }
 
@@ -60,7 +63,8 @@ final class FineTuneTest extends TestCase
             ->listEvents($fine_tune_id)
             ->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
         return $fine_tune_id;
     }
 
@@ -75,7 +79,8 @@ final class FineTuneTest extends TestCase
             ->cancel($fine_tune_id)
             ->getResponse();
             
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
         return $fine_tune_id;
     }
 }

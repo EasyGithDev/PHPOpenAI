@@ -11,14 +11,14 @@ final class AudioTest extends TestCase
 
     public function testTranscription()
     {
-
         $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->transcription(
             __DIR__ . '/../assets/openai.mp3',
             ModelEnum::WHISPER_1,
-            audioResponse: AudioResponseEnum::SRT
+            response_format: AudioResponseEnum::SRT
         )->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
+        
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 
     public function testTranslation()
@@ -26,9 +26,10 @@ final class AudioTest extends TestCase
         $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->translation(
             __DIR__ . '/../assets/openai_fr.mp3',
             ModelEnum::WHISPER_1,
-            audioResponse: AudioResponseEnum::TEXT
+            response_format: AudioResponseEnum::TEXT
         )->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 }

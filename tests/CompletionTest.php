@@ -20,7 +20,8 @@ final class CompletionTest extends TestCase
                 user: 'phpunit'
             )->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 
     public function testStream()
@@ -44,7 +45,8 @@ final class CompletionTest extends TestCase
                 user: 'phpunit'
             )->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
         $this->assertTrue(str_contains($str, 'Say this is a test'));
     }
 }

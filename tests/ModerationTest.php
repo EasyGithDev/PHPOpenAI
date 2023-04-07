@@ -13,6 +13,7 @@ final class ModerationTest extends TestCase
             "I want to kill them.",
         )->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 }

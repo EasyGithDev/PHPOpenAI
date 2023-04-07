@@ -22,6 +22,7 @@ final class ChatTest extends TestCase
                 user: 'phpunit'
             )->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 }

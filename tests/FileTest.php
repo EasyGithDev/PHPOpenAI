@@ -14,7 +14,8 @@ final class FileTest extends TestCase
             ->list()
             ->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 
     public function testUpload(): string
@@ -25,7 +26,8 @@ final class FileTest extends TestCase
                 __DIR__ . '/../assets/mydata.jsonl',
                 'fine-tune',
             )->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
         return $response->toObject()->id;
     }
 
@@ -39,7 +41,8 @@ final class FileTest extends TestCase
             ->File()
             ->retrieve($file_id)
             ->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
         return $file_id;
     }
 
@@ -53,7 +56,7 @@ final class FileTest extends TestCase
             ->File()
             ->download($file_id)
             ->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
         $this->assertEquals(true, $response->isContentTypeOk());
         $this->assertEquals(file_get_contents(__DIR__ . '/../assets/mydata.jsonl'), $response->getBody());
         return $file_id;
@@ -69,6 +72,7 @@ final class FileTest extends TestCase
 
         $this->assertStringStartsWith('file-', $file_id);
         $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->File()->delete($file_id)->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 }

@@ -15,7 +15,8 @@ final class ModelTest extends TestCase
         ->Model()
         ->list()
         ->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 
     public function testRetrieve()
@@ -25,6 +26,7 @@ final class ModelTest extends TestCase
         ->retrieve('text-davinci-003')
         ->getResponse();
         
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isStatusOk());
+        $this->assertEquals(true, $response->isContentTypeOk());
     }
 }
