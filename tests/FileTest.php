@@ -46,6 +46,22 @@ final class FileTest extends TestCase
     /**
      * @depends testUpload
      */
+    public function testDownload(string $file_id)
+    {
+        $this->assertStringStartsWith('file-', $file_id);
+        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+            ->File()
+            ->download($file_id)
+            ->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(true, $response->isContentTypeOk());
+        $this->assertEquals(file_get_contents(__DIR__ . '/../assets/mydata.jsonl'), $response->getBody());
+        return $file_id;
+    }
+
+    /**
+     * @depends testUpload
+     */
     public function testDelete(string $file_id)
     {
         // File is still processing. Check back later.

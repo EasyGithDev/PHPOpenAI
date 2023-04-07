@@ -76,7 +76,7 @@ class CurlResponse implements \JsonSerializable
 
     /**
      * Return output body as an object
-     * @return stdClass
+     * @return \stdClass
      */
     public function toObject(): \stdClass
     {
@@ -116,14 +116,24 @@ class CurlResponse implements \JsonSerializable
     }
 
     /**
+     * I need to change this stuff in the next step
+     * maybe with a factory or an other design
      * @return bool
      */
     public function isContentTypeOk(): bool
     {
         $contentType = mb_strtolower($this->getHeaderLine('Content-Type'));
-        if (substr($contentType, 0, 16) !== 'application/json' && mb_strlen($contentType) !== 0) {
-            return false;
+        $url = $this->getInfos()['curlinfo']['url'];
+        if (preg_match('/\/files\/file-.*\/content/', $url)) {
+            if (substr($contentType, 0, 24) !== 'application/octet-stream' && mb_strlen($contentType) !== 0) {
+                return false;
+            }
+        } else {
+            if (substr($contentType, 0, 16) !== 'application/json' && mb_strlen($contentType) !== 0) {
+                return false;
+            }
         }
+
         return true;
     }
 
