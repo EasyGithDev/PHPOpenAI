@@ -9,6 +9,9 @@ use EasyGithDev\PHPOpenAI\Helpers\LanguageEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
+/**
+ * [Description Audio]
+ */
 class Audio extends OpenAIHandler
 {
     public const END_POINT = '/audio';
@@ -33,15 +36,15 @@ class Audio extends OpenAIHandler
 
     /**
      * @param string $audioFile
-     * @param ModelEnum $model
+     * @param ModelEnum|string $model
      * @param string $prompt
-     * @param AudioResponseEnum $audioResponse
+     * @param AudioResponseEnum|string $response_format
      * @param float $temperature
-     * @param LanguageEnum $language
+     * @param LanguageEnum|string $language
      *
      * @return self
      */
-    public function transcription(string $audioFile, ModelEnum $model = ModelEnum::WHISPER_1, string $prompt = '', AudioResponseEnum $audioResponse = AudioResponseEnum::JSON, float $temperature = 0, LanguageEnum $language = LanguageEnum::ENGLISH): self
+    public function transcription(string $audioFile, ModelEnum|string $model = ModelEnum::WHISPER_1, string $prompt = '', AudioResponseEnum|string $response_format = AudioResponseEnum::JSON, float $temperature = 0, LanguageEnum|string $language = LanguageEnum::ENGLISH): self
     {
         if (!file_exists($audioFile)) {
             throw new ClientException("Unable to locate file: $audioFile");
@@ -61,14 +64,14 @@ class Audio extends OpenAIHandler
 
         $payload = [
             "file" => curl_file_create($audioFile),
-            "model" => $model->value,
+            "model" => is_string($model) ? $model : $model->value,
             "prompt" => $prompt,
-            "response_format" => $audioResponse->value,
+            "response_format" => is_string($response_format) ? $response_format : $response_format->value,
             "temperature" => $temperature,
         ];
 
         if (!empty($language)) {
-            $payload["LanguageEnum"] = $language->value;
+            $payload["LanguageEnum"] = is_string($language) ? $language : $language->value;
         }
 
         $this->setRequest($this->client->post(
@@ -79,16 +82,17 @@ class Audio extends OpenAIHandler
         return $this;
     }
 
+
     /**
      * @param string $audioFile
-     * @param ModelEnum $model
+     * @param ModelEnum|string $model
      * @param string $prompt
-     * @param AudioResponseEnum $audioResponse
+     * @param AudioResponseEnum|string $response_format
      * @param float $temperature
      *
      * @return self
      */
-    public function translation(string $audioFile, ModelEnum $model = ModelEnum::WHISPER_1, string $prompt = '', AudioResponseEnum $audioResponse = AudioResponseEnum::JSON, float $temperature = 0): self
+    public function translation(string $audioFile, ModelEnum|string $model = ModelEnum::WHISPER_1, string $prompt = '', AudioResponseEnum|string $response_format = AudioResponseEnum::JSON, float $temperature = 0): self
     {
         if (!file_exists($audioFile)) {
             throw new ClientException("Unable to locate file: $audioFile");
@@ -108,15 +112,11 @@ class Audio extends OpenAIHandler
 
         $payload = [
             "file" => curl_file_create($audioFile),
-            "model" => $model->value,
+            "model" => is_string($model) ? $model : $model->value,
             "prompt" => $prompt,
-            "response_format" => $audioResponse->value,
+            "response_format" => is_string($response_format) ? $response_format : $response_format->value,
             "temperature" => $temperature,
         ];
-
-        if (!empty($language)) {
-            $payload["LanguageEnum"] = $language->value;
-        }
 
         $this->setRequest($this->client->post(
             self::END_POINT . '/translations',

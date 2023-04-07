@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
@@ -41,7 +42,7 @@ class Model extends OpenAIHandler
         $this->setRequest($this->client->get(
             self::END_POINT . "/$model",
             null,
-            ['Content-Type: application/json']
+            ContentTypeEnum::JSON->toHeaderArray()
         ));
 
         return $this;

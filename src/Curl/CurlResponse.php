@@ -128,6 +128,10 @@ class CurlResponse implements \JsonSerializable
             if (substr($contentType, 0, 24) !== 'application/octet-stream' && mb_strlen($contentType) !== 0) {
                 return false;
             }
+        } elseif (preg_match('/\/audio/', $url)) {
+            if (substr($contentType, 0, 10) !== 'text/plain' && mb_strlen($contentType) !== 0) {
+                return false;
+            }
         } else {
             if (substr($contentType, 0, 16) !== 'application/json' && mb_strlen($contentType) !== 0) {
                 return false;

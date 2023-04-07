@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
+use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
@@ -146,7 +147,7 @@ class Completion extends OpenAIHandler
         $this->setRequest($this->client->post(
             self::END_POINT,
             json_encode($payload),
-            ['Content-Type: application/json'],
+            ContentTypeEnum::JSON->toHeaderArray(),
             $params
         ));
 

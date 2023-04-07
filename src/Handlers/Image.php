@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
+use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\Helpers\ImageResponseEnum;
 use EasyGithDev\PHPOpenAI\Helpers\ImageSizeEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
@@ -26,14 +27,14 @@ class Image extends OpenAIHandler
     {
     }
 
-   
+
     /**
      * @param string $prompt
      * @param int $n
      * @param ImageSizeEnum|string $size
      * @param ImageResponseEnum|string $response_format
      * @param string $user
-     * 
+     *
      * @return self
      */
     public function create(string $prompt, int $n = 1, ImageSizeEnum|string $size = ImageSizeEnum::is1024, ImageResponseEnum|string $response_format = ImageResponseEnum::URL, string $user = ''): self
@@ -60,7 +61,7 @@ class Image extends OpenAIHandler
         $this->setRequest($this->client->post(
             self::GENERATION_END_POINT,
             json_encode($payload),
-            ['Content-Type: application/json'],
+            ContentTypeEnum::JSON->toHeaderArray(),
             ['timeout' => 60]
         ));
 
@@ -73,7 +74,7 @@ class Image extends OpenAIHandler
      * @param ImageSizeEnum|string $size
      * @param ImageResponseEnum|string $response_format
      * @param string $user
-     * 
+     *
      * @return self
      */
     public function createVariation(string $image, int $n = 1, ImageSizeEnum|string $size = ImageSizeEnum::is1024, ImageResponseEnum|string $response_format = ImageResponseEnum::URL, string $user = ''): self
@@ -110,7 +111,7 @@ class Image extends OpenAIHandler
      * @param ImageSizeEnum|string $size
      * @param ImageResponseEnum|string $response_format
      * @param string $user
-     * 
+     *
      * @return self
      */
     public function createEdit(string $image, string $prompt, string $mask = '', int $n = 1, ImageSizeEnum|string $size = ImageSizeEnum::is1024, ImageResponseEnum|string $response_format = ImageResponseEnum::URL, string $user = ''): self
