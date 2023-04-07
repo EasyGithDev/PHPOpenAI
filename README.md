@@ -595,6 +595,17 @@ $response = (new OpenAIApi($apiKey))
 
 [Learn more about fine-tune](https://platform.openai.com/docs/api-reference/fine-tunes/cancel).
 
+### Moderation
+
+```php
+$response = (new OpenAIClient($apiKey))
+    ->Moderation()
+    ->create('I want to kill them.')
+    ->toObject();
+```
+
+[Learn more about moderation](https://platform.openai.com/docs/models/moderation).
+
 ## Testing
 
 To run all tests:
