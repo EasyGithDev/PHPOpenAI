@@ -219,7 +219,19 @@ try {
 
 [Learn more about errors](https://platform.openai.com/docs/guides/error-codes/api-errors).
 
-## Examples
+## An example of application 
+
+Here is a video showing an application that allows you to create images with a painting style defined by the user. 
+This application is created using the PHPOpenAI project.
+
+
+<p>
+
+https://user-images.githubusercontent.com/3519890/230593418-22f26562-e88c-4a92-9601-93bb671a16c0.mp4
+
+</p>
+
+## Code samples
 
 Integrating OpenAI into your application is now as simple as a few lines of code.
 
