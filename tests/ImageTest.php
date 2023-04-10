@@ -3,6 +3,7 @@
 namespace EasyGithDev\PHPOpenAI;
 
 use EasyGithDev\PHPOpenAI\Helpers\ImageSizeEnum;
+use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
 use PHPUnit\Framework\TestCase;
 
 final class ImageTest extends TestCase
@@ -10,7 +11,7 @@ final class ImageTest extends TestCase
 
     public function testCreate()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Image()
             ->create(
                 "a rabbit inside a beautiful garden, 32 bit isometric",
@@ -18,15 +19,18 @@ final class ImageTest extends TestCase
                 size: ImageSizeEnum::is256,
                 response_format: 'url',
                 user: 'phpunit'
-            )->getResponse();
+            );
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 
     public function testCreateWithString()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Image()
             ->create(
                 "a rabbit inside a beautiful garden, 32 bit isometric",
@@ -34,30 +38,36 @@ final class ImageTest extends TestCase
                 size: '256x256',
                 response_format: 'url',
                 user: 'phpunit'
-            )->getResponse();
+            );
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 
     public function testVariation()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Image()
             ->createVariation(
                 __DIR__ . '/../assets/image_variation_original.png',
                 n: 1,
                 size: ImageSizeEnum::is256,
                 user: 'phpunit'
-            )->getResponse();
+            );
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 
     public function testEdit()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Image()
             ->createEdit(
                 image: __DIR__ . '/../assets/image_edit_original.png',
@@ -65,10 +75,12 @@ final class ImageTest extends TestCase
                 prompt: 'a sunlit indoor lounge area with a pool containing a flamingo',
                 size: ImageSizeEnum::is256,
                 user: 'phpunit'
-            )
-            ->getResponse();
+            );
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 }

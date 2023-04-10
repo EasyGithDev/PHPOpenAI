@@ -58,7 +58,56 @@ class CurlResponse implements \JsonSerializable
     }
 
     /**
+     * Get the value of infos
+     */
+    public function getInfos(): array
+    {
+        return $this->infos;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->infos;
+    }
+
+    /**
+     * @return string
+     * Depreciate, it will be removed
+     *
+     */
+    public function getError(): string
+    {
+        $body = json_decode($this->getBody());
+
+        if (\json_last_error()) {
+            return \sprintf(
+                'status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n',
+                $this->getStatusCode(),
+                $this->getBody(),
+                '',
+                '',
+                '',
+            );
+        }
+
+        return \sprintf(
+            'status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n',
+            $this->getStatusCode(),
+            $body->error->message,
+            $body->error->type,
+            $body->error->param,
+            $body->error->code,
+        );
+    }
+
+
+    /**
      * Return output body as an associative array
+     * Depreciate, it will be removed
+     *
      * @return array
      */
     public function toArray(): array
@@ -76,6 +125,8 @@ class CurlResponse implements \JsonSerializable
 
     /**
      * Return output body as an object
+     * Depreciate, it will be removed
+     *
      * @return \stdClass
      */
     public function toObject(): \stdClass
@@ -92,22 +143,7 @@ class CurlResponse implements \JsonSerializable
     }
 
     /**
-     * Get the value of infos
-     */
-    public function getInfos(): array
-    {
-        return $this->infos;
-    }
-
-    /**
-     * @return array
-     */
-    public function jsonSerialize(): array
-    {
-        return $this->infos;
-    }
-
-    /**
+     * Depreciate, it will be removed
      * @return bool
      */
     public function isStatusOk(): bool
@@ -116,8 +152,7 @@ class CurlResponse implements \JsonSerializable
     }
 
     /**
-     * I need to change this stuff in the next step
-     * maybe with a factory or an other design
+     * Depreciate, it will be removed
      * @return bool
      */
     public function isContentTypeOk(): bool
@@ -142,6 +177,7 @@ class CurlResponse implements \JsonSerializable
     }
 
     /**
+     * Depreciate, it will be removed
      * @return self
      */
     public function throwable(): self
@@ -153,33 +189,5 @@ class CurlResponse implements \JsonSerializable
             throw new ApiException(\sprintf('Unsupported content type: %s', $this->getHeaderLine('Content-Type')));
         }
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getError(): string
-    {
-        $body = json_decode($this->getBody());
-
-        if (\json_last_error()) {
-            return \sprintf(
-                'status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n',
-                $this->getStatusCode(),
-                $this->getBody(),
-                '',
-                '',
-                '',
-            );
-        }
-
-        return \sprintf(
-            'status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n',
-            $this->getStatusCode(),
-            $body->error->message,
-            $body->error->type,
-            $body->error->param,
-            $body->error->code,
-        );
     }
 }

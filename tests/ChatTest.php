@@ -4,6 +4,7 @@ namespace EasyGithDev\PHPOpenAI;
 
 use EasyGithDev\PHPOpenAI\Helpers\ChatMessage;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
+use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
 use PHPUnit\Framework\TestCase;
 
 final class ChatTest extends TestCase
@@ -12,7 +13,7 @@ final class ChatTest extends TestCase
     public function testCreate()
     {
 
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Chat()
             ->create(
                 ModelEnum::GPT_3_5_TURBO,
@@ -20,9 +21,12 @@ final class ChatTest extends TestCase
                     new ChatMessage(ChatMessage::ROLE_USER, 'Hello!'),
                 ],
                 user: 'phpunit'
-            )->getResponse();
+            );
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 }

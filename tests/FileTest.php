@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
 use PHPUnit\Framework\TestCase;
 
 final class FileTest extends TestCase
@@ -9,25 +10,30 @@ final class FileTest extends TestCase
 
     public function testList()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->File()
-            ->list()
-            ->getResponse();
+            ->list();
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 
     public function testUpload(): string
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->File()
             ->create(
                 __DIR__ . '/../assets/mydata.jsonl',
                 'fine-tune',
-            )->getResponse();
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+            );
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
         return $response->toObject()->id;
     }
 
@@ -37,12 +43,15 @@ final class FileTest extends TestCase
     public function testRetrieve(string $file_id)
     {
         $this->assertStringStartsWith('file-', $file_id);
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->File()
-            ->retrieve($file_id)
-            ->getResponse();
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+            ->retrieve($file_id);
+
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
         return $file_id;
     }
 
@@ -52,12 +61,15 @@ final class FileTest extends TestCase
     public function testDownload(string $file_id)
     {
         $this->assertStringStartsWith('file-', $file_id);
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->File()
-            ->download($file_id)
-            ->getResponse();
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+            ->download($file_id);
+
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
         $this->assertEquals(file_get_contents(__DIR__ . '/../assets/mydata.jsonl'), $response->getBody());
         return $file_id;
     }
@@ -71,8 +83,14 @@ final class FileTest extends TestCase
         sleep(10);
 
         $this->assertStringStartsWith('file-', $file_id);
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->File()->delete($file_id)->getResponse();
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+            ->File()
+            ->delete($file_id);
+
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 }

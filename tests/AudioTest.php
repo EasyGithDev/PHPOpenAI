@@ -4,6 +4,7 @@ namespace EasyGithDev\PHPOpenAI;
 
 use EasyGithDev\PHPOpenAI\Helpers\AudioResponseEnum;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
+use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
 use PHPUnit\Framework\TestCase;
 
 final class AudioTest extends TestCase
@@ -11,25 +12,31 @@ final class AudioTest extends TestCase
 
     public function testTranscription()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->transcription(
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->transcription(
             __DIR__ . '/../assets/openai.mp3',
             ModelEnum::WHISPER_1,
             response_format: AudioResponseEnum::SRT
-        )->getResponse();
+        );
         
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 
     public function testTranslation()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->translation(
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->translation(
             __DIR__ . '/../assets/openai_fr.mp3',
             ModelEnum::WHISPER_1,
             response_format: AudioResponseEnum::TEXT
-        )->getResponse();
+        );
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 }

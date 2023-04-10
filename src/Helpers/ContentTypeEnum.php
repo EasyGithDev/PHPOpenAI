@@ -12,6 +12,7 @@ enum ContentTypeEnum: string
     case ZIP = "application/zip";
     case GZIP = "application/gzip";
     case MSWORD = "application/msword";
+    case OCTET = "application/octet-stream";
     case OGG = "application/ogg";
     case MP4 = "video/mp4";
     case MPEG = "video/mpeg";

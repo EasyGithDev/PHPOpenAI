@@ -8,6 +8,9 @@ use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
+/**
+ * [Description Completion]
+ */
 class Completion extends OpenAIHandler
 {
     use Stream;
