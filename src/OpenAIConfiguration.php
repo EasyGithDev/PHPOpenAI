@@ -10,16 +10,19 @@ use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 class OpenAIConfiguration
 {
     /**
+     * The API url
      * @var string
      */
     protected string $apiUrl = 'https://api.openai.com/v1';
 
     /**
+     * The HTTP headers
      * @var array
      */
     protected array $headers = [];
 
     /**
+     * Build the configuration headers needed by the api
      * @param string $apiKey
      * @param string $organization
      */
@@ -37,6 +40,8 @@ class OpenAIConfiguration
     }
 
     /**
+     * Build the configuration headers needed by the api
+     *
      * @param string $apiKey
      * @param string $organization
      *
@@ -49,6 +54,7 @@ class OpenAIConfiguration
 
     /**
      * Get the value of apiUrl
+     * @return string
      */
     public function getApiUrl(): string
     {
@@ -58,9 +64,11 @@ class OpenAIConfiguration
     /**
      * Set the value of apiUrl
      *
-     * @return  self
+     * @param string $apiUrl
+     *
+     * @return self
      */
-    public function setApiUrl($apiUrl): self
+    public function setApiUrl(string $apiUrl): self
     {
         $this->apiUrl = $apiUrl;
 
@@ -69,8 +77,9 @@ class OpenAIConfiguration
 
     /**
      * Get the value of headers
+     * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -78,9 +87,11 @@ class OpenAIConfiguration
     /**
      * Set the value of headers
      *
-     * @return  self
+     * @param array $headers
+     *
+     * @return self
      */
-    public function setHeaders($headers)
+    public function setHeaders(array $headers): self
     {
         $this->headers = $headers;
 
@@ -88,6 +99,7 @@ class OpenAIConfiguration
     }
 
     /**
+     * Adding an element to the headers
      * @param string $header
      *
      * @return self

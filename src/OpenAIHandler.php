@@ -15,26 +15,31 @@ use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
 abstract class OpenAIHandler
 {
     /**
+     * The HTTP request
      * @var CurlRequest|null|null
      */
     protected ?CurlRequest $request = null;
 
     /**
+     * The HTTP response
      * @var CurlResponse|null|null
      */
     protected ?CurlResponse $response = null;
 
     /**
+     * The client
      * @var OpenAIClient
      */
     protected OpenAIClient $client;
 
     /**
+     * The validator of content-type response
      * @var string
      */
     protected string $contentTypeValidator = ApplicationJsonValidator::class;
 
     /**
+     * Set the request to the handler
      * @param CurlRequest $request
      *
      * @return void
@@ -47,6 +52,8 @@ abstract class OpenAIHandler
     }
 
     /**
+     * Get the request from the handler
+     *
      * @return CurlRequest
      */
     public function getRequest(): CurlRequest
@@ -58,6 +65,11 @@ abstract class OpenAIHandler
     }
 
     /**
+     * Get the response from the handler
+     * If the response exist, it will be returned
+     * else the client will send the request and return
+     * the response
+     *
      * @return CurlResponse
      */
     public function getResponse(): CurlResponse
@@ -82,13 +94,15 @@ abstract class OpenAIHandler
     }
 
     /**
+     * Check the status code ans the content type
+     * of the response. It will throw an exception if
+     * an error is occuring
      * @param CurlResponse $response
      *
      * @return self
      */
     protected function checkResponse(CurlResponse $response): self
     {
-
         if (!(new StatusValidator($response))->validate()) {
             throw new ApiException($this->formatError($response));
         }
@@ -100,6 +114,14 @@ abstract class OpenAIHandler
         return $this;
     }
 
+    /**
+     * Transform the body of the response into array
+     * or object
+     * @param CurlResponse $response
+     * @param bool $asArray
+     *
+     * @return array|\stdClass
+     */
     protected function decodeResponse(CurlResponse $response, bool $asArray = false): array|\stdClass
     {
         $body =  json_decode($response, $asArray);
@@ -113,6 +135,12 @@ abstract class OpenAIHandler
         return $body;
     }
 
+    /**
+     * Format the response error into a trsing
+     * @param CurlResponse $response
+     *
+     * @return string
+     */
     protected function formatError(CurlResponse $response): string
     {
         $body = json_decode($response);
@@ -139,6 +167,7 @@ abstract class OpenAIHandler
     }
 
     /**
+     * Get an array response from the handler
      * @return array
      */
     public function toArray(): array
@@ -148,6 +177,8 @@ abstract class OpenAIHandler
     }
 
     /**
+     * Get an object response from the handler
+     *
      * @return \stdClass
      */
     public function toObject(): \stdClass

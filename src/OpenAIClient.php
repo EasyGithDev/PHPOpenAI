@@ -12,6 +12,7 @@ use EasyGithDev\PHPOpenAI\Handlers\Audio;
 use EasyGithDev\PHPOpenAI\Handlers\Chat;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
+use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Handlers\Embedding;
 use EasyGithDev\PHPOpenAI\Handlers\FineTune;
 
@@ -20,17 +21,30 @@ use EasyGithDev\PHPOpenAI\Handlers\FineTune;
  */
 class OpenAIClient
 {
-    protected ?OpenAIConfiguration $configuration = null;
+    /**
+     * @var OpenAIConfiguration
+     */
+    protected OpenAIConfiguration $configuration;
 
     /**
+     * Build a HTTP client
      * @param OpenAIConfiguration|string $var
      */
     public function __construct(OpenAIConfiguration|string $var)
     {
+        if (is_string($var) && empty($var)) {
+            throw new ClientException("The API key can not be empty");
+        }
+
+        if (is_a($var, OpenAIConfiguration::class) && is_null($var)) {
+            throw new ClientException("The configuration can not be null");
+        }
+
         $this->configuration = (is_string($var)) ? OpenAIConfiguration::Configuration($var) : $var;
     }
 
     /**
+     * Retrieve a Model handler
      * @return Model
      */
     public function Model(): Model
@@ -39,6 +53,8 @@ class OpenAIClient
     }
 
     /**
+     * Retrieve a Completion handler
+     *
      * @return Completion
      */
     public function Completion(): Completion
@@ -47,6 +63,8 @@ class OpenAIClient
     }
 
     /**
+     * Retrieve an Edit handler
+     *
      * @return Edit
      */
     public function Edit(): Edit
@@ -55,6 +73,8 @@ class OpenAIClient
     }
 
     /**
+     * Retrieve a Chat handler
+     *
      * @return Chat
      */
     public function Chat(): Chat
@@ -63,6 +83,8 @@ class OpenAIClient
     }
 
     /**
+     * Retrieve an Image handler
+     *
      * @return Image
      */
     public function Image(): Image
@@ -71,6 +93,8 @@ class OpenAIClient
     }
 
     /**
+     * Retrieve an Audio handler
+     *
      * @return Audio
      */
     public function Audio(): Audio
@@ -79,6 +103,8 @@ class OpenAIClient
     }
 
     /**
+     * Retrieve a Moderation handler
+     *
      * @return Moderation
      */
     public function Moderation(): Moderation
@@ -87,6 +113,8 @@ class OpenAIClient
     }
 
     /**
+     * Retrieve a File handler
+     *
      * @return File
      */
     public function File(): File
@@ -95,6 +123,8 @@ class OpenAIClient
     }
 
     /**
+     * Retrieve a FineTune handler
+     *
      * @return FineTune
      */
     public function FineTune(): FineTune
@@ -103,6 +133,8 @@ class OpenAIClient
     }
 
     /**
+     * Retrieve an Embedding handler
+     *
      * @return Embedding
      */
     public function Embedding(): Embedding
@@ -112,6 +144,7 @@ class OpenAIClient
 
     /**
      * Get the value of configuration
+     * @return OpenAIConfiguration
      */
     public function getConfiguration(): OpenAIConfiguration
     {
@@ -119,6 +152,7 @@ class OpenAIClient
     }
 
     /**
+     * Build a GET HTTP request
      * @param string $path
      * @param null $body
      * @param array $headers
@@ -143,6 +177,8 @@ class OpenAIClient
     }
 
     /**
+     * Build a POST HTTP request
+     *
      * @param string $path
      * @param null $body
      * @param array $headers
@@ -172,12 +208,14 @@ class OpenAIClient
     }
 
     /**
+     * Build a PUT HTTP request
+     *
      * @param string $path
      * @param null $body
      * @param array $headers
      * @param array $params
      *
-     * @return RequestInterface
+     * @return CurlRequest
      */
     public function put(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
@@ -192,6 +230,8 @@ class OpenAIClient
 
 
     /**
+     * Build a DELETE HTTP request
+     *
      * @param string $path
      * @param null $body
      * @param array $headers
@@ -211,6 +251,7 @@ class OpenAIClient
     }
 
     /**
+     * Perform an HTTP request
      * @param CurlRequest $request
      *
      * @return CurlResponse
