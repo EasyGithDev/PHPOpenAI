@@ -116,27 +116,4 @@ class File extends OpenAIHandler
 
         return $this;
     }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $response = $this->getResponse();
-        $this->checkResponse($response);
-        return ['text' => $response->getBody()];
-    }
-
-    /**
-     * @return \stdClass
-     */
-    public function toObject(): \stdClass
-    {
-        $response = $this->getResponse();
-        $this->checkResponse($response);
-
-        $obj = new \stdClass();
-        $obj->text = $response->getBody();
-        return $obj;
-    }
 }

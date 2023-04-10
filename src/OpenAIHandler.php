@@ -6,8 +6,10 @@ use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
+use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\Validators\ApplicationJsonValidator;
 use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
+use PSpell\Config;
 
 /**
  * [Description OpenAIHandler]
@@ -124,6 +126,16 @@ abstract class OpenAIHandler
      */
     protected function decodeResponse(CurlResponse $response, bool $asArray = false): array|\stdClass
     {
+        if (ContentTypeEnum::tryFrom($response->getHeaderLine()) != ContentTypeEnum::JSON) {
+            if ($asArray) {
+                return ['text' => $response->getBody()];
+            } else {
+                $obj = new \stdClass();
+                $obj->text = $response->getBody();
+                return $obj;
+            }
+        }
+
         $body =  json_decode($response, $asArray);
 
         if (\json_last_error()) {
