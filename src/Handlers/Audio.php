@@ -8,6 +8,7 @@ use EasyGithDev\PHPOpenAI\Helpers\AudioResponseEnum;
 use EasyGithDev\PHPOpenAI\Helpers\LanguageEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
+use EasyGithDev\PHPOpenAI\Validators\TextPlainValidator;
 
 /**
  * [Description Audio]
@@ -79,6 +80,8 @@ class Audio extends OpenAIHandler
             $payload
         ));
 
+        $this->contentTypeValidator = TextPlainValidator::class;
+
         return $this;
     }
 
@@ -123,6 +126,8 @@ class Audio extends OpenAIHandler
             $payload
         ));
 
+        $this->contentTypeValidator = TextPlainValidator::class;
+
         return $this;
     }
 
@@ -131,17 +136,21 @@ class Audio extends OpenAIHandler
      */
     public function toArray(): array
     {
-        return ['text' => $this->getResponse()->getBody()];
+        $response = $this->getResponse();
+        $this->checkResponse($response);
+        return ['text' => $response->getBody()];
     }
-
 
     /**
      * @return \stdClass
      */
     public function toObject(): \stdClass
     {
-        $obj = new \stdClass;
-        $obj->text = $this->getResponse()->getBody();
+        $response = $this->getResponse();
+        $this->checkResponse($response);
+
+        $obj = new \stdClass();
+        $obj->text = $response->getBody();
         return $obj;
     }
 }

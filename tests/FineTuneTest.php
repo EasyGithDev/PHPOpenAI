@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
 use PHPUnit\Framework\TestCase;
 
 final class FineTuneTest extends TestCase
@@ -9,12 +10,15 @@ final class FineTuneTest extends TestCase
 
     public function testList()
     {
-        $response =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->FineTune()
-            ->list()
-            ->getResponse();
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+            ->list();
+            
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 
     public function testCreate()
@@ -26,13 +30,15 @@ final class FineTuneTest extends TestCase
                 'fine-tune',
             )->toObject()->id;
 
-        $response =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->FineTune()
-            ->create($file_id)
-            ->getResponse();
+            ->create($file_id);
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
         return $response->toObject()->id;
     }
 
@@ -42,13 +48,15 @@ final class FineTuneTest extends TestCase
     public function testRetrieve($fine_tune_id)
     {
         $this->assertStringStartsWith('ft-', $fine_tune_id);
-        $response =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->FineTune()
-            ->retrieve($fine_tune_id)
-            ->getResponse();
+            ->retrieve($fine_tune_id);
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
         return $fine_tune_id;
     }
 
@@ -58,13 +66,15 @@ final class FineTuneTest extends TestCase
     public function testListEvents($fine_tune_id)
     {
         $this->assertStringStartsWith('ft-', $fine_tune_id);
-        $response =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->FineTune()
-            ->listEvents($fine_tune_id)
-            ->getResponse();
+            ->listEvents($fine_tune_id);
 
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
         return $fine_tune_id;
     }
 
@@ -74,13 +84,15 @@ final class FineTuneTest extends TestCase
     public function testCancel($fine_tune_id)
     {
         $this->assertStringStartsWith('ft-', $fine_tune_id);
-        $response =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->FineTune()
-            ->cancel($fine_tune_id)
-            ->getResponse();
+            ->cancel($fine_tune_id);
             
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
         return $fine_tune_id;
     }
 }

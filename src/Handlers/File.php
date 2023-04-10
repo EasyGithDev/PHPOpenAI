@@ -5,6 +5,7 @@ namespace EasyGithDev\PHPOpenAI\Handlers;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
+use EasyGithDev\PHPOpenAI\Validators\ApplicationOctetStreamValidator;
 
 /**
  * [Description File]
@@ -110,6 +111,8 @@ class File extends OpenAIHandler
         $this->setRequest($this->client->get(
             self::END_POINT . '/' . $file_id . '/content'
         ));
+
+        $this->contentTypeValidator = ApplicationOctetStreamValidator::class;
 
         return $this;
     }

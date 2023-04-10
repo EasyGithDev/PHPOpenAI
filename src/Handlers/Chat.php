@@ -9,6 +9,9 @@ use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
 
+/**
+ * [Description Chat]
+ */
 class Chat extends OpenAIHandler
 {
     use Stream;

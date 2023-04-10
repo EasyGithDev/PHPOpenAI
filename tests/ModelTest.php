@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
 use PHPUnit\Framework\TestCase;
 
 final class ModelTest extends TestCase
@@ -11,22 +12,27 @@ final class ModelTest extends TestCase
 
     public function testList()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
         ->Model()
-        ->list()
-        ->getResponse();
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        ->list();
+        
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 
     public function testRetrieve()
     {
-        $response = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
         ->Model()
-        ->retrieve('text-davinci-003')
-        ->getResponse();
+        ->retrieve('text-davinci-003');
         
-        $this->assertEquals(true, $response->isStatusOk());
-        $this->assertEquals(true, $response->isContentTypeOk());
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, (new StatusValidator($response))->validate());
+        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
     }
 }
