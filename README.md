@@ -127,26 +127,7 @@ $response = (new OpenAIApi($apiKey))->Completion()->create(
 
 ## Manage the reponses
 
-The API returns responses in JSON format. To facilitate access to the different information, this response is encapsulated in an object named `CurlResponse`. You can then call the different methods of this object to access the data.
-
-```php
-<?php
-$response = (new OpenAIClient($apiKey))->Completion()->create(
-    ModelEnum::TEXT_DAVINCI_003,
-    "Say this is a test",
-)->getResponse();
-
-// Response as a string
-echo $response;
-
-// Response as an associative array
-echo '<pre>', print_r($response->toArray(), true), '</pre>';
-
-// Response as a stClass object
-echo '<pre>', print_r($response->toObject(), true), '</pre>';
-```
-
-Or you can use the methods of the Handler object.
+The API returns responses in JSON format. To facilitate access to the different information, you can call `toObject()` or `toArray()` methods  of the Handler object to access the data.
 
 ```php
 <?php
@@ -189,31 +170,21 @@ try {
 }
 ```
 
-If you are using the `CurlResponse` object, you can check that an error has occurred using the `isStatusOk()` and `isContentTypeOk()` methods. 
+If you are using the `CurlResponse` object, you can check that an error has occurred using the validators. 
 
 ```php
 
-$response = (new OpenAIClient('BAD KEY'))->Completion()->create(
+$handler = (new OpenAIClient('BAD KEY'))->Completion()->create(
     ModelEnum::TEXT_DAVINCI_003,
     "Say this is a test",
-)->getResponse();
+);
 
-if (!$response->isStatusOk() or !$response->isContentTypeOk()) {
+$response = $handler->getResponse();
+$contentTypeValidator = $handler->getContentTypeValidator();
+
+if (!(new StatusValidator($response))->validate() or 
+    !(new $contentTypeValidator($response))->validate()) {
     echo $response->getBody();
-}
-```
-
-Or, you can use a `try-catch` structure by using the `throwable()` method of the `CurlResponse` object.
-
-```php
-try {
-    $response = (new OpenAIApi('BAD KEY'))->Completion()->create(
-        ModelEnum::TEXT_DAVINCI_003,
-        "Say this is a test",
-    )->throwable();
-} catch (Throwable $t) {
-    echo nl2br($t->getMessage());
-    die;
 }
 ```
 
