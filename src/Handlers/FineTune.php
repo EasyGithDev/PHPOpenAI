@@ -13,7 +13,6 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
 class FineTune extends OpenAIHandler
 {
     use Stream;
-    public const END_POINT = '/fine-tunes';
 
     /**
      * @param  protected
@@ -28,7 +27,7 @@ class FineTune extends OpenAIHandler
     public function list(): self
     {
         $this->setRequest($this->client->get(
-            self::END_POINT
+            $this->client->getRoute()->fineTuneList(),
         ));
 
         return $this;
@@ -49,7 +48,7 @@ class FineTune extends OpenAIHandler
         }
 
         $this->setRequest($this->client->get(
-            self::END_POINT . '/' . $fine_tune_id . '/events',
+            $this->client->getRoute()->fineTunelistEvents($fine_tune_id),
             params: $params
         ));
 
@@ -112,7 +111,7 @@ class FineTune extends OpenAIHandler
         }
 
         $this->setRequest($this->client->post(
-            self::END_POINT,
+            $this->client->getRoute()->fineTuneCreate(),
             json_encode($payload),
             ContentTypeEnum::JSON->toHeaderArray()
         ));
@@ -133,7 +132,7 @@ class FineTune extends OpenAIHandler
         }
 
         $this->setRequest($this->client->get(
-            self::END_POINT . '/' . $fine_tune_id
+            $this->client->getRoute()->fineTuneRetrieve($fine_tune_id),
         ));
 
         return $this;
@@ -151,7 +150,7 @@ class FineTune extends OpenAIHandler
         }
 
         $this->setRequest($this->client->post(
-            self::END_POINT . '/' . $fine_tune_id . '/cancel'
+            $this->client->getRoute()->fineTuneCancel($fine_tune_id),
         ));
 
         return $this;

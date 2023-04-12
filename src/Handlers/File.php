@@ -12,9 +12,6 @@ use EasyGithDev\PHPOpenAI\Validators\ApplicationOctetStreamValidator;
  */
 class File extends OpenAIHandler
 {
-    public const END_POINT = '/files';
-
-
     /**
      * @param  protected
      */
@@ -25,7 +22,7 @@ class File extends OpenAIHandler
     public function list(): self
     {
         $this->setRequest($this->client->get(
-            self::END_POINT
+            $this->client->getRoute()->fileList(),
         ));
 
         return $this;
@@ -50,7 +47,7 @@ class File extends OpenAIHandler
         ];
 
         $this->setRequest($this->client->post(
-            self::END_POINT,
+            $this->client->getRoute()->fileCreate(),
             $payload
         ));
 
@@ -70,7 +67,7 @@ class File extends OpenAIHandler
         }
 
         $this->setRequest($this->client->delete(
-            self::END_POINT . '/' . $file_id
+            $this->client->getRoute()->fileDelete($file_id),
         ));
 
         return $this;
@@ -90,7 +87,7 @@ class File extends OpenAIHandler
         }
 
         $this->setRequest($this->client->get(
-            self::END_POINT . '/' . $file_id
+            $this->client->getRoute()->fileRetrieve($file_id),
         ));
 
         return $this;
@@ -109,7 +106,7 @@ class File extends OpenAIHandler
         }
 
         $this->setRequest($this->client->get(
-            self::END_POINT . '/' . $file_id . '/content'
+            $this->client->getRoute()->fileDownload($file_id),
         ));
 
         $this->contentTypeValidator = ApplicationOctetStreamValidator::class;

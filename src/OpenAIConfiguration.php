@@ -10,6 +10,7 @@ use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 class OpenAIConfiguration
 {
     /**
+     * Depreciate
      * The API url
      * @var string
      */
@@ -53,6 +54,7 @@ class OpenAIConfiguration
     }
 
     /**
+     * Depreciate
      * Get the value of apiUrl
      * @return string
      */
@@ -62,6 +64,7 @@ class OpenAIConfiguration
     }
 
     /**
+     * Depreciate
      * Set the value of apiUrl
      *
      * @param string $apiUrl

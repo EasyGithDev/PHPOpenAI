@@ -13,8 +13,6 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
  */
 class Embedding extends OpenAIHandler
 {
-    public const END_POINT = '/embeddings';
-
     public function __construct(protected OpenAIClient $client)
     {
     }
@@ -45,7 +43,7 @@ class Embedding extends OpenAIHandler
             $payload["user"] = $user;
         }
         $this->setRequest($this->client->post(
-            self::END_POINT,
+            $this->client->getRoute()->embeddingCreate(),
             json_encode($payload),
             ContentTypeEnum::JSON->toHeaderArray()
         ));

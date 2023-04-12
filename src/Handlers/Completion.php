@@ -14,7 +14,7 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
 class Completion extends OpenAIHandler
 {
     use Stream;
-    public const END_POINT = '/completions';
+
     public const MAX_TOKENS = 4096;
     public const MAX_LOGPROBS = 5;
     public const MAX_TOP_P = 1;
@@ -148,7 +148,7 @@ class Completion extends OpenAIHandler
         }
 
         $this->setRequest($this->client->post(
-            self::END_POINT,
+            $this->client->getRoute()->completionCreate(),
             json_encode($payload),
             ContentTypeEnum::JSON->toHeaderArray(),
             $params

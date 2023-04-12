@@ -12,8 +12,6 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
  */
 class Moderation extends OpenAIHandler
 {
-    public const END_POINT = '/moderations';
-
     /**
      * @param  protected
      */
@@ -37,7 +35,7 @@ class Moderation extends OpenAIHandler
         ];
 
         $this->setRequest($this->client->post(
-            self::END_POINT,
+            $this->client->getRoute()->moderationCreate(),
             json_encode($payload),
             ContentTypeEnum::JSON->toHeaderArray()
         ));

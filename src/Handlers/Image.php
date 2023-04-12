@@ -15,10 +15,6 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
 class Image extends OpenAIHandler
 {
     public const MAX_PROMPT_CHARS = 1000;
-    public const END_POINT = '/images';
-    public const GENERATION_END_POINT = self::END_POINT . '/generations';
-    public const VARIATION_END_POINT = self::END_POINT . '/variations';
-    public const EDIT_END_POINT = self::END_POINT . '/edits';
 
     /**
      * @param  protected
@@ -59,7 +55,7 @@ class Image extends OpenAIHandler
         }
 
         $this->setRequest($this->client->post(
-            self::GENERATION_END_POINT,
+            $this->client->getRoute()->imageCreate(),
             json_encode($payload),
             ContentTypeEnum::JSON->toHeaderArray(),
             ['timeout' => 60]
@@ -95,7 +91,7 @@ class Image extends OpenAIHandler
         }
 
         $this->setRequest($this->client->post(
-            self::VARIATION_END_POINT,
+            $this->client->getRoute()->imageCreateVariation(),
             $payload,
             params: ['timeout' => 60]
         ));
@@ -149,7 +145,7 @@ class Image extends OpenAIHandler
         }
 
         $this->setRequest($this->client->post(
-            self::EDIT_END_POINT,
+            $this->client->getRoute()->imageCreateEdit(),
             $payload,
             params: ['timeout' => 60]
         ));

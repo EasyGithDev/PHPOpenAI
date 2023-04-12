@@ -21,6 +21,7 @@ class CurlRequest
     protected ?\CurlHandle $ch = null;
 
     /**
+     * Depreciate
      * @var string
      */
     protected string $baseUrl = '';
@@ -284,6 +285,7 @@ class CurlRequest
     }
 
     /**
+     * Depreciate
      * Get the value of baseUrl
      * @return string
      */
@@ -293,6 +295,7 @@ class CurlRequest
     }
 
     /**
+     * Depreciate
      * Set the value of baseUrl
      *
      * @param string $baseUrl
