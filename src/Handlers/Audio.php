@@ -15,8 +15,6 @@ use EasyGithDev\PHPOpenAI\Validators\TextPlainValidator;
  */
 class Audio extends OpenAIHandler
 {
-    public const END_POINT = '/audio';
-
     /**
      * @param  protected
      */
@@ -76,7 +74,7 @@ class Audio extends OpenAIHandler
         }
 
         $this->setRequest($this->client->post(
-            self::END_POINT . '/transcriptions',
+            $this->client->getRoute()->audioTranscription(),
             $payload
         ));
 
@@ -122,7 +120,7 @@ class Audio extends OpenAIHandler
         ];
 
         $this->setRequest($this->client->post(
-            self::END_POINT . '/translations',
+            $this->client->getRoute()->audioTranslation(),
             $payload
         ));
 
@@ -130,5 +128,4 @@ class Audio extends OpenAIHandler
 
         return $this;
     }
-
 }

@@ -13,9 +13,6 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
  */
 class Edit extends OpenAIHandler
 {
-    public const END_POINT = '/edits';
-
-
     /**
      * @param  protected
      */
@@ -66,7 +63,7 @@ class Edit extends OpenAIHandler
         ];
 
         $this->setRequest($this->client->post(
-            self::END_POINT,
+            $this->client->getRoute()->editCreate(),
             json_encode($payload),
             ContentTypeEnum::JSON->toHeaderArray()
         ));

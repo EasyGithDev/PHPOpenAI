@@ -15,7 +15,6 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
 class Chat extends OpenAIHandler
 {
     use Stream;
-    public const END_POINT = '/chat/completions';
     public const MAX_PROMPT_CHARS = 1000;
     public const MAX_TOKENS = 4096;
     public const MAX_TOP_P = 1;
@@ -129,7 +128,7 @@ class Chat extends OpenAIHandler
         }
 
         $this->setRequest($this->client->post(
-            self::END_POINT,
+            $this->client->getRoute()->chatCreate(),
             json_encode($payload),
             ContentTypeEnum::JSON->toHeaderArray(),
             $params

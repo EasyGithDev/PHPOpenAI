@@ -11,8 +11,6 @@ use EasyGithDev\PHPOpenAI\OpenAIHandler;
  */
 class Model extends OpenAIHandler
 {
-    public const END_POINT = '/models';
-
     /**
      * @param  protected
      */
@@ -26,7 +24,7 @@ class Model extends OpenAIHandler
     public function list(): self
     {
         $this->setRequest($this->client->get(
-            self::END_POINT,
+            $this->client->getRoute()->modelList(),
         ));
 
         return $this;
@@ -40,7 +38,7 @@ class Model extends OpenAIHandler
     public function retrieve(string $model): self
     {
         $this->setRequest($this->client->get(
-            self::END_POINT . "/$model",
+            $this->client->getRoute()->modelRetrieve($model),
             null,
             ContentTypeEnum::JSON->toHeaderArray()
         ));
@@ -56,7 +54,7 @@ class Model extends OpenAIHandler
     public function delete(string $model): self
     {
         $this->setRequest($this->client->delete(
-            self::END_POINT . "/$model"
+            $this->client->getRoute()->modelDelete($model),
         ));
 
         return $this;

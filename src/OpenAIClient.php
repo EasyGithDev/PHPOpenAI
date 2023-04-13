@@ -2,6 +2,8 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Contracts\Route;
+use EasyGithDev\PHPOpenAI\Contracts\RouteInterface;
 use EasyGithDev\PHPOpenAI\Handlers\Completion;
 use EasyGithDev\PHPOpenAI\Handlers\Edit;
 use EasyGithDev\PHPOpenAI\Handlers\File;
@@ -30,7 +32,7 @@ class OpenAIClient
      * Build a HTTP client
      * @param OpenAIConfiguration|string $var
      */
-    public function __construct(OpenAIConfiguration|string $var)
+    public function __construct(OpenAIConfiguration|string $var, protected ?RouteInterface $route = null)
     {
         if (is_string($var) && empty($var)) {
             throw new ClientException("The API key can not be empty");
@@ -41,6 +43,10 @@ class OpenAIClient
         }
 
         $this->configuration = (is_string($var)) ? OpenAIConfiguration::Configuration($var) : $var;
+
+        if (is_null($route)) {
+            $this->route = new OpenAIRoute();
+        }
     }
 
     /**
@@ -152,6 +158,26 @@ class OpenAIClient
     }
 
     /**
+     * Get routes
+     */
+    public function getRoute(): RouteInterface
+    {
+        return $this->route;
+    }
+
+    /**
+     * Set routes
+     *
+     * @return  self
+     */
+    public function setRoute(RouteInterface $route): self
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    /**
      * Build a GET HTTP request
      * @param string $path
      * @param null $body
@@ -164,7 +190,6 @@ class OpenAIClient
     {
         $request = (new CurlRequest())
             ->setBaseHeaders($this->getConfiguration()->getHeaders())
-            ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_GET)
             ->setHeaders($headers);
@@ -190,7 +215,6 @@ class OpenAIClient
     {
         $request = (new CurlRequest())
             ->setBaseHeaders($this->getConfiguration()->getHeaders())
-            ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($body)
@@ -221,7 +245,6 @@ class OpenAIClient
     {
         return (new CurlRequest())
             ->setBaseHeaders($this->getConfiguration()->getHeaders())
-            ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_PUT)
             ->setPayload($body)
@@ -243,7 +266,6 @@ class OpenAIClient
     {
         return (new CurlRequest())
             ->setBaseHeaders($this->getConfiguration()->getHeaders())
-            ->setBaseUrl($this->getConfiguration()->getApiUrl())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_DELETE)
             ->setPayload($body)
