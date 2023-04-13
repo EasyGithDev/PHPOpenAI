@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Curl\CurlBuilder;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
@@ -62,10 +63,14 @@ class Edit extends OpenAIHandler
             "n" => $n,
         ];
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->editCreate(),
             json_encode($payload),
-            ContentTypeEnum::JSON->toHeaderArray()
+            array_merge(
+                $this->client->getConfiguration()->getHeaders(),
+                ContentTypeEnum::JSON->toHeaderArray(),
+                $this->curlParams
+            )
         ));
 
         return $this;

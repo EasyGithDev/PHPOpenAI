@@ -12,12 +12,14 @@ final class AudioTest extends TestCase
 
     public function testTranscription()
     {
-        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->transcription(
-            __DIR__ . '/../assets/openai.mp3',
-            ModelEnum::WHISPER_1,
-            response_format: AudioResponseEnum::SRT
-        );
-        
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()
+            ->addCurlParam('timeout', 30)
+            ->transcription(
+                __DIR__ . '/../assets/openai.mp3',
+                ModelEnum::WHISPER_1,
+                response_format: AudioResponseEnum::SRT
+            );
+
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
 
@@ -27,11 +29,13 @@ final class AudioTest extends TestCase
 
     public function testTranslation()
     {
-        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()->translation(
-            __DIR__ . '/../assets/openai_fr.mp3',
-            ModelEnum::WHISPER_1,
-            response_format: AudioResponseEnum::TEXT
-        );
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))->Audio()
+            ->addCurlParam('timeout', 30)
+            ->translation(
+                __DIR__ . '/../assets/openai_fr.mp3',
+                ModelEnum::WHISPER_1,
+                response_format: AudioResponseEnum::TEXT
+            );
 
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();

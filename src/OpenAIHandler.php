@@ -9,7 +9,6 @@ use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\Validators\ApplicationJsonValidator;
 use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
-use PSpell\Config;
 
 /**
  * [Description OpenAIHandler]
@@ -41,6 +40,12 @@ abstract class OpenAIHandler
     protected string $contentTypeValidator = ApplicationJsonValidator::class;
 
     /**
+     * Additionnal parameters for curl request
+     * @var array
+     */
+    protected array $curlParams = [];
+
+    /**
      * Set the request to the handler
      * @param CurlRequest $request
      *
@@ -51,6 +56,7 @@ abstract class OpenAIHandler
         $this->request = $request;
         $this->response = null;
         $this->contentTypeValidator = ApplicationJsonValidator::class;
+        $this->curlParams = [];
     }
 
     /**
@@ -93,6 +99,24 @@ abstract class OpenAIHandler
     public function getContentTypeValidator()
     {
         return $this->contentTypeValidator;
+    }
+
+    /**
+     * Add an additionnal parameter for curl request
+     * @param string $key
+     * @param mixed $value
+     * 
+     * @return [type]
+     */
+    public function addCurlParam(string $key, mixed $value)
+    {
+        if (!\is_null($this->request)) {
+            throw new ClientException('Params must be configured before request.');
+        }
+
+        $this->curlParams[$key] = $value;
+
+        return $this;
     }
 
     /**

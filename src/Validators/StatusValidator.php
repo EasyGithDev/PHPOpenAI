@@ -2,9 +2,10 @@
 
 namespace EasyGithDev\PHPOpenAI\Validators;
 
+use EasyGithDev\PHPOpenAI\Contracts\ValidatorInterface;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 
-class StatusValidator implements Validator
+class StatusValidator implements ValidatorInterface
 {
     public function __construct(protected CurlResponse $response)
     {

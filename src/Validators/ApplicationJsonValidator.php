@@ -2,10 +2,11 @@
 
 namespace EasyGithDev\PHPOpenAI\Validators;
 
+use EasyGithDev\PHPOpenAI\Contracts\ValidatorInterface;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 
-class ApplicationJsonValidator implements Validator
+class ApplicationJsonValidator implements ValidatorInterface
 {
     public function __construct(protected CurlResponse $response)
     {

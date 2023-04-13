@@ -13,6 +13,7 @@ final class ImageTest extends TestCase
     {
         $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Image()
+            ->addCurlParam('timeout', 30)
             ->create(
                 "a rabbit inside a beautiful garden, 32 bit isometric",
                 n: 1,
@@ -20,6 +21,7 @@ final class ImageTest extends TestCase
                 response_format: 'url',
                 user: 'phpunit'
             );
+            
 
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
@@ -32,6 +34,7 @@ final class ImageTest extends TestCase
     {
         $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Image()
+            ->addCurlParam('timeout', 30)
             ->create(
                 "a rabbit inside a beautiful garden, 32 bit isometric",
                 n: 1,
@@ -39,6 +42,7 @@ final class ImageTest extends TestCase
                 response_format: 'url',
                 user: 'phpunit'
             );
+            
 
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
@@ -51,12 +55,14 @@ final class ImageTest extends TestCase
     {
         $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Image()
+            ->addCurlParam('timeout', 30)
             ->createVariation(
                 __DIR__ . '/../assets/image_variation_original.png',
                 n: 1,
                 size: ImageSizeEnum::is256,
                 user: 'phpunit'
             );
+            
 
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
@@ -69,6 +75,7 @@ final class ImageTest extends TestCase
     {
         $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Image()
+            ->addCurlParam('timeout', 30)
             ->createEdit(
                 image: __DIR__ . '/../assets/image_edit_original.png',
                 mask: __DIR__ . '/../assets/image_edit_mask2.png',
@@ -76,6 +83,7 @@ final class ImageTest extends TestCase
                 size: ImageSizeEnum::is256,
                 user: 'phpunit'
             );
+            
 
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();

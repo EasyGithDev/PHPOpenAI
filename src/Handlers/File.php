@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Curl\CurlBuilder;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
@@ -21,8 +22,10 @@ class File extends OpenAIHandler
 
     public function list(): self
     {
-        $this->setRequest($this->client->get(
+        $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fileList(),
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -46,9 +49,11 @@ class File extends OpenAIHandler
             "purpose" => $purpose,
         ];
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->fileCreate(),
-            $payload
+            $payload,
+            $this->client->getConfiguration()->getHeaders(),
+            $this->curlParams
         ));
 
         return $this;
@@ -66,8 +71,10 @@ class File extends OpenAIHandler
             throw new ClientException("file_id can not be empty");
         }
 
-        $this->setRequest($this->client->delete(
+        $this->setRequest(CurlBuilder::delete(
             $this->client->getRoute()->fileDelete($file_id),
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params:$this->curlParams
         ));
 
         return $this;
@@ -86,8 +93,10 @@ class File extends OpenAIHandler
             throw new ClientException("file_id can not be empty");
         }
 
-        $this->setRequest($this->client->get(
+        $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fileRetrieve($file_id),
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -105,8 +114,10 @@ class File extends OpenAIHandler
             throw new ClientException("file_id can not be empty");
         }
 
-        $this->setRequest($this->client->get(
+        $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fileDownload($file_id),
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         $this->contentTypeValidator = ApplicationOctetStreamValidator::class;

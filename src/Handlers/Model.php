@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Curl\CurlBuilder;
 use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
 use EasyGithDev\PHPOpenAI\OpenAIHandler;
@@ -23,8 +24,10 @@ class Model extends OpenAIHandler
      */
     public function list(): self
     {
-        $this->setRequest($this->client->get(
+        $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->modelList(),
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -37,10 +40,13 @@ class Model extends OpenAIHandler
      */
     public function retrieve(string $model): self
     {
-        $this->setRequest($this->client->get(
+        $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->modelRetrieve($model),
-            null,
-            ContentTypeEnum::JSON->toHeaderArray()
+            headers: array_merge(
+                $this->client->getConfiguration()->getHeaders(),
+                ContentTypeEnum::JSON->toHeaderArray()
+            ),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -53,8 +59,10 @@ class Model extends OpenAIHandler
      */
     public function delete(string $model): self
     {
-        $this->setRequest($this->client->delete(
+        $this->setRequest(CurlBuilder::delete(
             $this->client->getRoute()->modelDelete($model),
+            headers: $this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;

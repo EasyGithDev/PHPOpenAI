@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Curl\CurlBuilder;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
@@ -42,10 +43,14 @@ class Embedding extends OpenAIHandler
         if (!empty($user)) {
             $payload["user"] = $user;
         }
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->embeddingCreate(),
             json_encode($payload),
-            ContentTypeEnum::JSON->toHeaderArray()
+            array_merge(
+                $this->client->getConfiguration()->getHeaders(),
+                ContentTypeEnum::JSON->toHeaderArray()
+            ),
+            $this->curlParams
         ));
 
         return $this;

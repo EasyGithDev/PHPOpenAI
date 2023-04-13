@@ -2,12 +2,13 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Contracts\HeaderInterface;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 
 /**
  * [Description OpenAIConfiguration]
  */
-class OpenAIConfiguration
+class OpenAIConfiguration implements HeaderInterface
 {
     /**
      * Depreciate
