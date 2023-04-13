@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Curl\CurlBuilder;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ChatMessage;
 use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
@@ -127,10 +128,13 @@ class Chat extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->chatCreate(),
             json_encode($payload),
-            ContentTypeEnum::JSON->toHeaderArray(),
+            array_merge(
+                $this->client->getConfiguration()->getHeaders(),
+                ContentTypeEnum::JSON->toHeaderArray()
+            ),
             $params
         ));
 

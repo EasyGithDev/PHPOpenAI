@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Curl\CurlBuilder;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\Helpers\ImageResponseEnum;
@@ -54,10 +55,13 @@ class Image extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->imageCreate(),
             json_encode($payload),
-            ContentTypeEnum::JSON->toHeaderArray(),
+            array_merge(
+                $this->client->getConfiguration()->getHeaders(),
+                ContentTypeEnum::JSON->toHeaderArray()
+            ),
             ['timeout' => 60]
         ));
 
@@ -90,10 +94,11 @@ class Image extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->imageCreateVariation(),
             $payload,
-            params: ['timeout' => 60]
+            $this->client->getConfiguration()->getHeaders(),
+            ['timeout' => 60]
         ));
 
         return $this;
@@ -144,10 +149,11 @@ class Image extends OpenAIHandler
             $payload["user"] = $user;
         }
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->imageCreateEdit(),
             $payload,
-            params: ['timeout' => 60]
+            $this->client->getConfiguration()->getHeaders(),
+            ['timeout' => 60]
         ));
 
         return $this;

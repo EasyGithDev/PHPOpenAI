@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Curl\CurlBuilder;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\OpenAIClient;
@@ -26,8 +27,9 @@ class FineTune extends OpenAIHandler
      */
     public function list(): self
     {
-        $this->setRequest($this->client->get(
+        $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fineTuneList(),
+            headers: $this->client->getConfiguration()->getHeaders()
         ));
 
         return $this;
@@ -47,8 +49,9 @@ class FineTune extends OpenAIHandler
             $params['stream'] = $stream;
         }
 
-        $this->setRequest($this->client->get(
+        $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fineTunelistEvents($fine_tune_id),
+            headers: $this->client->getConfiguration()->getHeaders(),
             params: $params
         ));
 
@@ -110,10 +113,13 @@ class FineTune extends OpenAIHandler
             $payload['suffix'] = $suffix;
         }
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->fineTuneCreate(),
             json_encode($payload),
-            ContentTypeEnum::JSON->toHeaderArray()
+            array_merge(
+                $this->client->getConfiguration()->getHeaders(),
+                ContentTypeEnum::JSON->toHeaderArray()
+            )
         ));
 
         return $this;
@@ -131,8 +137,9 @@ class FineTune extends OpenAIHandler
             throw new ClientException("fine_tune_id can not be empty");
         }
 
-        $this->setRequest($this->client->get(
+        $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fineTuneRetrieve($fine_tune_id),
+            headers: $this->client->getConfiguration()->getHeaders()
         ));
 
         return $this;
@@ -149,8 +156,9 @@ class FineTune extends OpenAIHandler
             throw new ClientException("fine_tune_id can not be empty");
         }
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->fineTuneCancel($fine_tune_id),
+            headers: $this->client->getConfiguration()->getHeaders()
         ));
 
         return $this;

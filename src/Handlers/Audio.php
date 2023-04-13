@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI\Handlers;
 
+use EasyGithDev\PHPOpenAI\Curl\CurlBuilder;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
 use EasyGithDev\PHPOpenAI\Helpers\AudioResponseEnum;
@@ -73,9 +74,10 @@ class Audio extends OpenAIHandler
             $payload["LanguageEnum"] = is_string($language) ? $language : $language->value;
         }
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->audioTranscription(),
-            $payload
+            $payload,
+            $this->client->getConfiguration()->getHeaders()
         ));
 
         $this->contentTypeValidator = TextPlainValidator::class;
@@ -119,9 +121,10 @@ class Audio extends OpenAIHandler
             "temperature" => $temperature,
         ];
 
-        $this->setRequest($this->client->post(
+        $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->audioTranslation(),
-            $payload
+            $payload,
+            $this->client->getConfiguration()->getHeaders()
         ));
 
         $this->contentTypeValidator = TextPlainValidator::class;
