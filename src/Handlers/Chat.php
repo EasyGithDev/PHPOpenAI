@@ -92,7 +92,6 @@ class Chat extends OpenAIHandler
             }, $messages);
         }
 
-        $params = [];
         $payload =       [
             "model" => is_string($model) ? $model : $model->value,
             "messages" => $messages,
@@ -112,8 +111,8 @@ class Chat extends OpenAIHandler
 
         if ($stream) {
             $payload["stream"] = $stream;
-            $params['callback'] = $this->getCallback();
-            $params['stream'] = $stream;
+            $this->curlParams['callback'] = $this->getCallback();
+            $this->curlParams['stream'] = $stream;
         }
 
         if (!is_null($stop)) {
@@ -135,7 +134,7 @@ class Chat extends OpenAIHandler
                 $this->client->getConfiguration()->getHeaders(),
                 ContentTypeEnum::JSON->toHeaderArray()
             ),
-            $params
+            $this->curlParams
         ));
 
         return $this;

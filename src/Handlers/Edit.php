@@ -69,7 +69,7 @@ class Edit extends OpenAIHandler
             array_merge(
                 $this->client->getConfiguration()->getHeaders(),
                 ContentTypeEnum::JSON->toHeaderArray(),
-                ['timeout' => 30]
+                $this->curlParams
             )
         ));
 

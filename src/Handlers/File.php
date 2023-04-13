@@ -24,7 +24,8 @@ class File extends OpenAIHandler
     {
         $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fileList(),
-            headers:$this->client->getConfiguration()->getHeaders()
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -51,7 +52,8 @@ class File extends OpenAIHandler
         $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->fileCreate(),
             $payload,
-            $this->client->getConfiguration()->getHeaders()
+            $this->client->getConfiguration()->getHeaders(),
+            $this->curlParams
         ));
 
         return $this;
@@ -71,7 +73,8 @@ class File extends OpenAIHandler
 
         $this->setRequest(CurlBuilder::delete(
             $this->client->getRoute()->fileDelete($file_id),
-            headers:$this->client->getConfiguration()->getHeaders()
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params:$this->curlParams
         ));
 
         return $this;
@@ -92,7 +95,8 @@ class File extends OpenAIHandler
 
         $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fileRetrieve($file_id),
-            headers:$this->client->getConfiguration()->getHeaders()
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -112,7 +116,8 @@ class File extends OpenAIHandler
 
         $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fileDownload($file_id),
-            headers:$this->client->getConfiguration()->getHeaders()
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         $this->contentTypeValidator = ApplicationOctetStreamValidator::class;

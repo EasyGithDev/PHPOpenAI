@@ -62,7 +62,7 @@ class Image extends OpenAIHandler
                 $this->client->getConfiguration()->getHeaders(),
                 ContentTypeEnum::JSON->toHeaderArray()
             ),
-            ['timeout' => 60]
+            $this->curlParams
         ));
 
         return $this;
@@ -98,7 +98,7 @@ class Image extends OpenAIHandler
             $this->client->getRoute()->imageCreateVariation(),
             $payload,
             $this->client->getConfiguration()->getHeaders(),
-            ['timeout' => 60]
+            $this->curlParams
         ));
 
         return $this;
@@ -153,7 +153,7 @@ class Image extends OpenAIHandler
             $this->client->getRoute()->imageCreateEdit(),
             $payload,
             $this->client->getConfiguration()->getHeaders(),
-            ['timeout' => 60]
+            $this->curlParams
         ));
 
         return $this;

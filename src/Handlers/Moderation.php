@@ -41,7 +41,8 @@ class Moderation extends OpenAIHandler
             array_merge(
                 $this->client->getConfiguration()->getHeaders(),
                 ContentTypeEnum::JSON->toHeaderArray()
-            )
+            ),
+            params: $this->curlParams
         ));
 
         return $this;

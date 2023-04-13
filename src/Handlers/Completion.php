@@ -94,8 +94,6 @@ class Completion extends OpenAIHandler
             throw new ClientException("Frequency_penalty is a number between 0 and 2.0");
         }
 
-        $params = [];
-
         $payload =  [
             "model" => is_string($model) ? $model : $model->value,
             "prompt" => $prompt,
@@ -120,8 +118,8 @@ class Completion extends OpenAIHandler
 
         if ($stream) {
             $payload["stream"] = $stream;
-            $params['callback'] = $this->getCallback();
-            $params['stream'] = $stream;
+            $this->curlParams['callback'] = $this->getCallback();
+            $this->curlParams['stream'] = $stream;
         }
 
         if (!is_null($logprobs)) {
@@ -155,7 +153,7 @@ class Completion extends OpenAIHandler
                 $this->client->getConfiguration()->getHeaders(),
                 ContentTypeEnum::JSON->toHeaderArray()
             ),
-            $params
+            $this->curlParams
         ));
 
         return $this;

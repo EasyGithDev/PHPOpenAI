@@ -77,7 +77,8 @@ class Audio extends OpenAIHandler
         $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->audioTranscription(),
             $payload,
-            $this->client->getConfiguration()->getHeaders()
+            $this->client->getConfiguration()->getHeaders(),
+            $this->curlParams
         ));
 
         $this->contentTypeValidator = TextPlainValidator::class;
@@ -124,7 +125,8 @@ class Audio extends OpenAIHandler
         $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->audioTranslation(),
             $payload,
-            $this->client->getConfiguration()->getHeaders()
+            $this->client->getConfiguration()->getHeaders(),
+            $this->curlParams
         ));
 
         $this->contentTypeValidator = TextPlainValidator::class;

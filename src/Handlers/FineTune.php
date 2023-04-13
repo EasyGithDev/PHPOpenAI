@@ -29,7 +29,8 @@ class FineTune extends OpenAIHandler
     {
         $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fineTuneList(),
-            headers: $this->client->getConfiguration()->getHeaders()
+            headers: $this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -43,16 +44,15 @@ class FineTune extends OpenAIHandler
      */
     public function listEvents(string $fine_tune_id, bool $stream = false): self
     {
-        $params = [];
         if ($stream) {
-            $params['callback'] = $this->getCallback();
-            $params['stream'] = $stream;
+            $this->curlParams['callback'] = $this->getCallback();
+            $this->curlParams['stream'] = $stream;
         }
 
         $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fineTunelistEvents($fine_tune_id),
             headers: $this->client->getConfiguration()->getHeaders(),
-            params: $params
+            params: $this->curlParams
         ));
 
         return $this;
@@ -119,7 +119,8 @@ class FineTune extends OpenAIHandler
             array_merge(
                 $this->client->getConfiguration()->getHeaders(),
                 ContentTypeEnum::JSON->toHeaderArray()
-            )
+            ),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -139,7 +140,8 @@ class FineTune extends OpenAIHandler
 
         $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->fineTuneRetrieve($fine_tune_id),
-            headers: $this->client->getConfiguration()->getHeaders()
+            headers: $this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -158,7 +160,8 @@ class FineTune extends OpenAIHandler
 
         $this->setRequest(CurlBuilder::post(
             $this->client->getRoute()->fineTuneCancel($fine_tune_id),
-            headers: $this->client->getConfiguration()->getHeaders()
+            headers: $this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;

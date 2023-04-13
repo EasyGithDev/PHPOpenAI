@@ -26,7 +26,8 @@ class Model extends OpenAIHandler
     {
         $this->setRequest(CurlBuilder::get(
             $this->client->getRoute()->modelList(),
-            headers:$this->client->getConfiguration()->getHeaders()
+            headers:$this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -44,7 +45,8 @@ class Model extends OpenAIHandler
             headers: array_merge(
                 $this->client->getConfiguration()->getHeaders(),
                 ContentTypeEnum::JSON->toHeaderArray()
-            )
+            ),
+            params: $this->curlParams
         ));
 
         return $this;
@@ -59,7 +61,8 @@ class Model extends OpenAIHandler
     {
         $this->setRequest(CurlBuilder::delete(
             $this->client->getRoute()->modelDelete($model),
-            headers: $this->client->getConfiguration()->getHeaders()
+            headers: $this->client->getConfiguration()->getHeaders(),
+            params: $this->curlParams
         ));
 
         return $this;

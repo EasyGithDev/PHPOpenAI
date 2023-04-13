@@ -50,6 +50,7 @@ class Embedding extends OpenAIHandler
                 $this->client->getConfiguration()->getHeaders(),
                 ContentTypeEnum::JSON->toHeaderArray()
             ),
+            $this->curlParams
         ));
 
         return $this;
