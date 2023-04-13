@@ -9,7 +9,6 @@ use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\Validators\ApplicationJsonValidator;
 use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
-use PSpell\Config;
 
 /**
  * [Description OpenAIHandler]

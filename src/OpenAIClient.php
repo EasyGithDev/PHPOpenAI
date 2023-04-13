@@ -2,7 +2,6 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
-use EasyGithDev\PHPOpenAI\Contracts\Route;
 use EasyGithDev\PHPOpenAI\Contracts\RouteInterface;
 use EasyGithDev\PHPOpenAI\Handlers\Completion;
 use EasyGithDev\PHPOpenAI\Handlers\Edit;
@@ -189,10 +188,9 @@ class OpenAIClient
     public function get(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         $request = (new CurlRequest())
-            ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_GET)
-            ->setHeaders($headers);
+            ->setHeaders([...$this->getConfiguration()->getHeaders(),...$headers]);
 
         if (isset($params['stream']) && $params['stream']) {
             $request->setCallback($params['callback']);
@@ -214,11 +212,10 @@ class OpenAIClient
     public function post(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         $request = (new CurlRequest())
-            ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_POST)
             ->setPayload($body)
-            ->setHeaders($headers);
+            ->setHeaders([...$this->getConfiguration()->getHeaders(),...$headers]);
 
         if (isset($params['stream']) && $params['stream']) {
             $request->setCallback($params['callback']);
@@ -244,11 +241,10 @@ class OpenAIClient
     public function put(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         return (new CurlRequest())
-            ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_PUT)
             ->setPayload($body)
-            ->setHeaders($headers);
+            ->setHeaders([...$this->getConfiguration()->getHeaders(),...$headers]);
     }
 
 
@@ -265,11 +261,10 @@ class OpenAIClient
     public function delete(string $path, $body = null, array $headers = [], array $params = []): CurlRequest
     {
         return (new CurlRequest())
-            ->setBaseHeaders($this->getConfiguration()->getHeaders())
             ->setUrl($path)
             ->setMethod(CurlRequest::CURL_DELETE)
             ->setPayload($body)
-            ->setHeaders($headers);
+            ->setHeaders([...$this->getConfiguration()->getHeaders(),...$headers]);
     }
 
     /**

@@ -32,6 +32,8 @@ class CurlRequest
     protected string $url = '';
 
     /**
+     * Depreciate
+     *
      * @var array
      */
     protected array $baseHeaders = [];
@@ -332,6 +334,8 @@ class CurlRequest
     }
 
     /**
+     * Depreciate
+     *
      * Set the value of baseHeaders
      * @param array $baseHeaders
      *
