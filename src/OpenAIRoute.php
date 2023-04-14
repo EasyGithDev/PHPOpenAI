@@ -5,17 +5,49 @@ namespace EasyGithDev\PHPOpenAI;
 use EasyGithDev\PHPOpenAI\Contracts\RouteInterface;
 
 /**
- * [Description OpenAIConfiguration]
+ * This class allows the management of the URL
+ * and access to the different entry points of the API.
  */
 class OpenAIRoute implements RouteInterface
 {
     /**
-     * Get the API url
+     * The API url
+     * @var string
+     */
+    protected $apiUrl = '';
+
+    /**
+     * @param string|null protected $origin
+     * @param string|null protected $version
+     */
+    public function __construct(protected ?string $origin = null, protected ?string $version = null)
+    {
+        $this->origin = $origin ?? 'https://api.openai.com';
+        $this->version = $servion ?? 'v1';
+        $this->apiUrl = $this->origin . '/' . $this->version;
+    }
+
+    /**
+     * Get the value of apiUrl
      * @return string
      */
-    public function apiUrl(): string
+    public function getApiUrl(): string
     {
-        return 'https://api.openai.com/v1';
+        return $this->apiUrl;
+    }
+
+    /**
+     * Set the value of apiUrl
+     *
+     * @param string $apiUrl
+     *
+     * @return self
+     */
+    public function setApiUrl(string $apiUrl): self
+    {
+        $this->apiUrl = $apiUrl;
+
+        return $this;
     }
 
     /**
@@ -24,7 +56,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function audioTranscription(): string
     {
-        return $this->apiUrl() . '/audio/transcriptions';
+        return $this->apiUrl . '/audio/transcriptions';
     }
 
     /**
@@ -33,7 +65,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function audioTranslation(): string
     {
-        return $this->apiUrl() . '/audio/translations';
+        return $this->apiUrl . '/audio/translations';
     }
 
     /**
@@ -42,7 +74,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function chatCreate(): string
     {
-        return $this->apiUrl() . '/chat/completions';
+        return $this->apiUrl . '/chat/completions';
     }
 
     /**
@@ -51,7 +83,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function completionCreate(): string
     {
-        return $this->apiUrl() . '/completions';
+        return $this->apiUrl . '/completions';
     }
 
     /**
@@ -60,7 +92,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function editCreate(): string
     {
-        return $this->apiUrl() . '/edits';
+        return $this->apiUrl . '/edits';
     }
 
     /**
@@ -69,7 +101,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function embeddingCreate(): string
     {
-        return $this->apiUrl() . '/embeddings';
+        return $this->apiUrl . '/embeddings';
     }
 
     /**
@@ -78,7 +110,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function fileList(): string
     {
-        return $this->apiUrl() . '/files';
+        return $this->apiUrl . '/files';
     }
 
     /**
@@ -87,7 +119,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function fileCreate(): string
     {
-        return $this->apiUrl() . '/files';
+        return $this->apiUrl . '/files';
     }
 
     /**
@@ -96,7 +128,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function fileDelete($file_id): string
     {
-        return $this->apiUrl() . '/files/' . $file_id;
+        return $this->apiUrl . '/files/' . $file_id;
     }
 
     /**
@@ -104,7 +136,7 @@ class OpenAIRoute implements RouteInterface
      * @return string
      */ public function fileRetrieve($file_id): string
     {
-        return $this->apiUrl() . '/files/' . $file_id;
+        return $this->apiUrl . '/files/' . $file_id;
     }
 
     /**
@@ -113,7 +145,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function fileDownload($file_id): string
     {
-        return $this->apiUrl() . '/files/' . $file_id . '/content';
+        return $this->apiUrl . '/files/' . $file_id . '/content';
     }
 
     /**
@@ -122,7 +154,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function fineTuneList(): string
     {
-        return $this->apiUrl() . '/fine-tunes';
+        return $this->apiUrl . '/fine-tunes';
     }
 
     /**
@@ -132,7 +164,7 @@ class OpenAIRoute implements RouteInterface
 
     public function fineTuneCreate(): string
     {
-        return $this->apiUrl() . '/fine-tunes';
+        return $this->apiUrl . '/fine-tunes';
     }
 
     /**
@@ -142,7 +174,7 @@ class OpenAIRoute implements RouteInterface
 
     public function fineTunelistEvents($fine_tune_id): string
     {
-        return $this->apiUrl() . '/fine-tunes/' . $fine_tune_id . '/events';
+        return $this->apiUrl . '/fine-tunes/' . $fine_tune_id . '/events';
     }
 
     /**
@@ -152,7 +184,7 @@ class OpenAIRoute implements RouteInterface
 
     public function fineTuneRetrieve($fine_tune_id): string
     {
-        return $this->apiUrl() . '/fine-tunes/' . $fine_tune_id;
+        return $this->apiUrl . '/fine-tunes/' . $fine_tune_id;
     }
 
     /**
@@ -162,7 +194,7 @@ class OpenAIRoute implements RouteInterface
 
     public function fineTuneCancel($fine_tune_id): string
     {
-        return $this->apiUrl() . '/fine-tunes/' . $fine_tune_id . '/cancel';
+        return $this->apiUrl . '/fine-tunes/' . $fine_tune_id . '/cancel';
     }
 
     /**
@@ -171,7 +203,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function imageCreate(): string
     {
-        return $this->apiUrl() . '/images/generations';
+        return $this->apiUrl . '/images/generations';
     }
 
     /**
@@ -180,7 +212,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function imageCreateVariation(): string
     {
-        return $this->apiUrl() . '/images/variations';
+        return $this->apiUrl . '/images/variations';
     }
 
     /**
@@ -189,7 +221,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function imageCreateEdit(): string
     {
-        return $this->apiUrl() . '/images/edits';
+        return $this->apiUrl . '/images/edits';
     }
 
     /**
@@ -198,7 +230,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function modelList(): string
     {
-        return $this->apiUrl() . '/models';
+        return $this->apiUrl . '/models';
     }
 
     /**
@@ -207,7 +239,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function modelDelete($model_id): string
     {
-        return $this->apiUrl() . '/models/' . $model_id;
+        return $this->apiUrl . '/models/' . $model_id;
     }
 
     /**
@@ -216,7 +248,7 @@ class OpenAIRoute implements RouteInterface
      */
     public function modelRetrieve($model_id): string
     {
-        return $this->apiUrl() . '/models/' . $model_id;
+        return $this->apiUrl . '/models/' . $model_id;
     }
 
     /**
@@ -225,6 +257,6 @@ class OpenAIRoute implements RouteInterface
      */
     public function moderationCreate(): string
     {
-        return $this->apiUrl() . '/moderations';
+        return $this->apiUrl . '/moderations';
     }
 }

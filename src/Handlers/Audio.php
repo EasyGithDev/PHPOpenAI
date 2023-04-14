@@ -54,6 +54,10 @@ class Audio extends OpenAIHandler
             throw new ClientException("Use one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm");
         }
 
+        if (is_string($model)) {
+            $model = ModelEnum::tryFrom($model);
+        }
+
         if ($model != ModelEnum::WHISPER_1) {
             throw new ClientException("Only whisper-1 is currently available.");
         }
@@ -64,7 +68,7 @@ class Audio extends OpenAIHandler
 
         $payload = [
             "file" => curl_file_create($audioFile),
-            "model" => is_string($model) ? $model : $model->value,
+            "model" => $model->value,
             "prompt" => $prompt,
             "response_format" => is_string($response_format) ? $response_format : $response_format->value,
             "temperature" => $temperature,
@@ -106,6 +110,10 @@ class Audio extends OpenAIHandler
             throw new ClientException("Use one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm");
         }
 
+        if (is_string($model)) {
+            $model = ModelEnum::tryFrom($model);
+        }
+
         if ($model != ModelEnum::WHISPER_1) {
             throw new ClientException("Only whisper-1 is currently available.");
         }
@@ -116,7 +124,7 @@ class Audio extends OpenAIHandler
 
         $payload = [
             "file" => curl_file_create($audioFile),
-            "model" => is_string($model) ? $model : $model->value,
+            "model" => $model->value,
             "prompt" => $prompt,
             "response_format" => is_string($response_format) ? $response_format : $response_format->value,
             "temperature" => $temperature,

@@ -1,8 +1,8 @@
 # PHPOpenAI
 
-Welcome to the GitHub project page for `PHPOpenAI`, a project that enables the use of the OpenAI API in PHP. `PHPOpenAI` is an community-maintained library.
+`PHPOpenAI` is a community-maintained library that enables the use of the `OpenAI` API in PHP.
 
-The project is written in PHP and can be used to easily integrate the `OpenAI API` into your existing PHP project. The OpenAI API provides natural language processing tools for text classification, image generation and named entity recognition.
+The project is written in PHP and can be used to easily integrate the `OpenAI API` into your existing PHP project.
 
 ## System Requirements
 
@@ -28,6 +28,7 @@ composer require easygithdev/php-openai
 To use the `OpenAI API`, you need to sign up on their website and obtain an API key. Once you have your API key, you can use it in your PHP code to send requests to the OpenAI API.
 
 To find out how to get your key, go to the following address:
+
 [https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
 
 
@@ -63,8 +64,6 @@ The result of the completion is returned in the `$response` variable. The result
 
 ## Manage the API Key
 
-### First possibility
-
 You can use an environment variable to store your key. You can then use this variable as in the following example:
 
 ```bash
@@ -93,37 +92,42 @@ $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Completion()->create(
 );
 ```
 
-### Second possibility
+## Manage the organization
 
-You can create a file containing the key :
+If you wish to provide information about your organization, you must proceed as follows.
 
 ```php
 <?php
-$configFile = '/YOUR/PATH/TO/THE/FILE/key.php';
+$apiKey = getenv('OPENAI_API_KEY');
+$org = getenv('MY_ORG');
+
+// Create a new configuration object
+// with the key and the organization
+$config = new OpenAIConfiguration($apiKey, $org);
+
+// Passing the configuration to the client
+$client = new OpenAIClient($config);
 ```
 
-The contents of the "key.php" file are as follows:
+## Manage the API's Url
+
+If you need to modify the API's URL, you can proceed as follows:
 
 ```php
 <?php
-return 'sk-xxxxxxxxxxx';
-```
+$apiKey = getenv('OPENAI_API_KEY');
 
-You can then use this variable as in the following example:
-
-```php
-<?php
-if (!file_exists($configFile)) {
-    throw new \Exception("Unable to locate the configuration file");
-}
-
-$apiKey = require $configFile;
-
-$response = (new OpenAIApi($apiKey))->Completion()->create(
-    ModelEnum::TEXT_DAVINCI_003,
-    "Say this is a test",
+// Create a new router, with origine url and version
+$route = new OpenAIRoute(
+    'https://api.openai.com',
+    'v1'
 );
+
+// Passing the router to the client
+$client = new OpenAIClient($apiKey, $route);
 ```
+
+To redefine a route, you need to extend the `OpenAIRoute` class or implement the `Route` interface.
 
 ## Manage the reponses
 
@@ -406,11 +410,13 @@ $response = (new OpenAIClient($apiKey))->Embedding()->create(
 ### Audio Transcription (Speech to text) using Whisper
 
 ```php
-$response = (new OpenAIClient($apiKey))->Audio()->transcription(
-    __DIR__ . '/../../assets/openai.mp3',
-    ModelEnum::WHISPER_1,
-    audioResponse: AudioResponseEnum::SRT
-)->toObject();
+$response = (new OpenAIClient($apiKey))->Audio()
+    ->addCurlParam('timeout', 30)
+    ->transcription(
+        __DIR__ . '/../../assets/openai.mp3',
+        ModelEnum::WHISPER_1,
+        response_format: AudioResponseEnum::SRT
+    )->toObject();
 ```
 
 [Learn more about audio transcription](https://platform.openai.com/docs/guides/speech-to-text).
@@ -418,11 +424,13 @@ $response = (new OpenAIClient($apiKey))->Audio()->transcription(
 ### Audio Translation (Speech to text) using Whisper
 
 ```php
-$response = (new OpenAIClient($apiKey))->Audio()->translation(
-    __DIR__ . '/../../assets/openai_fr.mp3',
-    ModelEnum::WHISPER_1,
-    audioResponse: AudioResponseEnum::TEXT
-)->toObject();
+$response = (new OpenAIClient($apiKey))->Audio()
+    ->addCurlParam('timeout', 30)
+    ->translation(
+        __DIR__ . '/../../assets/openai_fr.mp3',
+        'whisper-1',
+        response_format: AudioResponseEnum::TEXT
+    )->toObject();
 ```
 
 [Learn more about audio translation](https://platform.openai.com/docs/guides/speech-to-text/translations).

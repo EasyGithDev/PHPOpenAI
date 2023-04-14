@@ -4,7 +4,8 @@ namespace EasyGithDev\PHPOpenAI\Contracts;
 
 interface RouteInterface
 {
-    public function apiUrl(): string;
+    public function getApiUrl(): string;
+    public function setApiUrl(string $apiUrl): self;
     public function audioTranscription(): string;
     public function audioTranslation(): string;
     public function chatCreate(): string;
