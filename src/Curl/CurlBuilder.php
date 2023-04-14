@@ -23,9 +23,7 @@ class CurlBuilder
             ->setMethod(CurlRequest::CURL_GET)
             ->setHeaders($headers);
 
-        if (isset($params['stream']) && $params['stream']) {
-            $request->setCallback($params['callback']);
-        }
+        static::applyParams($request, $params);
 
         return $request;
     }
@@ -48,13 +46,7 @@ class CurlBuilder
             ->setPayload($body)
             ->setHeaders($headers);
 
-        if (isset($params['stream']) && $params['stream']) {
-            $request->setCallback($params['callback']);
-        }
-
-        if (isset($params['timeout']) && $params['timeout']) {
-            $request->setTimeout($params['timeout']);
-        }
+        static::applyParams($request, $params);
 
         return $request;
     }
@@ -78,7 +70,6 @@ class CurlBuilder
             ->setHeaders($headers);
     }
 
-
     /**
      * Build a DELETE HTTP request
      *
@@ -96,5 +87,19 @@ class CurlBuilder
             ->setMethod(CurlRequest::CURL_DELETE)
             ->setPayload($body)
             ->setHeaders($headers);
+    }
+
+    /**
+     * Apply the parameters to the CurlObject
+     * @param CurlRequest $request
+     * @param array $params
+     *
+     * @return void
+     */
+    protected static function applyParams(CurlRequest $request, array $params): void
+    {
+        array_walk($params, function ($value, $key) use ($request) {
+            $request->$key($value);
+        });
     }
 }

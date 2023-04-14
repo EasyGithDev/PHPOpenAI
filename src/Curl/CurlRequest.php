@@ -75,6 +75,11 @@ class CurlRequest
     protected int $maxRedirect = 10;
 
     /**
+     * @var bool
+     */
+    protected bool $debug = false;
+
+    /**
      */
     public function __construct()
     {
@@ -128,17 +133,43 @@ class CurlRequest
     }
 
     /**
-     * @param string $filename
-     *
+     * Enable / disable the debug mode
      * @return self
      */
-    public function verboseEnabled(string $filename): self
+    public function setDebug(bool $debug): self
     {
-        $fp = fopen($filename, 'w');
-        curl_setopt($this->ch, CURLOPT_VERBOSE, 1);
-        curl_setopt($this->ch, CURLOPT_STDERR, $fp);
-
+        $this->debug = $debug;
         return $this;
+    }
+
+    /**
+     * Start the debug mode
+     * @return mixed
+     */
+    protected function startDebug(): mixed
+    {
+        //open a temporary stream to output the curl log, which would normally got to STDERR
+        $err = fopen("php://temp", "w+");
+        curl_setopt($this->ch, CURLOPT_VERBOSE, true);
+        curl_setopt($this->ch, CURLOPT_STDERR, $err);
+
+        return $err;
+    }
+
+    /**
+     * Stop the debug mode and return
+     * the result as a string
+     * @param mixed $err
+     *
+     * @return string
+     */
+    protected function stopDebug(mixed $err): string
+    {
+        //rewind the temp stream and put it into a string
+        rewind($err);
+        $log = stream_get_contents($err);
+        fclose($err);
+        return $log;
     }
 
     /**
@@ -148,17 +179,27 @@ class CurlRequest
     {
         $this->prepare();
 
+        if ($this->debug) {
+            $handle = $this->startDebug();
+        }
+
         $body = curl_exec($this->ch);
 
         if (curl_errno($this->ch)) {
             throw new \RuntimeException('CurlRequest error : ' . curl_error($this->ch));
         }
 
-        $curlinfo = curl_getinfo($this->ch);
+        $curlLog = '';
+        if ($this->debug) {
+            $curlLog = $this->stopDebug($handle);
+        }
+
+        $curlInfo = curl_getinfo($this->ch);
 
         return [
-            'curlinfo' => $curlinfo,
-            'body' => $body
+            'curlinfo' => $curlInfo,
+            'body' => $body,
+            'curllog' => $curlLog
         ];
     }
 
@@ -188,7 +229,7 @@ class CurlRequest
      *
      * @return self
      */
-    public function setCallback(Closure $callback): self
+    public function setStream(Closure $callback): self
     {
         $this->callback = $callback;
         return $this;
@@ -321,5 +362,13 @@ class CurlRequest
         $this->maxRedirect = $maxRedirect;
 
         return $this;
+    }
+
+    public function __call($method, $args)
+    {
+        $method = "set$method";
+        if (method_exists($this, $method)) {
+            $this->$method($args[0]);
+        }
     }
 }

@@ -65,6 +65,15 @@ class CurlResponse implements \JsonSerializable
     }
 
     /**
+     * Get the value of the curl log
+     * @return string
+     */
+    public function getLog(): string
+    {
+        return $this->infos['curllog'];
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize(): array
