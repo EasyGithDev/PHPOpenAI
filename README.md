@@ -92,6 +92,43 @@ $response = (new OpenAIApi(getenv('OPENAI_API_KEY')))->Completion()->create(
 );
 ```
 
+## Manage the organization
+
+If you wish to provide information about your organization, you must proceed as follows.
+
+```php
+<?php
+$apiKey = getenv('OPENAI_API_KEY');
+$org = getenv('MY_ORG');
+
+// Create a new configuration object
+// with the key and the organization
+$config = new OpenAIConfiguration($apiKey, $org);
+
+// Passing the configuration to the client
+$client = new OpenAIClient($config);
+```
+
+## Manage the API's Url
+
+If you need to modify the API's URL, you can proceed as follows:
+
+```php
+<?php
+$apiKey = getenv('OPENAI_API_KEY');
+
+// Create a new router, with origine url and version
+$route = new OpenAIRoute(
+    'https://api.openai.com',
+    'v1'
+);
+
+// Passing the router to the client
+$client = new OpenAIClient($apiKey, $route);
+```
+
+To redefine a route, you need to extend the `OpenAIRoute` class or implement the `Route` interface.
+
 ## Manage the reponses
 
 The API returns responses in JSON format. To facilitate access to the different information, you can call `toObject()` or `toArray()` methods  of the Handler object to access the data.
