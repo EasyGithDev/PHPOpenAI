@@ -105,7 +105,7 @@ abstract class OpenAIHandler
      * Add an additionnal parameter for curl request
      * @param string $key
      * @param mixed $value
-     * 
+     *
      * @return [type]
      */
     public function addCurlParam(string $key, mixed $value)

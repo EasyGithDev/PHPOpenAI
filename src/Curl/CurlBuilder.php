@@ -51,7 +51,7 @@ class CurlBuilder
         if (isset($params['stream']) && $params['stream']) {
             $request->setCallback($params['callback']);
         }
-        
+
         if (isset($params['timeout']) && $params['timeout']) {
             $request->setTimeout($params['timeout']);
         }
