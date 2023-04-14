@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Contracts\HeaderInterface;
 use EasyGithDev\PHPOpenAI\Contracts\RouteInterface;
 use EasyGithDev\PHPOpenAI\Handlers\Completion;
 use EasyGithDev\PHPOpenAI\Handlers\Edit;
@@ -18,34 +19,58 @@ use EasyGithDev\PHPOpenAI\Handlers\Embedding;
 use EasyGithDev\PHPOpenAI\Handlers\FineTune;
 
 /**
- * [Description OpenAIClient]
+ * This class is responsible for managing the URL
+ * and accessing the different entry points of the API.
+ *
+ * It has a constructor that takes an object or a string to manage the API key,
+ * and an optional RouteInterface object to manage the entries.
+ *
+ * The class also has several methods that retrieve different handlers for interacting with the API,
+ * including Model(), Completion(), Edit(), Chat(), Image(), Audio(), Moderation(), File(), FineTune(), and Embedding().
+ * Each of these methods returns a different type of handler object for performing specific tasks with the API.
+ *
+ * The sendRequest() method is used to perform an HTTP request,
+ * taking a CurlRequest object as a parameter, and returning a CurlResponse object.
  */
 class OpenAIClient
 {
     /**
-     * @var OpenAIConfiguration
+     * @var HeaderInterface
      */
-    protected OpenAIConfiguration $configuration;
+    protected HeaderInterface $configuration;
 
     /**
      * Build a HTTP client
-     * @param OpenAIConfiguration|string $var
+     * @param HeaderInterface|string $var
      */
-    public function __construct(OpenAIConfiguration|string $var, protected ?RouteInterface $route = null)
+    public function __construct(HeaderInterface|string $var, protected ?RouteInterface $route = null)
     {
         if (is_string($var) && empty($var)) {
             throw new ClientException("The API key can not be empty");
         }
 
-        if (is_a($var, OpenAIConfiguration::class) && is_null($var)) {
+        if (is_a($var, HeaderInterface::class) && is_null($var)) {
             throw new ClientException("The configuration can not be null");
         }
 
-        $this->configuration = (is_string($var)) ? OpenAIConfiguration::Configuration($var) : $var;
+        $this->configuration = (is_string($var)) ? static::createConfiguration($var) : $var;
 
         if (is_null($route)) {
             $this->route = new OpenAIRoute();
         }
+    }
+
+    /**
+     * Build the configuration headers needed by the api
+     * 
+     * @param string $apiKey
+     * @param string $organization
+     * 
+     * @return self
+     */
+    public static function createConfiguration(string $apiKey, string $organization = ''): HeaderInterface
+    {
+        return new OpenAIConfiguration($apiKey, $organization);
     }
 
     /**
@@ -149,9 +174,9 @@ class OpenAIClient
 
     /**
      * Get the value of configuration
-     * @return OpenAIConfiguration
+     * @return HeaderInterface
      */
-    public function getConfiguration(): OpenAIConfiguration
+    public function getConfiguration(): HeaderInterface
     {
         return $this->configuration;
     }

@@ -6,17 +6,18 @@ use EasyGithDev\PHPOpenAI\Contracts\HeaderInterface;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
 
 /**
- * [Description OpenAIConfiguration]
+ * The OpenAIConfiguration class is responsible
+ * for constructing the necessary HTTP headers for making requests to the OpenAI API.
+ *
+ * It has a constructor that takes two parameters: the apiKey and the optional organization.
+ * The apiKey is required and if empty, it throws a ClientException.
+ *
+ * It adds an "Authorization" header with the apiKey value using the "Bearer" scheme.
+ *
+ * If an organization is provided, it also adds an "OpenAI-Organization" header with the organization value.
  */
 class OpenAIConfiguration implements HeaderInterface
 {
-    /**
-     * Depreciate
-     * The API url
-     * @var string
-     */
-    protected string $apiUrl = 'https://api.openai.com/v1';
-
     /**
      * The HTTP headers
      * @var array
@@ -39,44 +40,6 @@ class OpenAIConfiguration implements HeaderInterface
         if (!empty($organization)) {
             $this->addHeader("OpenAI-Organization: $organization");
         }
-    }
-
-    /**
-     * Build the configuration headers needed by the api
-     *
-     * @param string $apiKey
-     * @param string $organization
-     *
-     * @return OpenAIConfiguration
-     */
-    public static function Configuration(string $apiKey, string $organization = ''): OpenAIConfiguration
-    {
-        return new OpenAIConfiguration($apiKey, $organization);
-    }
-
-    /**
-     * Depreciate
-     * Get the value of apiUrl
-     * @return string
-     */
-    public function getApiUrl(): string
-    {
-        return $this->apiUrl;
-    }
-
-    /**
-     * Depreciate
-     * Set the value of apiUrl
-     *
-     * @param string $apiUrl
-     *
-     * @return self
-     */
-    public function setApiUrl(string $apiUrl): self
-    {
-        $this->apiUrl = $apiUrl;
-
-        return $this;
     }
 
     /**

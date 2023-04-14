@@ -11,7 +11,24 @@ use EasyGithDev\PHPOpenAI\Validators\ApplicationJsonValidator;
 use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
 
 /**
- * [Description OpenAIHandler]
+ * This abstract class defines methods for handling HTTP requests and responses to the OpenAI API.
+ *
+ * Here are the key features of this class:
+ *
+ * It has a property named $request which represents
+ * the HTTP request to be sent to the API.
+ *
+ * It has a property named $response which represents
+ * the HTTP response returned by the API.
+ *
+ * It has a property named $client of type OpenAIClient,
+ * which is used to send the HTTP request and receive the response.
+ *
+ * It has a property named $contentTypeValidator which is used
+ * to validate the content type of the response received from the API.
+ *
+ * It has a property named $curlParams which contains
+ * additional parameters to be included in the HTTP request.
  */
 abstract class OpenAIHandler
 {
