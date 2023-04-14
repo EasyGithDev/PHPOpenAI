@@ -45,8 +45,7 @@ class FineTune extends OpenAIHandler
     public function listEvents(string $fine_tune_id, bool $stream = false): self
     {
         if ($stream) {
-            $this->curlParams['callback'] = $this->getCallback();
-            $this->curlParams['stream'] = $stream;
+            $this->curlParams['stream'] = $this->getCallback();
         }
 
         $this->setRequest(CurlBuilder::get(

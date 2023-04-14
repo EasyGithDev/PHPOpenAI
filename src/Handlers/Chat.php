@@ -111,8 +111,7 @@ class Chat extends OpenAIHandler
 
         if ($stream) {
             $payload["stream"] = $stream;
-            $this->curlParams['callback'] = $this->getCallback();
-            $this->curlParams['stream'] = $stream;
+            $this->curlParams['stream'] = $this->getCallback();
         }
 
         if (!is_null($stop)) {

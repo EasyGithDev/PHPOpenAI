@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Contracts\HandlerInterface;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
 use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
@@ -30,7 +31,7 @@ use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
  * It has a property named $curlParams which contains
  * additional parameters to be included in the HTTP request.
  */
-abstract class OpenAIHandler
+abstract class OpenAIHandler implements HandlerInterface
 {
     /**
      * The HTTP request
@@ -123,9 +124,9 @@ abstract class OpenAIHandler
      * @param string $key
      * @param mixed $value
      *
-     * @return [type]
+     * @return self
      */
-    public function addCurlParam(string $key, mixed $value)
+    public function addCurlParam(string $key, mixed $value): self
     {
         if (!\is_null($this->request)) {
             throw new ClientException('Params must be configured before request.');

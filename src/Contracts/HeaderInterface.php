@@ -4,7 +4,6 @@ namespace EasyGithDev\PHPOpenAI\Contracts;
 
 interface HeaderInterface
 {
-
     /**
      * Get the value of headers
      * @return array

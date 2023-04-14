@@ -5,7 +5,11 @@ namespace EasyGithDev\PHPOpenAI\Curl;
 use Closure;
 
 /**
- * [Description CurlRequest]
+ * CurlRequest provides a simple and convenient interface
+ * for making HTTP requests using the cURL library.
+ *
+ * The class allows making GET, POST, PUT, DELETE, and PATCH requests,
+ * and can handle request headers and payloads.
  */
 class CurlRequest
 {
@@ -21,22 +25,9 @@ class CurlRequest
     protected ?\CurlHandle $ch = null;
 
     /**
-     * Depreciate
-     * @var string
-     */
-    protected string $baseUrl = '';
-
-    /**
      * @var string
      */
     protected string $url = '';
-
-    /**
-     * Depreciate
-     *
-     * @var array
-     */
-    protected array $baseHeaders = [];
 
     /**
      * @var array
@@ -71,7 +62,7 @@ class CurlRequest
     /**
      * @var null
      */
-    protected ?Closure $callback = null;
+    protected ?Closure $writeFunction = null;
 
     /**
      * @var bool
@@ -82,6 +73,11 @@ class CurlRequest
      * @var int
      */
     protected int $maxRedirect = 10;
+
+    /**
+     * @var bool
+     */
+    protected bool $debug = false;
 
     /**
      */
@@ -103,14 +99,11 @@ class CurlRequest
      */
     protected function prepare(): void
     {
-        $url = $this->baseUrl . $this->url;
-        $headers = array_merge($this->baseHeaders, $this->headers);
-
-        if (empty($url)) {
+        if (empty($this->url)) {
             throw new \Exception('Url is required');
         }
 
-        curl_setopt($this->ch, CURLOPT_URL, $url);
+        curl_setopt($this->ch, CURLOPT_URL, $this->url);
 
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $this->method);
 
@@ -119,16 +112,16 @@ class CurlRequest
             curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
         }
 
-        if (count($headers)) {
-            curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
+        if (count($this->headers)) {
+            curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
         }
 
         if ($this->returnTransfer) {
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, $this->returnTransfer);
         }
 
-        if (!is_null($this->callback)) {
-            curl_setopt($this->ch, CURLOPT_WRITEFUNCTION, $this->callback);
+        if (!is_null($this->writeFunction)) {
+            curl_setopt($this->ch, CURLOPT_WRITEFUNCTION, $this->writeFunction);
         }
 
         curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, $this->followLocation);
@@ -140,17 +133,43 @@ class CurlRequest
     }
 
     /**
-     * @param string $filename
-     *
+     * Enable / disable the debug mode
      * @return self
      */
-    public function verboseEnabled(string $filename): self
+    public function setDebug(bool $debug): self
     {
-        $fp = fopen($filename, 'w');
-        curl_setopt($this->ch, CURLOPT_VERBOSE, 1);
-        curl_setopt($this->ch, CURLOPT_STDERR, $fp);
-
+        $this->debug = $debug;
         return $this;
+    }
+
+    /**
+     * Start the debug mode
+     * @return mixed
+     */
+    protected function startDebug(): mixed
+    {
+        //open a temporary stream to output the curl log, which would normally got to STDERR
+        $err = fopen("php://temp", "w+");
+        curl_setopt($this->ch, CURLOPT_VERBOSE, true);
+        curl_setopt($this->ch, CURLOPT_STDERR, $err);
+
+        return $err;
+    }
+
+    /**
+     * Stop the debug mode and return
+     * the result as a string
+     * @param mixed $err
+     *
+     * @return string
+     */
+    protected function stopDebug(mixed $err): string
+    {
+        //rewind the temp stream and put it into a string
+        rewind($err);
+        $log = stream_get_contents($err);
+        fclose($err);
+        return $log;
     }
 
     /**
@@ -160,17 +179,27 @@ class CurlRequest
     {
         $this->prepare();
 
+        if ($this->debug) {
+            $handle = $this->startDebug();
+        }
+
         $body = curl_exec($this->ch);
 
         if (curl_errno($this->ch)) {
             throw new \RuntimeException('CurlRequest error : ' . curl_error($this->ch));
         }
 
-        $curlinfo = curl_getinfo($this->ch);
+        $curlLog = '';
+        if ($this->debug) {
+            $curlLog = $this->stopDebug($handle);
+        }
+
+        $curlInfo = curl_getinfo($this->ch);
 
         return [
-            'curlinfo' => $curlinfo,
-            'body' => $body
+            'curlinfo' => $curlInfo,
+            'body' => $body,
+            'curllog' => $curlLog
         ];
     }
 
@@ -181,6 +210,7 @@ class CurlRequest
     {
         if (!is_null($this->ch)) {
             curl_close($this->ch);
+            $this->ch = null;
         }
     }
 
@@ -196,13 +226,13 @@ class CurlRequest
     }
 
     /**
-     * @param Closure $callback
+     * @param Closure $writeFunction
      *
      * @return self
      */
-    public function setCallback(Closure $callback): self
+    public function setStream(Closure $writeFunction): self
     {
-        $this->callback = $callback;
+        $this->writeFunction = $writeFunction;
         return $this;
     }
 
@@ -287,31 +317,6 @@ class CurlRequest
     }
 
     /**
-     * Depreciate
-     * Get the value of baseUrl
-     * @return string
-     */
-    public function getBaseUrl(): string
-    {
-        return $this->baseUrl;
-    }
-
-    /**
-     * Depreciate
-     * Set the value of baseUrl
-     *
-     * @param string $baseUrl
-     *
-     * @return self
-     */
-    public function setBaseUrl(string $baseUrl): self
-    {
-        $this->baseUrl = $baseUrl;
-
-        return $this;
-    }
-
-    /**
      * Get the value of url
      * @return string
      */
@@ -329,21 +334,6 @@ class CurlRequest
     public function setUrl(string $url): self
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Depreciate
-     *
-     * Set the value of baseHeaders
-     * @param array $baseHeaders
-     *
-     * @return self
-     */
-    public function setBaseHeaders(array $baseHeaders): self
-    {
-        $this->baseHeaders = $baseHeaders;
 
         return $this;
     }
@@ -373,5 +363,13 @@ class CurlRequest
         $this->maxRedirect = $maxRedirect;
 
         return $this;
+    }
+
+    public function __call($method, $args)
+    {
+        $method = "set$method";
+        if (method_exists($this, $method)) {
+            $this->$method($args[0]);
+        }
     }
 }

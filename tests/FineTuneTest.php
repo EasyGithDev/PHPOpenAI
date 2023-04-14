@@ -13,7 +13,7 @@ final class FineTuneTest extends TestCase
         $handler =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->FineTune()
             ->list();
-            
+
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
 
@@ -39,7 +39,7 @@ final class FineTuneTest extends TestCase
 
         $this->assertEquals(true, (new StatusValidator($response))->validate());
         $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
-        return $response->toObject()->id;
+        return json_decode($response)->id;
     }
 
     /**
@@ -87,7 +87,7 @@ final class FineTuneTest extends TestCase
         $handler =  (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->FineTune()
             ->cancel($fine_tune_id);
-            
+
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
 
