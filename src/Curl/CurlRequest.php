@@ -5,7 +5,11 @@ namespace EasyGithDev\PHPOpenAI\Curl;
 use Closure;
 
 /**
- * [Description CurlRequest]
+ * CurlRequest provides a simple and convenient interface
+ * for making HTTP requests using the cURL library.
+ *
+ * The class allows making GET, POST, PUT, DELETE, and PATCH requests,
+ * and can handle request headers and payloads.
  */
 class CurlRequest
 {
@@ -21,22 +25,9 @@ class CurlRequest
     protected ?\CurlHandle $ch = null;
 
     /**
-     * Depreciate
-     * @var string
-     */
-    protected string $baseUrl = '';
-
-    /**
      * @var string
      */
     protected string $url = '';
-
-    /**
-     * Depreciate
-     *
-     * @var array
-     */
-    protected array $baseHeaders = [];
 
     /**
      * @var array
@@ -103,14 +94,11 @@ class CurlRequest
      */
     protected function prepare(): void
     {
-        $url = $this->baseUrl . $this->url;
-        $headers = array_merge($this->baseHeaders, $this->headers);
-
-        if (empty($url)) {
+        if (empty($this->url)) {
             throw new \Exception('Url is required');
         }
 
-        curl_setopt($this->ch, CURLOPT_URL, $url);
+        curl_setopt($this->ch, CURLOPT_URL, $this->url);
 
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $this->method);
 
@@ -119,8 +107,8 @@ class CurlRequest
             curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->payload);
         }
 
-        if (count($headers)) {
-            curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
+        if (count($this->headers)) {
+            curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
         }
 
         if ($this->returnTransfer) {
@@ -287,31 +275,6 @@ class CurlRequest
     }
 
     /**
-     * Depreciate
-     * Get the value of baseUrl
-     * @return string
-     */
-    public function getBaseUrl(): string
-    {
-        return $this->baseUrl;
-    }
-
-    /**
-     * Depreciate
-     * Set the value of baseUrl
-     *
-     * @param string $baseUrl
-     *
-     * @return self
-     */
-    public function setBaseUrl(string $baseUrl): self
-    {
-        $this->baseUrl = $baseUrl;
-
-        return $this;
-    }
-
-    /**
      * Get the value of url
      * @return string
      */
@@ -329,21 +292,6 @@ class CurlRequest
     public function setUrl(string $url): self
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Depreciate
-     *
-     * Set the value of baseHeaders
-     * @param array $baseHeaders
-     *
-     * @return self
-     */
-    public function setBaseHeaders(array $baseHeaders): self
-    {
-        $this->baseHeaders = $baseHeaders;
 
         return $this;
     }

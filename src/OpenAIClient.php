@@ -62,10 +62,10 @@ class OpenAIClient
 
     /**
      * Build the configuration headers needed by the api
-     * 
+     *
      * @param string $apiKey
      * @param string $organization
-     * 
+     *
      * @return self
      */
     public static function createConfiguration(string $apiKey, string $organization = ''): HeaderInterface

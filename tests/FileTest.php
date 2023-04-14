@@ -34,7 +34,7 @@ final class FileTest extends TestCase
 
         $this->assertEquals(true, (new StatusValidator($response))->validate());
         $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
-        return $response->toObject()->id;
+        return json_decode($response)->id;
     }
 
     /**
