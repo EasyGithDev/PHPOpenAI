@@ -62,7 +62,7 @@ class CurlRequest
     /**
      * @var null
      */
-    protected ?Closure $callback = null;
+    protected ?Closure $writeFunction = null;
 
     /**
      * @var bool
@@ -120,8 +120,8 @@ class CurlRequest
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, $this->returnTransfer);
         }
 
-        if (!is_null($this->callback)) {
-            curl_setopt($this->ch, CURLOPT_WRITEFUNCTION, $this->callback);
+        if (!is_null($this->writeFunction)) {
+            curl_setopt($this->ch, CURLOPT_WRITEFUNCTION, $this->writeFunction);
         }
 
         curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, $this->followLocation);
@@ -210,6 +210,7 @@ class CurlRequest
     {
         if (!is_null($this->ch)) {
             curl_close($this->ch);
+            $this->ch = null;
         }
     }
 
@@ -225,13 +226,13 @@ class CurlRequest
     }
 
     /**
-     * @param Closure $callback
+     * @param Closure $writeFunction
      *
      * @return self
      */
-    public function setStream(Closure $callback): self
+    public function setStream(Closure $writeFunction): self
     {
-        $this->callback = $callback;
+        $this->writeFunction = $writeFunction;
         return $this;
     }
 

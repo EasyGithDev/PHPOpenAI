@@ -3,7 +3,9 @@
 namespace EasyGithDev\PHPOpenAI\Curl;
 
 /**
- * [Description CurlRequest]
+ * This class contains static methods for building HTTP requests using cURL library.
+ * The class provides methods to build GET, POST, PUT, and DELETE requests,
+ * each accepting various parameters such as URL, headers, and body.
  */
 class CurlBuilder
 {
