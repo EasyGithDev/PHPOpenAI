@@ -210,7 +210,6 @@ You can find the code here:
 
 [https://github.com/EasyGithDev/PHPOpenAI-Playground.git](https://github.com/EasyGithDev/PHPOpenAI-Playground.git).
 
-
 ## Code samples
 
 Integrating OpenAI into your application is now as simple as a few lines of code.
