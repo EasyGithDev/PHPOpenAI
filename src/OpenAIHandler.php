@@ -3,13 +3,11 @@
 namespace EasyGithDev\PHPOpenAI;
 
 use EasyGithDev\PHPOpenAI\Contracts\HandlerInterface;
+use EasyGithDev\PHPOpenAI\Curl\CurlOutput;
 use EasyGithDev\PHPOpenAI\Curl\CurlRequest;
 use EasyGithDev\PHPOpenAI\Curl\CurlResponse;
-use EasyGithDev\PHPOpenAI\Exceptions\ApiException;
 use EasyGithDev\PHPOpenAI\Exceptions\ClientException;
-use EasyGithDev\PHPOpenAI\Helpers\ContentTypeEnum;
 use EasyGithDev\PHPOpenAI\Validators\ApplicationJsonValidator;
-use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
 
 /**
  * This abstract class defines methods for handling HTTP requests and responses to the OpenAI API.
@@ -138,96 +136,15 @@ abstract class OpenAIHandler implements HandlerInterface
     }
 
     /**
-     * Check the status code ans the content type
-     * of the response. It will throw an exception if
-     * an error is occuring
-     * @param CurlResponse $response
-     *
-     * @return self
-     */
-    protected function checkResponse(CurlResponse $response): self
-    {
-        if (!(new StatusValidator($response))->validate()) {
-            throw new ApiException($this->formatError($response));
-        }
-
-        if (!(new $this->contentTypeValidator($response))->validate()) {
-            throw new ApiException(\sprintf('Unsupported content type: %s', $response->getHeaderLine('Content-Type')));
-        }
-
-        return $this;
-    }
-
-    /**
-     * Transform the body of the response into array
-     * or object
-     * @param CurlResponse $response
-     * @param bool $asArray
-     *
-     * @return array|\stdClass
-     */
-    protected function decodeResponse(CurlResponse $response, bool $asArray = false): array|\stdClass
-    {
-        if (ContentTypeEnum::tryFrom($response->getHeaderLine()) != ContentTypeEnum::JSON) {
-            if ($asArray) {
-                return ['text' => $response->getBody()];
-            } else {
-                $obj = new \stdClass();
-                $obj->text = $response->getBody();
-                return $obj;
-            }
-        }
-
-        $body =  json_decode($response, $asArray);
-
-        if (\json_last_error()) {
-            throw new ApiException(
-                'Failed to parse JSON response body: ' . \json_last_error_msg()
-            );
-        }
-
-        return $body;
-    }
-
-    /**
-     * Format the response error into a trsing
-     * @param CurlResponse $response
-     *
-     * @return string
-     */
-    protected function formatError(CurlResponse $response): string
-    {
-        $body = json_decode($response);
-
-        if (\json_last_error()) {
-            return \sprintf(
-                "status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n",
-                $response->getStatusCode(),
-                $response->getBody(),
-                '',
-                '',
-                '',
-            );
-        }
-
-        return \sprintf(
-            "status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n",
-            $response->getStatusCode(),
-            $body->error->message,
-            $body->error->type,
-            $body->error->param,
-            $body->error->code,
-        );
-    }
-
-    /**
      * Get an array response from the handler
      * @return array
      */
     public function toArray(): array
     {
-        $response = $this->getResponse();
-        return $this->checkResponse($response)->decodeResponse($response, true);
+        return (new CurlOutput($this->getResponse()))
+            ->checkStatus()
+            ->checkContentType($this->getContentTypeValidator())
+            ->decodeResponse(true);
     }
 
     /**
@@ -237,7 +154,9 @@ abstract class OpenAIHandler implements HandlerInterface
      */
     public function toObject(): \stdClass
     {
-        $response = $this->getResponse();
-        return $this->checkResponse($response)->decodeResponse($response);
+        return (new CurlOutput($this->getResponse()))
+            ->checkStatus()
+            ->checkContentType($this->getContentTypeValidator())
+            ->decodeResponse();
     }
 }
