@@ -208,7 +208,7 @@ https://user-images.githubusercontent.com/3519890/230593418-22f26562-e88c-4a92-9
 
 You can find the code here:
 
-[https://github.com/EasyGithDev/dall-e-playground](https://github.com/EasyGithDev/dall-e-playground).
+[https://github.com/EasyGithDev/PHPOpenAI-Playground.git](https://github.com/EasyGithDev/PHPOpenAI-Playground.git).
 
 
 ## Code samples
