@@ -201,7 +201,7 @@ abstract class OpenAIHandler implements HandlerInterface
 
         if (\json_last_error()) {
             return \sprintf(
-                'status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n',
+                "status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n",
                 $response->getStatusCode(),
                 $response->getBody(),
                 '',
@@ -211,7 +211,7 @@ abstract class OpenAIHandler implements HandlerInterface
         }
 
         return \sprintf(
-            'status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n',
+            "status: %s\nmessage: %s\ntype: %s\param: %s\ncode: %s\n",
             $response->getStatusCode(),
             $body->error->message,
             $body->error->type,
