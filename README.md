@@ -99,14 +99,10 @@ If you wish to provide information about your organization, you must proceed as 
 ```php
 <?php
 $apiKey = getenv('OPENAI_API_KEY');
-$org = getenv('MY_ORG');
+$org = getenv('OPENAI_API_ORG');
 
-// Create a new configuration object
-// with the key and the organization
-$config = new OpenAIConfiguration($apiKey, $org);
-
-// Passing the configuration to the client
-$client = new OpenAIClient($config);
+// Passing the organization to the client
+$response = (new OpenAIClient($apiKey, $org))
 ```
 
 ## Manage the API's Url
@@ -123,8 +119,12 @@ $route = new OpenAIRoute(
     'v1'
 );
 
+// Get a specific Url
+echo $route->completionCreate() , '<br>';
+
 // Passing the router to the client
-$client = new OpenAIClient($apiKey, $route);
+$response = (new OpenAIClient($apiKey))
+    ->setRoute($route);
 ```
 
 To redefine a route, you need to extend the `OpenAIRoute` class or implement the `Route` interface.
