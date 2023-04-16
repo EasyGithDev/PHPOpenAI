@@ -31,15 +31,8 @@ class OpenAIConfiguration implements HeaderInterface
      */
     public function __construct(string $apiKey, string $organization = '')
     {
-        if (empty($apiKey)) {
-            throw new ClientException('apiKey can not be empty');
-        }
-
-        $this->addHeader("Authorization: Bearer $apiKey");
-
-        if (!empty($organization)) {
-            $this->addHeader("OpenAI-Organization: $organization");
-        }
+        $this->setApiKey($apiKey);
+        $this->setOrganization($organization);
     }
 
     /**
@@ -66,14 +59,65 @@ class OpenAIConfiguration implements HeaderInterface
     }
 
     /**
-     * Adding an element to the headers
+     * Adding the api key to the headers
+     * @param array $apiKey
+     *
+     * @return self
+     */
+    public function setApiKey(string $apiKey): self
+    {
+        if (empty($apiKey)) {
+            throw new ClientException('apiKey can not be empty');
+        }
+
+        $this->addHeader("Authorization: Bearer $apiKey");
+
+        return $this;
+    }
+
+    /**
+     * Adding the organization to the headers
+     * @param string $organization
+     *
+     * @return self
+     */
+    public function setOrganization(string $organization): self
+    {
+        if (!empty($organization)) {
+            $this->addHeader("OpenAI-Organization: $organization");
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adding an element to the headers.
+     * If the header exist, it will be replaced
      * @param string $header
      *
      * @return self
      */
     public function addHeader(string $header): self
     {
-        $this->headers[] = $header;
+        if (($key = array_search($header, $this->headers)) !== false) {
+            $this->headers[$key] = $header;
+        } else {
+            $this->headers[] = $header;
+        }
+        return $this;
+    }
+
+    /**
+     * Removing an element to the headers
+     * @param string $header
+     *
+     * @return self
+     */
+    public function removeHeader(string $header): self
+    {
+        if (($key = array_search($header, $this->headers)) !== false) {
+            unset($this->headers[$key]);
+        }
         return $this;
     }
 }

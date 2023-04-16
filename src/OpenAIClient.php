@@ -40,37 +40,22 @@ class OpenAIClient
     protected HeaderInterface $configuration;
 
     /**
+     * @var RouteInterface
+     */
+    protected RouteInterface $route;
+
+    /**
      * Build a HTTP client
      * @param HeaderInterface|string $var
      */
-    public function __construct(HeaderInterface|string $var, protected ?RouteInterface $route = null)
+    public function __construct(string $apiKey, string $organization = '')
     {
-        if (is_string($var) && empty($var)) {
+        if (empty($apiKey)) {
             throw new ClientException("The API key can not be empty");
         }
 
-        if (is_a($var, HeaderInterface::class) && is_null($var)) {
-            throw new ClientException("The configuration can not be null");
-        }
-
-        $this->configuration = (is_string($var)) ? static::createConfiguration($var) : $var;
-
-        if (is_null($route)) {
-            $this->route = new OpenAIRoute();
-        }
-    }
-
-    /**
-     * Build the configuration headers needed by the api
-     *
-     * @param string $apiKey
-     * @param string $organization
-     *
-     * @return self
-     */
-    public static function createConfiguration(string $apiKey, string $organization = ''): HeaderInterface
-    {
-        return new OpenAIConfiguration($apiKey, $organization);
+        $this->configuration = new OpenAIConfiguration($apiKey, $organization);
+        $this->route = new OpenAIRoute();
     }
 
     /**
@@ -187,6 +172,20 @@ class OpenAIClient
     public function getRoute(): RouteInterface
     {
         return $this->route;
+    }
+
+    /**
+     * Set the value of configuration
+     *
+     * @param  HeaderInterface  $configuration
+     *
+     * @return  self
+     */
+    public function setConfiguration(HeaderInterface $configuration): self
+    {
+        $this->configuration = $configuration;
+
+        return $this;
     }
 
     /**
