@@ -14,7 +14,7 @@ class OpenAIRoute implements RouteInterface
      * The API url
      * @var string
      */
-    protected $apiUrl = '';
+    protected string $apiUrl = '';
 
     /**
      * @param string|null protected $origin
