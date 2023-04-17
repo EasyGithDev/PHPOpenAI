@@ -2,7 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
-use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
+use EasyGithDev\PHPOpenAI\Validators\ValidatorBuilder;
 use PHPUnit\Framework\TestCase;
 
 final class ConfigurationTest extends TestCase
@@ -22,8 +22,8 @@ final class ConfigurationTest extends TestCase
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
 
-        $this->assertEquals(true, (new StatusValidator($response))->validate());
-        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
+        $this->assertEquals(true, ValidatorBuilder::create('status', $response)->validate());
+        $this->assertEquals(true, ValidatorBuilder::create($contentTypeValidator, $response)->validate());
 
         $log = $response->getLog();
         $this->assertEquals(str_contains($log, getenv('OPENAI_API_KEY')), true);
@@ -46,8 +46,8 @@ final class ConfigurationTest extends TestCase
             $response = $handler->getResponse();
             $contentTypeValidator = $handler->getContentTypeValidator();
 
-            $this->assertEquals(true, (new StatusValidator($response))->validate());
-            $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
+            $this->assertEquals(true, ValidatorBuilder::create('status', $response)->validate());
+            $this->assertEquals(true, ValidatorBuilder::create($contentTypeValidator, $response)->validate());
 
             $log = $response->getLog();
             $this->assertEquals(str_contains($log, getenv('OPENAI_API_KEY')), true);

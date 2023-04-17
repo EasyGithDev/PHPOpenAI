@@ -4,7 +4,7 @@ namespace EasyGithDev\PHPOpenAI;
 
 use EasyGithDev\PHPOpenAI\Helpers\ChatMessage;
 use EasyGithDev\PHPOpenAI\Helpers\ModelEnum;
-use EasyGithDev\PHPOpenAI\Validators\StatusValidator;
+use EasyGithDev\PHPOpenAI\Validators\ValidatorBuilder;
 use PHPUnit\Framework\TestCase;
 
 final class ChatTest extends TestCase
@@ -26,7 +26,7 @@ final class ChatTest extends TestCase
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
 
-        $this->assertEquals(true, (new StatusValidator($response))->validate());
-        $this->assertEquals(true, (new $contentTypeValidator($response))->validate());
+        $this->assertEquals(true, ValidatorBuilder::create('status', $response)->validate());
+        $this->assertEquals(true, ValidatorBuilder::create($contentTypeValidator, $response)->validate());
     }
 }
