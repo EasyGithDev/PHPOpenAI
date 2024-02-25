@@ -2,6 +2,7 @@
 
 namespace EasyGithDev\PHPOpenAI;
 
+use EasyGithDev\PHPOpenAI\Handlers\Image;
 use EasyGithDev\PHPOpenAI\Helpers\ImageSizeEnum;
 use EasyGithDev\PHPOpenAI\Validators\ValidatorBuilder;
 use PHPUnit\Framework\TestCase;
@@ -9,12 +10,12 @@ use PHPUnit\Framework\TestCase;
 final class ImageTest extends TestCase
 {
 
-    public function testCreate()
+    public function testCreateDalle2()
     {
         $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
             ->Image()
             ->addCurlParam('timeout', 30)
-            ->create(
+            ->createWithDalle2(
                 "a rabbit inside a beautiful garden, 32 bit isometric",
                 n: 1,
                 size: ImageSizeEnum::is256,
@@ -23,6 +24,25 @@ final class ImageTest extends TestCase
             );
             
 
+        $response = $handler->getResponse();
+        $contentTypeValidator = $handler->getContentTypeValidator();
+
+        $this->assertEquals(true, ValidatorBuilder::create('status', $response)->validate());
+        $this->assertEquals(true, ValidatorBuilder::create($contentTypeValidator, $response)->validate());
+    }
+
+    public function testCreateDalle3()
+    {
+        $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
+            ->Image()
+            ->addCurlParam('timeout', 60)
+            ->createWithDalle3(
+                "a rabbit inside a beautiful garden, 32 bit isometric",
+                n: 1,
+                response_format: 'url',
+                user: 'phpunit'
+            );
+            
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
 
