@@ -14,7 +14,7 @@ final class ConfigurationTest extends TestCase
             ->Completion()
             ->addCurlParam('debug', true)
             ->create(
-                "text-davinci-003",
+                "gpt-3.5-turbo-instruct",
                 "Say this is a test",
                 user: 'phpunit'
             );
@@ -38,7 +38,7 @@ final class ConfigurationTest extends TestCase
                 ->Completion()
                 ->addCurlParam('debug', true)
                 ->create(
-                    "text-davinci-003",
+                    "gpt-3.5-turbo-instruct",
                     "Say this is a test",
                     user: 'phpunit'
                 );

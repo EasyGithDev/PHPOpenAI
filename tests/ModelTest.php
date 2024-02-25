@@ -27,7 +27,7 @@ final class ModelTest extends TestCase
     {
         $handler = (new OpenAIClient(getenv('OPENAI_API_KEY')))
         ->Model()
-        ->retrieve('text-davinci-003');
+        ->retrieve('gpt-3.5-turbo-instruct');
         
         $response = $handler->getResponse();
         $contentTypeValidator = $handler->getContentTypeValidator();
